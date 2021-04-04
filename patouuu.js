@@ -12,6 +12,9 @@ const mysql = require('mysql');
 
 client.on('ready', (message) => {
   console.log(`Logged in as ${client.user.tag}!`);
+  let nameActivitys = ['https://discord.gg/YmRcRgEMw9', 'Chaine YTB de mon Créateur : PatouTv•', '+help pour mes commandes']
+  let random = nameActivitys[Math.floor((Math.random()*nameActivitys.length))]
+  client.user.setActivity({name: random, type: "PLAYING"})
 });
 
 //Base du Command Handler
