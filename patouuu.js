@@ -10,7 +10,7 @@ welcomeCanvas = new canvas.Welcome();
 const mysql = require('mysql');
 // const io = require('@pm2/io')
 
-client.on('ready', (message) => {
+client.on('ready', async message => {
   console.log(`Logged in as ${client.user.tag}!`);
   let nameActivitys = ['https://discord.gg/YmRcRgEMw9', 'Chaine YTB de mon Créateur : PatouTv•', '+help pour mes commandes']
   let random = nameActivitys[Math.floor((Math.random()*nameActivitys.length))]
@@ -64,6 +64,19 @@ function xp(message) {
 // Contient le Command Handler et la fonction XP
 client.on('message', async (message) => {
 
+  const gestionTicketRole = message.guild.roles.cache.find(r => r.name === "gestionticket");
+  if(!gestionTicketRole) {
+    message.guild.roles.create({
+      data : {
+        name: "gestionticket",
+        color: 'YELLOW',
+        permissions: ['VIEW_CHANNEL', 'READ_MESSAGE_HISTORY'],
+        mentionable : false,
+        position: 16
+      },
+      reason: 'Role spécifique pour la Gestion des Tickets' 
+    })
+  }
   const messageArray = message.content.split(/\s+/g);
   const command = messageArray[0];
   const args = messageArray.slice(1);
