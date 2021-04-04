@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 const R6API = require('r6api.js');
 const r6api = new R6API('nedep87776@donmah.com', 'alexandre');
-const Canvas = require('discord-canvas');
+const Canvas = require('canvas');
 
 module.exports.run = async(client, message, args) => {
 

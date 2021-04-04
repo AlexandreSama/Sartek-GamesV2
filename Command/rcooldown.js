@@ -13,5 +13,5 @@ module.exports.run = (client, message) => {
 }
 
 module.exports.help = {
-    name: 'cooldown'
+    name: 'rcooldown'
 };
