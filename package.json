@@ -1,0 +1,24 @@
+{
+  "name": "sartek-gamesv2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Alexandre|Patou",
+  "license": "ISC",
+  "dependencies": {
+    "discord-canvas": "^1.4.1",
+    "discord-minigames": "^1.2.2",
+    "discord.js": "^12.5.3",
+    "discord.js-menu": "^2.3.1",
+    "moment": "^2.29.1",
+    "mysql": "^2.18.1",
+    "quick.db": "^7.1.3",
+    "r6api.js": "^1.7.0",
+    "reaction-role": "^3.2.3",
+    "reconlx": "^1.2.41",
+    "snekfetch": "^4.0.4"
+  }
+}
