@@ -81,8 +81,6 @@ client.on('message', async (message) => {
 // Envoi un message de bienvenu dans un channel spécifique 
 client.on('guildMemberAdd', async (member) => {
 
-  let channelName = 'welcome';
-  const channel = member.guild.channels.cache.find(channel => channel.name === channelName);
   let guildName = member.guild.name;
   let guildCount = member.guild.memberCount;
   let memberAvatar = member.user.displayAvatarURL({dynamic : true});
@@ -105,15 +103,13 @@ client.on('guildMemberAdd', async (member) => {
   .toAttachment();
 
   let attachment = new Discord.MessageAttachment(image.toBuffer(), "welcome-image.png");
-  channel.send(attachment);
+  member.guild.systemChannel.send(attachment);
 
 });
 
 // Envoi un message d'adieu dans un channel spécifique 
 client.on('guildMemberRemove', async member => {
 
-  let myChannel = 'goodbye';
-  const channel = member.guild.channels.cache.find(channel => channel.name === myChannel);
   let guildName = member.guild.name;
   let guildCount = member.guild.memberCount;
 
@@ -133,7 +129,7 @@ client.on('guildMemberRemove', async member => {
   .toAttachment();
 
   let attachment = new Discord.MessageAttachment(image.toBuffer(), "goodbye-image.png");
-  channel.send(attachment);
+  member.guild.systemChannel.send(attachment);
 })
 
 client.on('guildCreate', (guild) => {
