@@ -8,7 +8,7 @@ module.exports.run = (client, message) => {
              .setAuthor(client.user.username, client.user.avatarURL) 
              .setColor(0x00A2E8) 
              .addField("Memoire", `${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)}` + "MBS", true)
-             .addField("Latence", ` ${Date.now() - message.createdTimestamp}`, true) 
+             .addField("Latence", ` ${Date.now() - message.createdTimestamp}` + "ms", true) 
              .addField('Utilisateurs Totales', `${client.users.cache.size}`, true) 
              .addField('Channels Totales', `${client.channels.cache.size}`, true) 
              .addField('Serveurs Totales', Math.ceil(client.guilds.cache.size), true) 
