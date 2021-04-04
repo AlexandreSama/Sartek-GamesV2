@@ -7,7 +7,6 @@ const db = require('quick.db');
 const canvas = require("discord-canvas"),
 goodbyeCanvas = new canvas.Goodbye(),
 welcomeCanvas = new canvas.Welcome();
-const { ReactionRole } = require("reaction-role");
 const mysql = require('mysql');
 // const io = require('@pm2/io')
 
@@ -190,6 +189,16 @@ client.on('guildCreate', (guild) => {
         }
       })
     }
+  })
+
+  guild.roles.create({
+    data : {
+      name: "gestionticket",
+      color: 'YELLOW',
+      permissions: ['VIEW_CHANNEL', 'READ_MESSAGE_HISTORY'],
+      mentionable : false,
+    },
+    reason: 'Role spécifique pour la Gestion des Tickets' 
   })
 })
 

@@ -13,7 +13,7 @@ module.exports.run = (client, message, args) => {
         if (result.body.Id === "undefined") return message.channel.send("Impossible de trouver le compte a qui appartient ce pseudo " + saybot) 
         const url2 = `https://api.roblox.com/ownership/hasasset?userId=${data}&assetId=102611803`; 
         snekfetch.get(url2).then(a => { 
-          const Verifiedcheck = a.body 
+        const Verifiedcheck = a.body 
           const embed = new Discord.MessageEmbed() 
           .setColor(0x00A2E8) 
           .setTitle("Pseudonyme: " + saybot) 
@@ -26,18 +26,8 @@ module.exports.run = (client, message, args) => {
           snekfetch.get(url3).then(b => {
             let result = b.body
             let date = moment(result.created).format("YYYY-MM-DD HH:mm:ss");
-            if(result.description.length <= 0){
-              embed.addField("Description", "Pas de description", false)
-            }else{
-              embed.addField("Description", result.description, true)
-            }
             embed.addField("Date de création du compte", date, true)
-            const url4 = `https://users.roblox.com/v1/users/${data}/status`
-            snekfetch.get(url4).then(c => {
-              let resultat = c.body
-              embed.addField("Status", resultat.status)
-              message.channel.send(embed).catch(console.error)
-            })
+            message.channel.send(embed).catch(console.error)
           })
         })
       })  

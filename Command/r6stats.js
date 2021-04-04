@@ -203,23 +203,23 @@ module.exports.run = async(client, message, args) => {
 
     ctx.font = '40px sans-serif';
 	ctx.fillStyle = '#ffffff';
-	ctx.fillText(`${rank['seasons'][20]['regions']['emea']['wins']}`, canvas.width / 2, canvas.height / 3);
+	ctx.fillText(`${rank['seasons'][21]['regions']['emea']['wins']}`, canvas.width / 2, canvas.height / 3);
     //
     ctx.font = '40px sans-serif';
 	ctx.fillStyle = '#ffffff';
-	ctx.fillText(`${rank['seasons'][20]['regions']['emea']['losses']}`, canvas.width / 2, canvas.height / 2.4);
+	ctx.fillText(`${rank['seasons'][21]['regions']['emea']['losses']}`, canvas.width / 2, canvas.height / 2.4);
     //
     ctx.font = '40px sans-serif';
 	ctx.fillStyle = '#ffffff';
-	ctx.fillText(`${rank['seasons'][20]['regions']['emea']['kills']}`, canvas.width / 2, canvas.height / 2);
+	ctx.fillText(`${rank['seasons'][21]['regions']['emea']['kills']}`, canvas.width / 2, canvas.height / 2);
     //
     ctx.font = '40px sans-serif';
 	ctx.fillStyle = '#ffffff';
-	ctx.fillText(`${rank['seasons'][20]['regions']['emea']['deaths']}`, canvas.width / 2, canvas.height / 1.7);
+	ctx.fillText(`${rank['seasons'][21]['regions']['emea']['deaths']}`, canvas.width / 2, canvas.height / 1.7);
     //
     ctx.font = '40px sans-serif';
 	ctx.fillStyle = '#ffffff';
-	ctx.fillText(`${rank['seasons'][20]['regions']['emea']['current']['mmr']}`, canvas.width / 2, canvas.height / 1.5);
+	ctx.fillText(`${rank['seasons'][21]['regions']['emea']['current']['mmr']}`, canvas.width / 2, canvas.height / 1.5);
 
 	
 	const attachment3 = new Discord.MessageAttachment(canvas.toBuffer(), 'welcome-image.png');
