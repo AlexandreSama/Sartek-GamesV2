@@ -10,5 +10,5 @@ module.exports.run = (client, message) => {
 }
 
 module.exports.help = {
-    name: 'battle'
+    name: 'mmorpg'
 };
