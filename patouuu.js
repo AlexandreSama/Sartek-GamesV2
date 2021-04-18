@@ -38,48 +38,9 @@ client.on('ready', async message => {
             console.log(error);
           }
           if (results) {
-            connection.query(`USE ${guildNameNoSpace}`, function (error, results){
-              if(error){
-                console.log(error);
-              }
-              if(results){
-                connection.query(`CREATE TABLE muted (id INT PRIMARY KEY NOT NULL AUTO_INCREMENT, iddiscord INT NOT NULL, pseudo TEXT NOT NULL, raison TEXT NOT NULL, moderateur TEXT NOT NULL, temps TINYINT NOT NULL, valeurtemps VARCHAR(100) NOT NULL, date DATETIME NOT NULL, is_muted TINYINT NOT NULL DEFAULT 1);`, function(error, results){
-                  if(error){
-                    console.log(error);
-                    console.log(guildNameNoSpace)
-                  }
-                  if(results){
-                    connection.query(`CREATE TABLE bans ( id INT PRIMARY KEY NOT NULL AUTO_INCREMENT, iddiscord BIGINT NOT NULL, pseudo TEXT NOT NULL, raison TEXT NOT NULL, moderateur TEXT NOT NULL, temps TINYINT NOT NULL, valeurtemps VARCHAR(100) NOT NULL, date DATETIME NOT NULL, is_banned TINYINT NOT NULL DEFAULT 1 );`, function(error, results){
-                      if(error){
-                        console.log(error);
-                      }
-                      if(results){
-                        connection.query(`CREATE TABLE kicks ( id INT PRIMARY KEY NOT NULL AUTO_INCREMENT, iddiscord INT NOT NULL, pseudo TEXT NOT NULL, raison TEXT NOT NULL, moderateur TEXT NOT NULL, date DATETIME NOT NULL );`, function(error, results){
-                          if(error){
-                            console.log(error);
-                          }
-                          if(results){
-                            connection.query(`CREATE TABLE warns ( id INT PRIMARY KEY NOT NULL AUTO_INCREMENT, iddiscord INT NOT NULL, pseudo TEXT NOT NULL, raison TEXT NOT NULL, moderateur TEXT NOT NULL, date DATETIME NOT NULL );`, function(error, results){
-                              if(error){
-                                console.log(error);
-                              }
-                              if(results){
-                                console.log("BDD + Tables construites avec succés");
-                                connection.destroy();
-                              }
-                            })
-                          }
-                        })
-                      }
-                    })
-                  }
-                })
-              }
-            })
+            console.log("C'est good !")
           }
         })
-      }
-      if(results){
       }
     })
   })
