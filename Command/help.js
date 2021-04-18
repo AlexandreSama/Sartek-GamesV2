@@ -67,12 +67,9 @@ module.exports.run = (client, message) => {
                         value: "Ex : +setpermission",
                         inline: true
                     },
-                    {
-                        name: "**__botinfos__:**",
-                        value: "Ex : +botinfos",
-                        inline: true
-                    },
-                ]
+                     
+             ]
+                
             }),
             //Ici tu a les réactions, que tu peut modifier/ajouter/supprimer a souhait
             reactions: {
@@ -89,6 +86,19 @@ module.exports.run = (client, message) => {
                 title: 'Commandes des mini-jeux <Page : 2> !',
                 description: 'Légende: ⬅️: Page précédente | ❎: Fermer le menu help | ➡️: Page suivante ',
                 color: "#f0c05a",
+                fields: [
+
+                    {
+                        name: "**__morpion__**" ,
+                        value:"+morpion @test",
+                        inline:true,
+                    },
+                    {
+                        name: "**__mmorpg__**" ,
+                        value:"+mmorpg @user",
+                        inline:true,
+                    },
+                ]
             }),
             reactions: {
                 '⬅️': 'cmdhelp1',
