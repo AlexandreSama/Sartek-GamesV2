@@ -30,7 +30,7 @@ module.exports.run = (client, message, args) => {
             console.log(error)
         }
         if(results){
-            connection.query(`INSERT INTO warn (iddiscord, pseudo, raison, moderateur, date) VALUES ("${dUserId}", "${dUserPseudo}", "${dMessage}", "${message.author.username}", "${date}")`, function(error, results){
+            connection.query(`INSERT INTO warns (iddiscord, pseudo, raison, moderateur, date) VALUES ("${dUserId}", "${dUserPseudo}", "${dMessage}", "${message.author.username}", "${date}")`, function(error, results){
                 if(error){
                     console.log(error)
                 }if(results){

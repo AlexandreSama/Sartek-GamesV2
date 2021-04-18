@@ -24,7 +24,7 @@ client.on('ready', async message => {
   });
 
   console.log("prêt !")
-  client.guilds.cache.forEach((guild) => {
+  client.guilds.cache.forEach(guild => {
     let guildName = guild.name;
     let guildNameNoEmoji = guildName.replace(/([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g, '')
     let guildNameNoChar1 = guildNameNoEmoji.replace("'", "");
@@ -43,22 +43,23 @@ client.on('ready', async message => {
                 console.log(error);
               }
               if(results){
-                connection.query(`CREATE TABLE mute (id INT PRIMARY KEY NOT NULL AUTO_INCREMENT, iddiscord INT NOT NULL, pseudo TEXT NOT NULL, raison TEXT NOT NULL, moderateur TEXT NOT NULL, temps TINYINT NOT NULL, valeurtemps VARCHAR(100) NOT NULL, date DATETIME NOT NULL, is_muted TINYINT NOT NULL DEFAULT 1);`, function(error, results){
+                connection.query(`CREATE TABLE muted (id INT PRIMARY KEY NOT NULL AUTO_INCREMENT, iddiscord INT NOT NULL, pseudo TEXT NOT NULL, raison TEXT NOT NULL, moderateur TEXT NOT NULL, temps TINYINT NOT NULL, valeurtemps VARCHAR(100) NOT NULL, date DATETIME NOT NULL, is_muted TINYINT NOT NULL DEFAULT 1);`, function(error, results){
                   if(error){
                     console.log(error);
+                    console.log(guildNameNoSpace)
                   }
                   if(results){
-                    connection.query(`CREATE TABLE ban ( id INT PRIMARY KEY NOT NULL AUTO_INCREMENT, iddiscord BIGINT NOT NULL, pseudo TEXT NOT NULL, raison TEXT NOT NULL, moderateur TEXT NOT NULL, temps TINYINT NOT NULL, valeurtemps VARCHAR(100) NOT NULL, date DATETIME NOT NULL, is_banned TINYINT NOT NULL DEFAULT 1 );`, function(error, results){
+                    connection.query(`CREATE TABLE bans ( id INT PRIMARY KEY NOT NULL AUTO_INCREMENT, iddiscord BIGINT NOT NULL, pseudo TEXT NOT NULL, raison TEXT NOT NULL, moderateur TEXT NOT NULL, temps TINYINT NOT NULL, valeurtemps VARCHAR(100) NOT NULL, date DATETIME NOT NULL, is_banned TINYINT NOT NULL DEFAULT 1 );`, function(error, results){
                       if(error){
                         console.log(error);
                       }
                       if(results){
-                        connection.query(`CREATE TABLE kick ( id INT PRIMARY KEY NOT NULL AUTO_INCREMENT, iddiscord INT NOT NULL, pseudo TEXT NOT NULL, raison TEXT NOT NULL, moderateur TEXT NOT NULL, date DATETIME NOT NULL );`, function(error, results){
+                        connection.query(`CREATE TABLE kicks ( id INT PRIMARY KEY NOT NULL AUTO_INCREMENT, iddiscord INT NOT NULL, pseudo TEXT NOT NULL, raison TEXT NOT NULL, moderateur TEXT NOT NULL, date DATETIME NOT NULL );`, function(error, results){
                           if(error){
                             console.log(error);
                           }
                           if(results){
-                            connection.query(`CREATE TABLE warn ( id INT PRIMARY KEY NOT NULL AUTO_INCREMENT, iddiscord INT NOT NULL, pseudo TEXT NOT NULL, raison TEXT NOT NULL, moderateur TEXT NOT NULL, date DATETIME NOT NULL );`, function(error, results){
+                            connection.query(`CREATE TABLE warns ( id INT PRIMARY KEY NOT NULL AUTO_INCREMENT, iddiscord INT NOT NULL, pseudo TEXT NOT NULL, raison TEXT NOT NULL, moderateur TEXT NOT NULL, date DATETIME NOT NULL );`, function(error, results){
                               if(error){
                                 console.log(error);
                               }

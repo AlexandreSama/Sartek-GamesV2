@@ -43,7 +43,7 @@ module.exports.run = (client, message, args) => {
                 if(error){
                     console.log(error)
                 }if(results){
-                    connection.query(`INSERT INTO mute (iddiscord, pseudo, raison, moderateur, temps, valeurtemps, date) VALUES ("${dUserId}", "${dUserPseudo}", "${reason}", "${message.author.username}", "${times}", "${number}", "${date}")`, function(error, results){
+                    connection.query(`INSERT INTO mutes (iddiscord, pseudo, raison, moderateur, temps, valeurtemps, date) VALUES ("${dUserId}", "${dUserPseudo}", "${reason}", "${message.author.username}", "${times}", "${number}", "${date}")`, function(error, results){
                         if(error){
                             console.log(error)
                         }if(results){

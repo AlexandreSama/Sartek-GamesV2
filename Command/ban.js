@@ -39,7 +39,7 @@ module.exports.run = (client, message, args) => {
                 console.log(error)
             }
             if(results){
-                connection.query(`INSERT INTO ban (iddiscord, pseudo, raison, moderateur, temps, valeurtemps, date) VALUES ("${dUserId}", "${dUserPseudo}", "${reason}", "${message.author.username}", "${times}", "${number}", "${date}")`, function(error, results){
+                connection.query(`INSERT INTO bans (iddiscord, pseudo, raison, moderateur, temps, valeurtemps, date) VALUES ("${dUserId}", "${dUserPseudo}", "${reason}", "${message.author.username}", "${times}", "${number}", "${date}")`, function(error, results){
                     if(error){
                         console.log(error)
                     }if(results){
