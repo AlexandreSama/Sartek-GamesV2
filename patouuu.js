@@ -23,7 +23,9 @@ client.on('ready', async message => {
     port: 3306
   });
 
+  console.log("prêt !")
   client.guilds.cache.forEach(guild => {
+    console.log("DB crée : " + guild.name)
     let guildName = guild.name;
     let guildNameNoSpace = guildName.replace(/\s/g, '');
     connection.query(`USE ${guildNameNoSpace}`, function(error, results){
