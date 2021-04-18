@@ -24,10 +24,13 @@ client.on('ready', async message => {
   });
 
   console.log("prêt !")
-  client.guilds.cache.forEach(guild => {
-    console.log("DB crée : " + guild.name)
+  client.guilds.cache.forEach((guild) => {
     let guildName = guild.name;
-    let guildNameNoSpace = guildName.replace(/\s/g, '');
+    let guildNameNoEmoji = guildName.replace(/([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g, '')
+    let guildNameNoChar1 = guildNameNoEmoji.replace("'", "");
+    let guildNameNoChar2 = guildNameNoChar1.replace("-", "");
+    let guildNameNoChar3 = guildNameNoChar2.replace(/([-]|[']|[>]|[<]|[/]|[|][!]|[?]|[你好]|[!]|[|])/g, '');
+    let guildNameNoSpace = guildNameNoChar3.replace(/\s/g, '');
     connection.query(`USE ${guildNameNoSpace}`, function(error, results){
       if(error){
         connection.query(`CREATE DATABASE ${guildNameNoSpace};`, function (error, results){
@@ -40,12 +43,12 @@ client.on('ready', async message => {
                 console.log(error);
               }
               if(results){
-                connection.query(`CREATE TABLE mute (id INT PRIMARY KEY NOT NULL AUTO_INCREMENT, iddiscord INT NOT NULL, pseudo TEXT NOT NULL, raison TEXT NOT NULL, moderateur TEXT NOT NULL, temps TINYINT NOT NULL, valeurtemps VARCHAR NOT NULL, date DATETIME NOT NULL, is_muted TINYINT NOT NULL DEFAULT 1);`, function(error, results){
+                connection.query(`CREATE TABLE mute (id INT PRIMARY KEY NOT NULL AUTO_INCREMENT, iddiscord INT NOT NULL, pseudo TEXT NOT NULL, raison TEXT NOT NULL, moderateur TEXT NOT NULL, temps TINYINT NOT NULL, valeurtemps VARCHAR(100) NOT NULL, date DATETIME NOT NULL, is_muted TINYINT NOT NULL DEFAULT 1);`, function(error, results){
                   if(error){
                     console.log(error);
                   }
                   if(results){
-                    connection.query(`CREATE TABLE ban ( id INT PRIMARY KEY NOT NULL AUTO_INCREMENT, iddiscord BIGINT NOT NULL, pseudo TEXT NOT NULL, raison TEXT NOT NULL, moderateur TEXT NOT NULL, temps TINYINT NOT NULL, valeurtemps VARCHAR NOT NULL, date DATETIME NOT NULL, is_banned TINYINT NOT NULL DEFAULT 1 );`, function(error, results){
+                    connection.query(`CREATE TABLE ban ( id INT PRIMARY KEY NOT NULL AUTO_INCREMENT, iddiscord BIGINT NOT NULL, pseudo TEXT NOT NULL, raison TEXT NOT NULL, moderateur TEXT NOT NULL, temps TINYINT NOT NULL, valeurtemps VARCHAR(100) NOT NULL, date DATETIME NOT NULL, is_banned TINYINT NOT NULL DEFAULT 1 );`, function(error, results){
                       if(error){
                         console.log(error);
                       }
@@ -76,7 +79,6 @@ client.on('ready', async message => {
         })
       }
       if(results){
-        connection.destroy();
       }
     })
   })
