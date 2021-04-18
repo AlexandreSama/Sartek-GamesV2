@@ -153,22 +153,22 @@ module.exports.run = (client, message, args) => {
             if(error){
                 console.log(error)
             }if(results){
-                connection.query(`SELECT raison, temps, valeurtemps, moderateur FROM mute WHERE iddiscord = ${dUser.id}`, function(error, results){
+                connection.query(`SELECT raison, temps, valeurtemps, moderateur FROM mutes WHERE iddiscord = ${dUser.id}`, function(error, results){
                     if(error){
                         console.log(error);
                     }if(results){
                         let mute = results;
-                        connection.query(`SELECT raison, moderateur FROM warn WHERE iddiscord = ${dUser.id}`, function(error, results){
+                        connection.query(`SELECT raison, moderateur FROM warns WHERE iddiscord = ${dUser.id}`, function(error, results){
                             if(error){
                                 console.log(error);
                             }if(results){
                                 let warn = results
-                                connection.query(`SELECT raison, temps, valeurtemps, moderateur FROM ban WHERE iddiscord = ${dUser.id}`, function(error, results){
+                                connection.query(`SELECT raison, temps, valeurtemps, moderateur FROM bans WHERE iddiscord = ${dUser.id}`, function(error, results){
                                     if(error){
                                         console.log(error);
                                     }if(results){
                                         let ban = results;
-                                        connection.query(`SELECT raison, moderateur FROM kick WHERE iddiscord = ${dUser.id}`, function(error, results){
+                                        connection.query(`SELECT raison, moderateur FROM kicks WHERE iddiscord = ${dUser.id}`, function(error, results){
                                             if(error){
                                                 console.log(error);
                                             }if(results){
