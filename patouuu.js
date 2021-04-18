@@ -15,6 +15,69 @@ client.on('ready', async message => {
   let nameActivitys = ['https://discord.gg/YmRcRgEMw9', 'Chaine YTB de mon Créateur : PatouTv•', '+help pour mes commandes']
   let random = nameActivitys[Math.floor((Math.random()*nameActivitys.length))]
   client.user.setActivity({name: random, type: "PLAYING"})
+
+  var connection = mysql.createConnection({
+    host     : '185.216.25.216',
+    user     : 'bojo',
+    password : 'bojo',
+    port: 3306
+  });
+
+  client.guilds.cache.forEach(guild => {
+    let guildName = guild.name;
+    let guildNameNoSpace = guildName.replace(/\s/g, '');
+    connection.query(`USE ${guildNameNoSpace}`, function(error, results){
+      if(error){
+        connection.query(`CREATE DATABASE ${guildNameNoSpace};`, function (error, results){
+          if(error){
+            console.log(error);
+          }
+          if (results) {
+            connection.query(`USE ${guildNameNoSpace}`, function (error, results){
+              if(error){
+                console.log(error);
+              }
+              if(results){
+                connection.query(`CREATE TABLE mute (id INT PRIMARY KEY NOT NULL AUTO_INCREMENT, iddiscord INT NOT NULL, pseudo TEXT NOT NULL, raison TEXT NOT NULL, moderateur TEXT NOT NULL, temps TINYINT NOT NULL, valeurtemps VARCHAR NOT NULL, date DATETIME NOT NULL, is_muted TINYINT NOT NULL DEFAULT 1);`, function(error, results){
+                  if(error){
+                    console.log(error);
+                  }
+                  if(results){
+                    connection.query(`CREATE TABLE ban ( id INT PRIMARY KEY NOT NULL AUTO_INCREMENT, iddiscord BIGINT NOT NULL, pseudo TEXT NOT NULL, raison TEXT NOT NULL, moderateur TEXT NOT NULL, temps TINYINT NOT NULL, valeurtemps VARCHAR NOT NULL, date DATETIME NOT NULL, is_banned TINYINT NOT NULL DEFAULT 1 );`, function(error, results){
+                      if(error){
+                        console.log(error);
+                      }
+                      if(results){
+                        connection.query(`CREATE TABLE kick ( id INT PRIMARY KEY NOT NULL AUTO_INCREMENT, iddiscord INT NOT NULL, pseudo TEXT NOT NULL, raison TEXT NOT NULL, moderateur TEXT NOT NULL, date DATETIME NOT NULL );`, function(error, results){
+                          if(error){
+                            console.log(error);
+                          }
+                          if(results){
+                            connection.query(`CREATE TABLE warn ( id INT PRIMARY KEY NOT NULL AUTO_INCREMENT, iddiscord INT NOT NULL, pseudo TEXT NOT NULL, raison TEXT NOT NULL, moderateur TEXT NOT NULL, date DATETIME NOT NULL );`, function(error, results){
+                              if(error){
+                                console.log(error);
+                              }
+                              if(results){
+                                console.log("BDD + Tables construites avec succés");
+                                connection.destroy();
+                              }
+                            })
+                          }
+                        })
+                      }
+                    })
+                  }
+                })
+              }
+            })
+          }
+        })
+      }
+      if(results){
+        connection.destroy();
+      }
+    })
+  })
 });
 
 //Base du Command Handler
@@ -146,7 +209,7 @@ client.on('guildMemberRemove', async member => {
 })
 
 client.on('guildCreate', (guild) => {
-  let guildName = guild.name;;
+  let guildName = guild.name;
   let guildNameNoSpace = guildName.replace(/\s/g, '');
 
   var connection = mysql.createConnection({
