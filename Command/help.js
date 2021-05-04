@@ -23,7 +23,7 @@ module.exports.run = (client, message) => {
                     //Copie a partir de cet accolade
                     {
                         name: "**__ban__:**",
-                        value: "Ex : +ban @Patouuu 10d Pour le plaisir",
+                        value: "Ex : +ban @Patouuu 10d/m raison (d = days , m = minutes choisir l'un ou l'autre)",
                         inline: true
                     },
                     //Jusqu'ici et colle juste en dessous de la dernière (ATTENTION ! Pense a mettre une virgule a chaque fin d'accolade !)
