@@ -151,15 +151,6 @@ client.on('guildCreate', (guild) => {
 
   guild.owner.send("Bonjour, merci de m'avoir ajouté sur votre serveur ! Avant de pouvoir pleinement m'utiliser, voici quelques étapes : \n - Veuillez crée une catégorie 'tickets' afin que vos utilisateurs puissent créer des tickets  \n - Veuillez crée un channel pour les logs du bot \n -Veuillez crée un channel pour les présentations \n -Pour finir, veuillez faire la commande : +settings afin de me paramètrer")
 
-  guild.roles.create({
-    data : {
-      name: "gestionticket",
-      color: 'YELLOW',
-      permissions: ['VIEW_CHANNEL', 'READ_MESSAGE_HISTORY'],
-      mentionable : false,
-    },
-    reason: 'Role spécifique pour la Gestion des Tickets' 
-  })
 })
 
 client.on('guildDelete', (guild) => {

@@ -24,6 +24,16 @@ module.exports.run = (client, message) => {
         message.channel.send("Tu n'est pas le propriétaire de ce serveur, tu ne peut donc exécuter cet commande")
     }else{
 
+        message.guild.roles.create({
+            data : {
+              name: "PatouuuMute",
+              color: 'YELLOW',
+              permissions: ['VIEW_CHANNEL', 'READ_MESSAGE_HISTORY'],
+              mentionable : false,
+            },
+            reason: 'Role spécifique pour le mute' 
+        })
+
         //Première question
         message.author.send("Veuillez me donner l'ID du channel ou vous souhaiter set les logs").then(res1 => {
             res1.channel.awaitMessages(filter, {max: 1}).then(collector1 => {
@@ -88,7 +98,7 @@ module.exports.run = (client, message) => {
                                                                                     }
                                                                                     if(results){
                                                                                         console.log("BDD + Tables construites avec succés");
-                                                                                        message.author.send("Vos paramètres ont bien été enregistré !")
+                                                                                        message.author.send("Vos paramètres ont bien été enregistré et le rôle PatouuuMute a bien été crée ! (pensez a mettre ce rôle plus haut que celui de vos utilisateurs courants)")
                                                                                     }
                                                                                 })
                                                                             }

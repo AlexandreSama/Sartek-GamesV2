@@ -11,7 +11,7 @@ module.exports.run = (client, message, args) => {
     let roleMap = message.guild.roles.cache.map(role => role.name);
     let dUserId = dUser.id;
     let dUserPseudo = dUser.username;
-    let roleMuted = message.guild.roles.cache.find(role => role.name === "Mute_SartekGames");
+    let roleMuted = message.guild.roles.cache.find(role => role.name === "PatouuuMute");
 
     console.log(roleMap);
 
@@ -21,7 +21,7 @@ module.exports.run = (client, message, args) => {
     var nowDate = new Date();
     let date = moment(nowDate).format("YYYY-MM-DD HH:mm:ss");
 
-    let reason = args.slice(2).join(" ");
+    let reason = args[2];
 
     let guildName = message.guild.name;
     let guildNameNoSpace = guildName.replace(/\s/g, '')
@@ -38,7 +38,7 @@ module.exports.run = (client, message, args) => {
             return message.reply('Tu n\'a pas donné de raison !')
         }else{
             if(!roleMuted){
-                message.channel.send('Le role "Mute_SartekGames" n\'existe pas !')
+                message.channel.send('Le role "PatouuuMute" n\'existe pas !')
             }else{
                 connection.query(`USE ${guildNameNoSpace}`, function(error, results){
                     if(error){
