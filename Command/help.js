@@ -102,8 +102,9 @@ module.exports.run = (client, message) => {
             }),
             reactions: {
                 '⬅️': 'cmdhelp1',
-                '➡️': 'cmdhelp3',
                 '❎': 'delete',
+                '➡️': 'cmdhelp3',
+                
             }
         },
 
@@ -141,9 +142,40 @@ module.exports.run = (client, message) => {
             reactions: {
                 '⬅️': 'cmdhelp2',
                 '❎': 'delete',
+                '➡️': 'cmdhelp4',
+                
             }
-        }
-    //Le temps que le message s'envois
+        },
+
+        //Code pour la troisème page
+        {
+            name: 'cmdhelp4',
+            content: new MessageEmbed({
+                title: 'Commandes Utilitaire <Page : 4> !',
+                description: 'Légende: ⬅️: Page précédente | ❎: Fermer le menu help | ➡️: Page suivante ',
+                color: "#f0c05a",
+                fields: [
+                    //Copie a partir de cet accolade
+                    {
+                        name: "**__serverinfo__:**",
+                        value: "Ex : +serverinfo , Donne les stats du serveur?",
+                        inline: true
+                    },
+                    {
+                        name: "**__botinfos__:**",
+                        value: "Ex : +botinfos, Donne les stats du bot",
+                        inline: true
+                    },
+                   
+                ]
+            }),
+            reactions: {
+                '⬅️': 'cmdhelp3',
+                '❎': 'delete',
+            }
+        },
+    
+        //Le temps que le message s'envois
     ], 300000)
 
     //NE PAS TOUCHER !!!
