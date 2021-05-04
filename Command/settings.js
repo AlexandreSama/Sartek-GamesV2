@@ -88,7 +88,7 @@ module.exports.run = (client, message) => {
                                                                                     }
                                                                                     if(results){
                                                                                         console.log("BDD + Tables construites avec succés");
-                                                                                        message.author.send("Tables Crées et données enregistrés !")
+                                                                                        message.author.send("Vos paramètres ont bien été enregistré !")
                                                                                     }
                                                                                 })
                                                                             }
@@ -113,8 +113,8 @@ module.exports.run = (client, message) => {
                                                 console.log(error)
                                             }
                                             if(results){
-                                                console.log("BDD + Tables construites avec succés");
-                                                message.author.send("Tables Crées et données enregistrés !")
+                                                console.log("paramètres modifiés");
+                                                message.author.send("Vos paramètres ont bien été modifié !")
                                             }
                                         })
                                     }
