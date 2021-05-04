@@ -26,7 +26,9 @@ module.exports.run = (client, message, args) => {
         host     : '185.216.25.216',
         user     : 'bojo',
         password : 'bojo',
-        port: 3306
+        port: 3306,
+        supportBigNumbers: true,
+        bigNumberStrings: true
     });
 
     connection.connect();

@@ -46,7 +46,9 @@ module.exports.run = (client, message) => {
                                             host     : '185.216.25.216',
                                             user     : 'bojo',
                                             password : 'bojo',
-                                            port: 3306
+                                            port: 3306,
+                                            supportBigNumbers: true,
+                                            bigNumberStrings: true
                                         });
                                         connection.query(`use ${guildNameNoSpace}`, function(error, results){
                                             if(error){
@@ -61,7 +63,8 @@ module.exports.run = (client, message) => {
                                                         let channelPresentation = results;
                                                         let channelPresentationData = JSON.stringify(channelPresentation)
                                                         let channelPresentationDataFinal = JSON.parse(channelPresentationData);
-                                                        let channel = message.guild.channels.cache.get(channelPresentationDataFinal)
+                                                        console.log(channelPresentationDataFinal[0]['idchannelpresentation'])
+                                                        let channel = message.guild.channels.cache.get(channelPresentationDataFinal[0]['idchannelpresentation'])
                                                         channel.send(exampleEmbed)
                                                         message.author.send("Parfait, tu peut trouver ta présentation ici : <#" + channel + ">")
                                                     }
