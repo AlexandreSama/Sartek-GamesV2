@@ -73,6 +73,16 @@ module.exports.run = (client, message) => {
                         value: "Ex : +setpermission , crée les permissions pour le rôle mute du bot",
                         inline: true
                     },
+                    {
+                        name: "**__setting__:**",
+                        value: "Ex : +setting, lance le module pour set les différents modules.",
+                        inline: true
+                    },
+                    {
+                        name: "**__clear__:**",
+                        value: "Ex : +clear [Nombres de messages], permet de clear une grande quantités de messages.",
+                        inline: true
+                    },
                      
              ]
                 
@@ -159,7 +169,7 @@ module.exports.run = (client, message) => {
             }
         },
 
-        //Code pour la troisème page
+        //Code pour la quatrième page
         {
             name: 'cmdhelp4',
             content: new MessageEmbed({
@@ -184,6 +194,32 @@ module.exports.run = (client, message) => {
             reactions: {
                 '⬅️': 'cmdhelp3',
                 '❎': 'delete',
+                '➡️': 'cmdhelp5',
+            }
+        },
+
+        //Code pour la cinquième page
+        {
+            name: 'cmdhelp5',
+            content: new MessageEmbed({
+                title: 'Commandes réserver au créateurs  <Page : 5> !',
+                description: 'Légende: ⬅️: Page précédente | ❎: Fermer le menu help | ➡️: Page suivante ',
+                color: "#f0c05a",
+                fields: [
+
+                    {
+                        name: "**__broadcast__**" ,
+                        value:"+broadcast , Me permet de vous envoyer les maj du bot et les notpatchs.",
+                        inline:true,
+                    },
+                    
+                ]
+            }),
+            reactions: {
+                '⬅️': 'cmdhelp4',
+                '❎': 'delete',
+                
+                
             }
         },
     
