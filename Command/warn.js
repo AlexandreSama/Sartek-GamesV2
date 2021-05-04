@@ -25,21 +25,24 @@ module.exports.run = (client, message, args) => {
 
     connection.connect();
 
-    connection.query(`USE ${guildNameNoSpace}`, function(error, results){
-        if(error){
-            console.log(error)
-        }
-        if(results){
-            connection.query(`INSERT INTO warns (iddiscord, pseudo, raison, moderateur, date) VALUES ("${dUserId}", "${dUserPseudo}", "${dMessage}", "${message.author.username}", "${date}")`, function(error, results){
-                if(error){
-                    console.log(error)
-                }if(results){
-                    message.channel.send(`${dUser} a été warn pour **${dMessage}**`)
-                }
-            })
-        }
-    })
+    if(message.members.hasPermission("BAN_MEMBERS")){
+        connection.query(`USE ${guildNameNoSpace}`, function(error, results){
+            if(error){
+                console.log(error)
+            }
+            if(results){
+                connection.query(`INSERT INTO warns (iddiscord, pseudo, raison, moderateur, date) VALUES ("${dUserId}", "${dUserPseudo}", "${dMessage}", "${message.author.username}", "${date}")`, function(error, results){
+                    if(error){
+                        console.log(error)
+                    }if(results){
+                        message.channel.send(`${dUser} a été warn pour **${dMessage}**`)
+                    }
+                })
+            }
+        })
+    }else{
 
+    }
 }
 
 module.exports.help = {

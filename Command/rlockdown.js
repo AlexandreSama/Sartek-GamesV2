@@ -6,8 +6,12 @@ module.exports.run = (client, message) => {
 
     let channel = message.channel;
     
-    channel.updateOverwrite(channel.guild.roles.everyone, { SEND_MESSAGES: true })
-    message.channel.send("Le channel est de nouveau ouvert")
+    if(message.members.hasPermission("BAN_MEMBERS")){
+        channel.updateOverwrite(channel.guild.roles.everyone, { SEND_MESSAGES: true })
+        message.channel.send("Le channel est de nouveau ouvert")
+    }else{
+
+    }
 
 }
 

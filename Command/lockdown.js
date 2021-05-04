@@ -5,9 +5,12 @@ module.exports.run = (client, message) => {
     message.delete()
 
     let channel = message.channel;
-    
-    channel.updateOverwrite(channel.guild.roles.everyone, { SEND_MESSAGES: false })
-    message.channel.send("Le channel est bien clos")
+    if(message.members.hasPermission("BAN_MEMBERS")){
+        channel.updateOverwrite(channel.guild.roles.everyone, { SEND_MESSAGES: false })
+        message.channel.send("Le channel est bien clos")
+    }else{
+
+    }
 
 }
 

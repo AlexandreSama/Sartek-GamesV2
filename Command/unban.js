@@ -17,21 +17,25 @@ module.exports.run = (client, message, args) => {
     });
 
 
-    connection.query(`USE ${guildNameNoSpace}`, function(error, results){
-     if(error){
-    	console.log(error)
-     }
-     if(results){
-    	connection.query(`SELECT iddiscord FROM ban WHERE is_banned = '0'`, function(error, results){
-	 if(error){
-	  console.log(error)
-	 }
-	 if(results){
-	   console.log(results)
-	 }
-     })
-   }
-})
+	if(message.members.hasPermission("BAN_MEMBERS")){
+		connection.query(`USE ${guildNameNoSpace}`, function(error, results){
+			if(error){
+			   console.log(error)
+			}
+			if(results){
+			   connection.query(`SELECT iddiscord FROM ban WHERE is_banned = '0'`, function(error, results){
+			if(error){
+			 console.log(error)
+			}
+			if(results){
+			  console.log(results)
+			}
+			})
+		  }
+	   })
+	}else{
+
+	}
 
 }
 

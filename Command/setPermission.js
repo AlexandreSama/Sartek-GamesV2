@@ -7,20 +7,24 @@ module.exports.run = (client, message, args) => {
     let myRole = message.guild.roles.cache.find(role => role.name === "Mute_SartekGames");
     let roleId = myRole.id;
 
-    channelAndCategory.forEach(element => {
-        let permissionOverwrited = element['permissionOverwrites'];
-          if(element['type'] == 'category'){
-              element.overwritePermissions([
-                {
-                  id: roleId,
-                  deny: ['SEND_MESSAGES'],
-                }
-            ])
-        }else if(element['type'] == 'text' | 'voice'){
-            element.lockPermissions();
-            message.channel.send("Permissions terminé !")
-        }
-    })
+    if(message.members.hasPermission("BAN_MEMBERS")){
+        channelAndCategory.forEach(element => {
+            let permissionOverwrited = element['permissionOverwrites'];
+              if(element['type'] == 'category'){
+                  element.overwritePermissions([
+                    {
+                      id: roleId,
+                      deny: ['SEND_MESSAGES'],
+                    }
+                ])
+            }else if(element['type'] == 'text' | 'voice'){
+                element.lockPermissions();
+                message.channel.send("Permissions terminé !")
+            }
+        })
+    }else{
+
+    }
 }
 
 module.exports.help = {

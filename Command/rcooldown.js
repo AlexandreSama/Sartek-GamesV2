@@ -6,9 +6,13 @@ module.exports.run = (client, message) => {
 
     let cooldown = parseInt("0")
 
-    message.channel.setRateLimitPerUser(cooldown).then(() => {
-        message.channel.send(`**Fin du slowmode**`);
-    });
+    if(message.members.hasPermission("BAN_MEMBERS")){
+        message.channel.setRateLimitPerUser(cooldown).then(() => {
+            message.channel.send(`**Fin du slowmode**`);
+        });
+    }else{
+        
+    }
 
 }
 

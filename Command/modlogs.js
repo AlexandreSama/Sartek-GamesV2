@@ -27,248 +27,252 @@ module.exports.run = (client, message, args) => {
         port: 3306
     });
 
-    if(dUser == undefined){
-        connection.query(`USE ${guildNameNoSpace}`, function(error, results){
-            if(error){
-                console.log(error)
-            }if(results){
-                connection.query(`SELECT raison, temps, valeurtemps, moderateur FROM mutes WHERE iddiscord = ${arg[0]}`, function(error, results){
-                    if(error){
-                        console.log(error);
-                    }if(results){
-                        let mute = results;
-                        connection.query(`SELECT raison, moderateur FROM warns WHERE iddiscord = ${arg[0]}`, function(error, results){
-                            if(error){
-                                console.log(error);
-                            }if(results){
-                                let warn = results
-                                connection.query(`SELECT raison, temps, valeurtemps, moderateur FROM bans WHERE iddiscord = ${arg[0]}`, function(error, results){
-                                    if(error){
-                                        console.log(error);
-                                    }if(results){
-                                        let ban = results;
-                                        connection.query(`SELECT raison, moderateur FROM kicks WHERE iddiscord = ${arg[0]}`, function(error, results){
-                                            if(error){
-                                                console.log(error);
-                                            }if(results){
-                                                let kick = results;
-    
-                                                var kickData = JSON.stringify(kick)
-                                                var kickFinalData = JSON.parse(kickData)
-    
-                                                var warnData = JSON.stringify(warn)
-                                                var warnFinalData = JSON.parse(warnData)
-    
-                                                var muteData = JSON.stringify(mute)
-                                                var muteFinalData = JSON.parse(muteData)
-    
-                                                var banData = JSON.stringify(ban)
-                                                var banFinalData = JSON.parse(banData)
-    
-                                                kickFinalData.forEach(function(data, index) {
-                                                    if(data == null){
-                                                        console.log("nop")
-                                                    }else{
-                                                        embed.addFields(
-                                                            {name: '-------------------------------------', value: '-------------------------------------', inline: false},
-                                                            {name: "KICK", value: "-------", inline: false},
-                                                            {name: "Raison : ", value: `${data.raison}`, inline: false},
-                                                            {name: "Modérateur : ", value: `${data.moderateur}`, inline: false}
-                                                        )
-                                                    }
-                                                })
-    
-                                                muteFinalData.forEach(function(data, index) {
-                                                    if(data == null){
-                                                        console.log("nop")
-                                                    }else{
-                                                        if(data.valeurtemps == 'm'){
+    if(message.members.hasPermission("BAN_MEMBERS")){
+        if(dUser == undefined){
+            connection.query(`USE ${guildNameNoSpace}`, function(error, results){
+                if(error){
+                    console.log(error)
+                }if(results){
+                    connection.query(`SELECT raison, temps, valeurtemps, moderateur FROM mutes WHERE iddiscord = ${arg[0]}`, function(error, results){
+                        if(error){
+                            console.log(error);
+                        }if(results){
+                            let mute = results;
+                            connection.query(`SELECT raison, moderateur FROM warns WHERE iddiscord = ${arg[0]}`, function(error, results){
+                                if(error){
+                                    console.log(error);
+                                }if(results){
+                                    let warn = results
+                                    connection.query(`SELECT raison, temps, valeurtemps, moderateur FROM bans WHERE iddiscord = ${arg[0]}`, function(error, results){
+                                        if(error){
+                                            console.log(error);
+                                        }if(results){
+                                            let ban = results;
+                                            connection.query(`SELECT raison, moderateur FROM kicks WHERE iddiscord = ${arg[0]}`, function(error, results){
+                                                if(error){
+                                                    console.log(error);
+                                                }if(results){
+                                                    let kick = results;
+        
+                                                    var kickData = JSON.stringify(kick)
+                                                    var kickFinalData = JSON.parse(kickData)
+        
+                                                    var warnData = JSON.stringify(warn)
+                                                    var warnFinalData = JSON.parse(warnData)
+        
+                                                    var muteData = JSON.stringify(mute)
+                                                    var muteFinalData = JSON.parse(muteData)
+        
+                                                    var banData = JSON.stringify(ban)
+                                                    var banFinalData = JSON.parse(banData)
+        
+                                                    kickFinalData.forEach(function(data, index) {
+                                                        if(data == null){
+                                                            console.log("nop")
+                                                        }else{
+                                                            embed.addFields(
+                                                                {name: '-------------------------------------', value: '-------------------------------------', inline: false},
+                                                                {name: "KICK", value: "-------", inline: false},
+                                                                {name: "Raison : ", value: `${data.raison}`, inline: false},
+                                                                {name: "Modérateur : ", value: `${data.moderateur}`, inline: false}
+                                                            )
+                                                        }
+                                                    })
+        
+                                                    muteFinalData.forEach(function(data, index) {
+                                                        if(data == null){
+                                                            console.log("nop")
+                                                        }else{
+                                                            if(data.valeurtemps == 'm'){
+                                                                embed.addFields(
+                                                                    {name: '-------------------------------------', value: '-------------------------------------', inline: false},
+                                                                    {name: "MUTE", value: "-------", inline: false},
+                                                                    {name: "Raison : ", value: `${data.raison}`, inline: false},
+                                                                    {name: "Modérateur : ", value: `${data.moderateur}`, inline: false},
+                                                                    {name: "Temps : ", value: `${data.temps} minutes`, inline: false}
+                                                                )
+                                                            }if(data.valeurtemps == 'd'){
                                                             embed.addFields(
                                                                 {name: '-------------------------------------', value: '-------------------------------------', inline: false},
                                                                 {name: "MUTE", value: "-------", inline: false},
                                                                 {name: "Raison : ", value: `${data.raison}`, inline: false},
                                                                 {name: "Modérateur : ", value: `${data.moderateur}`, inline: false},
-                                                                {name: "Temps : ", value: `${data.temps} minutes`, inline: false}
-                                                            )
-                                                        }if(data.valeurtemps == 'd'){
-                                                        embed.addFields(
-                                                            {name: '-------------------------------------', value: '-------------------------------------', inline: false},
-                                                            {name: "MUTE", value: "-------", inline: false},
-                                                            {name: "Raison : ", value: `${data.raison}`, inline: false},
-                                                            {name: "Modérateur : ", value: `${data.moderateur}`, inline: false},
-                                                            {name: "Temps : ", value: `${data.temps} jours`, inline: false}
-                                                        )}
-                                                    }
-                                                })
-    
-                                                banFinalData.forEach(function(data, index) {
-                                                    if(data == null){
-                                                        console.log("nop")
-                                                    }else{
-                                                        if(data.valeurtemps == 'm'){
+                                                                {name: "Temps : ", value: `${data.temps} jours`, inline: false}
+                                                            )}
+                                                        }
+                                                    })
+        
+                                                    banFinalData.forEach(function(data, index) {
+                                                        if(data == null){
+                                                            console.log("nop")
+                                                        }else{
+                                                            if(data.valeurtemps == 'm'){
+                                                                embed.addFields(
+                                                                    {name: '-------------------------------------', value: '-------------------------------------', inline: false},
+                                                                    {name: "BAN", value: "-----", inline: false},
+                                                                    {name: "Raison : ", value: `${data.raison}`, inline: false},
+                                                                    {name: "Modérateur : ", value: `${data.moderateur}`, inline: false},
+                                                                    {name: "Temps : ", value: `${data.temps} minutes`, inline: false}
+                                                                )
+                                                            }if(data.valeurtemps == 'd'){
+                                                                embed.addFields(
+                                                                    {name: '-------------------------------------', value: '-------------------------------------', inline: false},
+                                                                    {name: "BAN", value: "-----", inline: false},
+                                                                    {name: "Raison : ", value: `${data.raison}`, inline: false},
+                                                                    {name: "Modérateur : ", value: `${data.moderateur}`, inline: false},
+                                                                    {name: "Temps : ", value: `${data.temps} jours`, inline: false}
+                                                                )
+                                                            }
+                                                        }
+                                                    })
+        
+                                                    warnFinalData.forEach(function(data, index) {
+                                                        if(data == null){
+                                                            console.log("nop")
+                                                        }else{
                                                             embed.addFields(
                                                                 {name: '-------------------------------------', value: '-------------------------------------', inline: false},
-                                                                {name: "BAN", value: "-----", inline: false},
-                                                                {name: "Raison : ", value: `${data.raison}`, inline: false},
+                                                                {name: "WARN", value: "-------", inline: false},
+                                                                {name: `Raison : `, value: `${data.raison}`, inline: false},
                                                                 {name: "Modérateur : ", value: `${data.moderateur}`, inline: false},
-                                                                {name: "Temps : ", value: `${data.temps} minutes`, inline: false}
                                                             )
-                                                        }if(data.valeurtemps == 'd'){
+                                                        }
+                                                    })
+                                                    message.channel.send(embed)
+                                                }
+                                            })
+                                        }
+                                    })
+                                }
+                            })
+                        }
+                    })
+                }
+            })
+        }else{
+            connection.query(`USE ${guildNameNoSpace}`, function(error, results){
+                if(error){
+                    console.log(error)
+                }if(results){
+                    connection.query(`SELECT raison, temps, valeurtemps, moderateur FROM mutes WHERE iddiscord = ${dUser.id}`, function(error, results){
+                        if(error){
+                            console.log(error);
+                        }if(results){
+                            let mute = results;
+                            connection.query(`SELECT raison, moderateur FROM warns WHERE iddiscord = ${dUser.id}`, function(error, results){
+                                if(error){
+                                    console.log(error);
+                                }if(results){
+                                    let warn = results
+                                    connection.query(`SELECT raison, temps, valeurtemps, moderateur FROM bans WHERE iddiscord = ${dUser.id}`, function(error, results){
+                                        if(error){
+                                            console.log(error);
+                                        }if(results){
+                                            let ban = results;
+                                            connection.query(`SELECT raison, moderateur FROM kicks WHERE iddiscord = ${dUser.id}`, function(error, results){
+                                                if(error){
+                                                    console.log(error);
+                                                }if(results){
+                                                    let kick = results;
+        
+                                                    var kickData = JSON.stringify(kick)
+                                                    var kickFinalData = JSON.parse(kickData)
+        
+                                                    var warnData = JSON.stringify(warn)
+                                                    var warnFinalData = JSON.parse(warnData)
+        
+                                                    var muteData = JSON.stringify(mute)
+                                                    var muteFinalData = JSON.parse(muteData)
+        
+                                                    var banData = JSON.stringify(ban)
+                                                    var banFinalData = JSON.parse(banData)
+        
+                                                    kickFinalData.forEach(function(data, index) {
+                                                        if(data == null){
+                                                            console.log("nop")
+                                                        }else{
                                                             embed.addFields(
                                                                 {name: '-------------------------------------', value: '-------------------------------------', inline: false},
-                                                                {name: "BAN", value: "-----", inline: false},
+                                                                {name: "KICK", value: "-------", inline: false},
+                                                                {name: "Raison : ", value: `${data.raison}`, inline: false},
+                                                                {name: "Modérateur : ", value: `${data.moderateur}`, inline: false}
+                                                            )
+                                                        }
+                                                    })
+        
+                                                    muteFinalData.forEach(function(data, index) {
+                                                        if(data == null){
+                                                            console.log("nop")
+                                                        }else{
+                                                            if(data.valeurtemps == 'm'){
+                                                                embed.addFields(
+                                                                    {name: '-------------------------------------', value: '-------------------------------------', inline: false},
+                                                                    {name: "MUTE", value: "-------", inline: false},
+                                                                    {name: "Raison : ", value: `${data.raison}`, inline: false},
+                                                                    {name: "Modérateur : ", value: `${data.moderateur}`, inline: false},
+                                                                    {name: "Temps : ", value: `${data.temps} minutes`, inline: false}
+                                                                )
+                                                            }if(data.valeurtemps == 'd'){
+                                                            embed.addFields(
+                                                                {name: '-------------------------------------', value: '-------------------------------------', inline: false},
+                                                                {name: "MUTE", value: "-------", inline: false},
                                                                 {name: "Raison : ", value: `${data.raison}`, inline: false},
                                                                 {name: "Modérateur : ", value: `${data.moderateur}`, inline: false},
                                                                 {name: "Temps : ", value: `${data.temps} jours`, inline: false}
+                                                            )}
+                                                        }
+                                                    })
+        
+                                                    banFinalData.forEach(function(data, index) {
+                                                        if(data == null){
+                                                            console.log("nop")
+                                                        }else{
+                                                            if(data.valeurtemps == 'm'){
+                                                                embed.addFields(
+                                                                    {name: '-------------------------------------', value: '-------------------------------------', inline: false},
+                                                                    {name: "BAN", value: "-----", inline: false},
+                                                                    {name: "Raison : ", value: `${data.raison}`, inline: false},
+                                                                    {name: "Modérateur : ", value: `${data.moderateur}`, inline: false},
+                                                                    {name: "Temps : ", value: `${data.temps} minutes`, inline: false}
+                                                                )
+                                                            }if(data.valeurtemps == 'd'){
+                                                                embed.addFields(
+                                                                    {name: '-------------------------------------', value: '-------------------------------------', inline: false},
+                                                                    {name: "BAN", value: "-----", inline: false},
+                                                                    {name: "Raison : ", value: `${data.raison}`, inline: false},
+                                                                    {name: "Modérateur : ", value: `${data.moderateur}`, inline: false},
+                                                                    {name: "Temps : ", value: `${data.temps} jours`, inline: false}
+                                                                )
+                                                            }
+                                                        }
+                                                    })
+        
+                                                    warnFinalData.forEach(function(data, index) {
+                                                        if(data == null){
+                                                            console.log("nop")
+                                                        }else{
+                                                            embed.addFields(
+                                                                {name: '-------------------------------------', value: '-------------------------------------', inline: false},
+                                                                {name: "WARN", value: "-------", inline: false},
+                                                                {name: `Raison : `, value: `${data.raison}`, inline: false},
+                                                                {name: "Modérateur : ", value: `${data.moderateur}`, inline: false},
                                                             )
                                                         }
-                                                    }
-                                                })
-    
-                                                warnFinalData.forEach(function(data, index) {
-                                                    if(data == null){
-                                                        console.log("nop")
-                                                    }else{
-                                                        embed.addFields(
-                                                            {name: '-------------------------------------', value: '-------------------------------------', inline: false},
-                                                            {name: "WARN", value: "-------", inline: false},
-                                                            {name: `Raison : `, value: `${data.raison}`, inline: false},
-                                                            {name: "Modérateur : ", value: `${data.moderateur}`, inline: false},
-                                                        )
-                                                    }
-                                                })
-                                                message.channel.send(embed)
-                                            }
-                                        })
-                                    }
-                                })
-                            }
-                        })
-                    }
-                })
-            }
-        })
+                                                    })
+                                                    message.channel.send(embed)
+                                                }
+                                            })
+                                        }
+                                    })
+                                }
+                            })
+                        }
+                    })
+                }
+            })
+        }
     }else{
-        connection.query(`USE ${guildNameNoSpace}`, function(error, results){
-            if(error){
-                console.log(error)
-            }if(results){
-                connection.query(`SELECT raison, temps, valeurtemps, moderateur FROM mutes WHERE iddiscord = ${dUser.id}`, function(error, results){
-                    if(error){
-                        console.log(error);
-                    }if(results){
-                        let mute = results;
-                        connection.query(`SELECT raison, moderateur FROM warns WHERE iddiscord = ${dUser.id}`, function(error, results){
-                            if(error){
-                                console.log(error);
-                            }if(results){
-                                let warn = results
-                                connection.query(`SELECT raison, temps, valeurtemps, moderateur FROM bans WHERE iddiscord = ${dUser.id}`, function(error, results){
-                                    if(error){
-                                        console.log(error);
-                                    }if(results){
-                                        let ban = results;
-                                        connection.query(`SELECT raison, moderateur FROM kicks WHERE iddiscord = ${dUser.id}`, function(error, results){
-                                            if(error){
-                                                console.log(error);
-                                            }if(results){
-                                                let kick = results;
-    
-                                                var kickData = JSON.stringify(kick)
-                                                var kickFinalData = JSON.parse(kickData)
-    
-                                                var warnData = JSON.stringify(warn)
-                                                var warnFinalData = JSON.parse(warnData)
-    
-                                                var muteData = JSON.stringify(mute)
-                                                var muteFinalData = JSON.parse(muteData)
-    
-                                                var banData = JSON.stringify(ban)
-                                                var banFinalData = JSON.parse(banData)
-    
-                                                kickFinalData.forEach(function(data, index) {
-                                                    if(data == null){
-                                                        console.log("nop")
-                                                    }else{
-                                                        embed.addFields(
-                                                            {name: '-------------------------------------', value: '-------------------------------------', inline: false},
-                                                            {name: "KICK", value: "-------", inline: false},
-                                                            {name: "Raison : ", value: `${data.raison}`, inline: false},
-                                                            {name: "Modérateur : ", value: `${data.moderateur}`, inline: false}
-                                                        )
-                                                    }
-                                                })
-    
-                                                muteFinalData.forEach(function(data, index) {
-                                                    if(data == null){
-                                                        console.log("nop")
-                                                    }else{
-                                                        if(data.valeurtemps == 'm'){
-                                                            embed.addFields(
-                                                                {name: '-------------------------------------', value: '-------------------------------------', inline: false},
-                                                                {name: "MUTE", value: "-------", inline: false},
-                                                                {name: "Raison : ", value: `${data.raison}`, inline: false},
-                                                                {name: "Modérateur : ", value: `${data.moderateur}`, inline: false},
-                                                                {name: "Temps : ", value: `${data.temps} minutes`, inline: false}
-                                                            )
-                                                        }if(data.valeurtemps == 'd'){
-                                                        embed.addFields(
-                                                            {name: '-------------------------------------', value: '-------------------------------------', inline: false},
-                                                            {name: "MUTE", value: "-------", inline: false},
-                                                            {name: "Raison : ", value: `${data.raison}`, inline: false},
-                                                            {name: "Modérateur : ", value: `${data.moderateur}`, inline: false},
-                                                            {name: "Temps : ", value: `${data.temps} jours`, inline: false}
-                                                        )}
-                                                    }
-                                                })
-    
-                                                banFinalData.forEach(function(data, index) {
-                                                    if(data == null){
-                                                        console.log("nop")
-                                                    }else{
-                                                        if(data.valeurtemps == 'm'){
-                                                            embed.addFields(
-                                                                {name: '-------------------------------------', value: '-------------------------------------', inline: false},
-                                                                {name: "BAN", value: "-----", inline: false},
-                                                                {name: "Raison : ", value: `${data.raison}`, inline: false},
-                                                                {name: "Modérateur : ", value: `${data.moderateur}`, inline: false},
-                                                                {name: "Temps : ", value: `${data.temps} minutes`, inline: false}
-                                                            )
-                                                        }if(data.valeurtemps == 'd'){
-                                                            embed.addFields(
-                                                                {name: '-------------------------------------', value: '-------------------------------------', inline: false},
-                                                                {name: "BAN", value: "-----", inline: false},
-                                                                {name: "Raison : ", value: `${data.raison}`, inline: false},
-                                                                {name: "Modérateur : ", value: `${data.moderateur}`, inline: false},
-                                                                {name: "Temps : ", value: `${data.temps} jours`, inline: false}
-                                                            )
-                                                        }
-                                                    }
-                                                })
-    
-                                                warnFinalData.forEach(function(data, index) {
-                                                    if(data == null){
-                                                        console.log("nop")
-                                                    }else{
-                                                        embed.addFields(
-                                                            {name: '-------------------------------------', value: '-------------------------------------', inline: false},
-                                                            {name: "WARN", value: "-------", inline: false},
-                                                            {name: `Raison : `, value: `${data.raison}`, inline: false},
-                                                            {name: "Modérateur : ", value: `${data.moderateur}`, inline: false},
-                                                        )
-                                                    }
-                                                })
-                                                message.channel.send(embed)
-                                            }
-                                        })
-                                    }
-                                })
-                            }
-                        })
-                    }
-                })
-            }
-        })
+
     }
 }
 
