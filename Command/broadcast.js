@@ -9,16 +9,18 @@ module.exports.run = (client, message, args) => {
             try {
                 let channel = guild.channels.cache.find(channel => channel.name === "maj-patouuu-bot")
                 if(channel){
-                    channel.send(args)
-                    console.log(args)
+                    const arguments = args.join(" ")
+                    channel.send(arguments)
+                    console.log(arguments)
                 } else{
                     guild.channels.create("maj-patouuu-bot", {
                         type: "text",
                         topic: "Channel ou est noté chaque mise a jour du bot !"
                     }).then(() => {
-                        let channel = guild.channels.cache.find(channel => channel.name === "maj-patouuu-bot")
-                        channel.send(args)
-                        console.log(args)
+                        let channel = guild.channels.cache.find(channel => channel.name === "maj-patouuu-bot");
+                        const arguments = args.join(" ")
+                        channel.send(arguments)
+                        console.log(arguments)
                     })
                 }
             } catch (err) {
