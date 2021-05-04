@@ -44,6 +44,12 @@ module.exports.run = (client, message) => {
                         value: "Ex : +cooldown 10 (le temps se met auto en seconde)",
                         inline: true
                     },
+                     //Commande rcooldown
+                     {
+                        name: "**__rcooldown:__**",
+                        value: "Ex : +cooldown (retire le cooldown)",
+                        inline: true
+                    },
                       //Commande modlogs
                       {
                         name: "**__modlogs:__**",
@@ -64,7 +70,7 @@ module.exports.run = (client, message) => {
                     },
                     {
                         name: "**__setpermission__:**",
-                        value: "Ex : +setpermission",
+                        value: "Ex : +setpermission , crée les permissions pour le rôle mute du bot",
                         inline: true
                     },
                      
@@ -137,6 +143,12 @@ module.exports.run = (client, message) => {
                         value: "Ex : +say J'ai des bug !",
                         inline: true
                     },
+                    {
+                        name: "**__td2stats__:**",
+                        value: "Ex : +td2stats @user !",
+                        inline: true
+                    },
+                  
                 ]
             }),
             reactions: {
