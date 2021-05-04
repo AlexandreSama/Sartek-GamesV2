@@ -20,9 +20,9 @@ module.exports.run = (client, message) => {
 
     message.delete();
 
-    // if(message.guild.ownerID !== message.author.id || !message.member.hasPermission("ADMINISTRATOR")){
-    //     message.channel.send("Tu n'est pas le propriétaire de ce serveur, tu ne peut donc exécuter cet commande")
-    // }else{
+    if(message.guild.ownerID !== message.author.id || !message.member.hasPermission("ADMINISTRATOR")){
+        message.channel.send("Tu n'est pas le propriétaire de ce serveur, tu ne peut donc exécuter cet commande")
+    }else{
 
         //Première question
         message.author.send("Veuillez me donner l'ID du channel ou vous souhaiter set les logs").then(res1 => {
@@ -110,7 +110,7 @@ module.exports.run = (client, message) => {
                 })
             })
         }
-    // }
+    }
 
 module.exports.help = {
     name: 'settings'

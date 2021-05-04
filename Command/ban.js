@@ -17,7 +17,7 @@ module.exports.run = (client, message, args) => {
     var nowDate = new Date();
     let date = moment(nowDate).format("YYYY-MM-DD HH:mm:ss");
 
-    let reason = args.slice(2).join(" ");
+    let reason = args[2]
 
     let guildName = message.guild.name;
     let guildNameNoSpace = guildName.replace(/\s/g, '')
@@ -33,7 +33,7 @@ module.exports.run = (client, message, args) => {
 
     connection.connect();
 
-    if(message.member.hasPermissions("BAN_MEMBERS")){
+    if(message.member.hasPermission("BAN_MEMBERS")){
         if (reason.length < 1){
             return message.reply('Tu n\'a pas donné de raison !')
         }else{

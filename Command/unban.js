@@ -23,7 +23,7 @@ module.exports.run = (client, message, args) => {
 			   console.log(error)
 			}
 			if(results){
-			   connection.query(`SELECT iddiscord FROM ban WHERE is_banned = '0'`, function(error, results){
+			   connection.query(`SELECT iddiscord FROM bans WHERE is_banned = '0'`, function(error, results){
 			if(error){
 			 console.log(error)
 			}
