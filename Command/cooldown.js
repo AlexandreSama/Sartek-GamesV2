@@ -13,7 +13,7 @@ module.exports.run = (client, message) => {
             message.channel.send(`Slowmode de ${cooldown} secondes mis en place !`);
         });
     }else{
-
+        message.author.send("Tu n'a pas la permission de faire cet commande !")
     }
 
 }

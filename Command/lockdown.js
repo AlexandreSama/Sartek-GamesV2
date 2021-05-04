@@ -9,7 +9,7 @@ module.exports.run = (client, message) => {
         channel.updateOverwrite(channel.guild.roles.everyone, { SEND_MESSAGES: false })
         message.channel.send("Le channel est bien clos")
     }else{
-
+        message.author.send("Tu n'a pas la permission de faire cet commande !")
     }
 
 }

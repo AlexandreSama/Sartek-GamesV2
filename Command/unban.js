@@ -34,7 +34,7 @@ module.exports.run = (client, message, args) => {
 		  }
 	   })
 	}else{
-
+		message.author.send("Tu n'a pas la permission de faire cet commande !")
 	}
 
 }

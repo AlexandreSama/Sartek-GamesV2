@@ -11,7 +11,7 @@ module.exports.run = (client, message) => {
             message.channel.send(`**Fin du slowmode**`);
         });
     }else{
-        
+        message.author.send("Tu n'a pas la permission de faire cet commande !")
     }
 
 }

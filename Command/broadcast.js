@@ -35,6 +35,8 @@ module.exports.run = (client, message, args) => {
                 console.log("Impossible d'envoyer un message dans le serveur " + guild.name)
             }
         });
+    }else {
+        message.author.send("Tu n'a pas la permission de faire cet commande !")
     }
 
 }
