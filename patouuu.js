@@ -162,4 +162,31 @@ client.on('guildCreate', (guild) => {
   })
 })
 
+client.on('guildDelete', (guild) => {
+  guild.owner.send("J'espère avoir été utile a vos côtés, bonne continuation et bonne chance a vous !");
+
+  let guildName = message.guild.name;
+  let guildNameNoEmoji = guildName.replace(/([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g, '')
+  let guildNameNoChar1 = guildNameNoEmoji.replace("'", "");
+  let guildNameNoChar2 = guildNameNoChar1.replace("-", "");
+  let guildNameNoChar3 = guildNameNoChar2.replace(/([-]|[']|[>]|[<]|[/]|[|][!]|[?]|[你好]|[!]|[|])/g, '');
+  let guildNameNoSpace = guildNameNoChar3.replace(/\s/g, '');
+  var connection = mysql.createConnection({
+        host     : '185.216.25.216',
+        user     : 'bojo',
+        password : 'bojo',
+        port: 3306
+  });
+
+  connection.query(`DROP DATABASE ${guildNameNoSpace}`, function(error, results){
+    if(error){
+      console.log(error)
+    }
+    if(results){
+      console.log("Base de donnée du serveur " + guildNameNoSpace + " supprimée avec succés")
+    }
+  })
+
+})
+
 client.login('NzQ0MTcwOTkzNjY4NTg3NTQw.XzfVPg.CwJLYz96_nJTD5cEpGNGaZQXDn0');

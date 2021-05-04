@@ -37,71 +37,87 @@ module.exports.run = (client, message) => {
                         message.author.send("Veuillez me donner l'ID du channel ou vous souhaiter set les présentations").then(res3 => {
                             res3.channel.awaitMessages(filter, {max: 1}).then(collector3 => {
                                 let idChannelPresentation = collector3.first().content;
-                                connection.query(`CREATE DATABASE ${guildNameNoSpace}`, function(error, results){
+                                connection.query(`USE ${guildNameNoSpace}`, function(error, results) {
                                     if(error){
-                                        message.author.send("ERROR ! Veuillez contacter un des créateurs du bot")
-                                        console.log(error)
-                                    }
-                                    if(results){
-                                        connection.query(`USE ${guildNameNoSpace}`, function(error, results){
+                                        connection.query(`CREATE DATABASE ${guildNameNoSpace}`, function(error, results){
                                             if(error){
                                                 message.author.send("ERROR ! Veuillez contacter un des créateurs du bot")
                                                 console.log(error)
                                             }
                                             if(results){
-                                                connection.query(`CREATE TABLE mutes (id INT PRIMARY KEY NOT NULL AUTO_INCREMENT, iddiscord BIGINT(200) NOT NULL, pseudo TEXT NOT NULL, raison TEXT NOT NULL, moderateur TEXT NOT NULL, temps TINYINT NOT NULL, valeurtemps VARCHAR(100) NOT NULL, date DATETIME NOT NULL, is_muted TINYINT NOT NULL DEFAULT 1);`, function(error, results){
+                                                connection.query(`USE ${guildNameNoSpace}`, function(error, results){
                                                     if(error){
                                                         message.author.send("ERROR ! Veuillez contacter un des créateurs du bot")
                                                         console.log(error)
                                                     }
                                                     if(results){
-                                                      connection.query(`CREATE TABLE bans ( id INT PRIMARY KEY NOT NULL AUTO_INCREMENT, iddiscord BIGINT(200) NOT NULL, pseudo TEXT NOT NULL, raison TEXT NOT NULL, moderateur TEXT NOT NULL, temps TINYINT NOT NULL, valeurtemps VARCHAR(100) NOT NULL, date DATETIME NOT NULL, is_banned TINYINT NOT NULL DEFAULT 1 );`, function(error, results){
-                                                        if(error){
-                                                            message.author.send("ERROR ! Veuillez contacter un des créateurs du bot")
-                                                            console.log(error)
-                                                        }
-                                                        if(results){
-                                                          connection.query(`CREATE TABLE kicks ( id INT PRIMARY KEY NOT NULL AUTO_INCREMENT, iddiscord BIGINT(200) NOT NULL, pseudo TEXT NOT NULL, raison TEXT NOT NULL, moderateur TEXT NOT NULL, date DATETIME NOT NULL );`, function(error, results){
+                                                        connection.query(`CREATE TABLE mutes (id INT PRIMARY KEY NOT NULL AUTO_INCREMENT, iddiscord BIGINT(200) NOT NULL, pseudo TEXT NOT NULL, raison TEXT NOT NULL, moderateur TEXT NOT NULL, temps TINYINT NOT NULL, valeurtemps VARCHAR(100) NOT NULL, date DATETIME NOT NULL, is_muted TINYINT NOT NULL DEFAULT 1);`, function(error, results){
                                                             if(error){
                                                                 message.author.send("ERROR ! Veuillez contacter un des créateurs du bot")
                                                                 console.log(error)
                                                             }
                                                             if(results){
-                                                              connection.query(`CREATE TABLE warns ( id INT PRIMARY KEY NOT NULL AUTO_INCREMENT, iddiscord BIGINT(200) NOT NULL, pseudo TEXT NOT NULL, raison TEXT NOT NULL, moderateur TEXT NOT NULL, date DATETIME NOT NULL );`, function(error, results){
+                                                              connection.query(`CREATE TABLE bans ( id INT PRIMARY KEY NOT NULL AUTO_INCREMENT, iddiscord BIGINT(200) NOT NULL, pseudo TEXT NOT NULL, raison TEXT NOT NULL, moderateur TEXT NOT NULL, temps TINYINT NOT NULL, valeurtemps VARCHAR(100) NOT NULL, date DATETIME NOT NULL, is_banned TINYINT NOT NULL DEFAULT 1 );`, function(error, results){
                                                                 if(error){
                                                                     message.author.send("ERROR ! Veuillez contacter un des créateurs du bot")
                                                                     console.log(error)
                                                                 }
                                                                 if(results){
-                                                                  connection.query(`CREATE TABLE settings (id INT PRIMARY KEY NOT NULL AUTO_INCREMENT, idchannellogs BIGINT(200) NOT NULL, idcategoryticket BIGINT(200) NOT NULL, idchannelpresentation BIGINT(200) NOT NULL);`, function(error, results){
+                                                                  connection.query(`CREATE TABLE kicks ( id INT PRIMARY KEY NOT NULL AUTO_INCREMENT, iddiscord BIGINT(200) NOT NULL, pseudo TEXT NOT NULL, raison TEXT NOT NULL, moderateur TEXT NOT NULL, date DATETIME NOT NULL );`, function(error, results){
                                                                     if(error){
                                                                         message.author.send("ERROR ! Veuillez contacter un des créateurs du bot")
                                                                         console.log(error)
                                                                     }
                                                                     if(results){
-                                                                        connection.query(`INSERT INTO settings (idchannellogs, idcategoryticket, idchannelpresentation) VALUES ("${idChannelLogs}", "${idCategoryTicket}", "${idChannelPresentation}")`, function(error, results){
+                                                                      connection.query(`CREATE TABLE warns ( id INT PRIMARY KEY NOT NULL AUTO_INCREMENT, iddiscord BIGINT(200) NOT NULL, pseudo TEXT NOT NULL, raison TEXT NOT NULL, moderateur TEXT NOT NULL, date DATETIME NOT NULL );`, function(error, results){
+                                                                        if(error){
+                                                                            message.author.send("ERROR ! Veuillez contacter un des créateurs du bot")
+                                                                            console.log(error)
+                                                                        }
+                                                                        if(results){
+                                                                          connection.query(`CREATE TABLE settings (id INT PRIMARY KEY NOT NULL AUTO_INCREMENT, idchannellogs BIGINT(200) NOT NULL, idcategoryticket BIGINT(200) NOT NULL, idchannelpresentation BIGINT(200) NOT NULL);`, function(error, results){
                                                                             if(error){
                                                                                 message.author.send("ERROR ! Veuillez contacter un des créateurs du bot")
                                                                                 console.log(error)
                                                                             }
                                                                             if(results){
-                                                                                console.log("BDD + Tables construites avec succés");
-                                                                                message.author.send("Tables Crées et données enregistrés !")
+                                                                                connection.query(`INSERT INTO settings (idchannellogs, idcategoryticket, idchannelpresentation) VALUES ("${idChannelLogs}", "${idCategoryTicket}", "${idChannelPresentation}")`, function(error, results){
+                                                                                    if(error){
+                                                                                        message.author.send("ERROR ! Veuillez contacter un des créateurs du bot")
+                                                                                        console.log(error)
+                                                                                    }
+                                                                                    if(results){
+                                                                                        console.log("BDD + Tables construites avec succés");
+                                                                                        message.author.send("Tables Crées et données enregistrés !")
+                                                                                    }
+                                                                                })
                                                                             }
-                                                                        })
+                                                                          })
+                                                                        }
+                                                                      })
                                                                     }
                                                                   })
                                                                 }
                                                               })
                                                             }
                                                           })
-                                                        }
-                                                      })
-                                                    }
-                                                  })
-                                              }
+                                                      }
+                                                    })
+                                                }
                                             })
-                                        }
+                                    }
+                                    if(results){
+                                        connection.query(`UPDATE settings SET idchannellogs = "${idChannelLogs}", idcategoryticket = "${idCategoryTicket}", idchannelpresentation = "${idChannelPresentation}"`, function(error, results){
+                                            if(error){
+                                                message.author.send("ERROR ! Veuillez contacter un des créateurs du bot")
+                                                console.log(error)
+                                            }
+                                            if(results){
+                                                console.log("BDD + Tables construites avec succés");
+                                                message.author.send("Tables Crées et données enregistrés !")
+                                            }
+                                        })
+                                    }
                                     })
                                 })
                             })
