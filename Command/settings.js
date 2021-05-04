@@ -20,9 +20,9 @@ module.exports.run = (client, message) => {
 
     message.delete();
 
-    if(message.guild.ownerID !== message.author.id || !message.member.hasPermission("ADMINISTRATOR")){
-        message.channel.send("Tu n'est pas le propriétaire de ce serveur, tu ne peut donc exécuter cet commande")
-    }else{
+    // if(message.guild.ownerID !== message.author.id || !message.member.hasPermission("ADMINISTRATOR")){
+    //     message.channel.send("Tu n'est pas le propriétaire de ce serveur, tu ne peut donc exécuter cet commande")
+    // }else{
 
         //Première question
         message.author.send("Veuillez me donner l'ID du channel ou vous souhaiter set les logs").then(res1 => {
@@ -40,45 +40,53 @@ module.exports.run = (client, message) => {
                                 connection.query(`CREATE DATABASE ${guildNameNoSpace}`, function(error, results){
                                     if(error){
                                         message.author.send("ERROR ! Veuillez contacter un des créateurs du bot")
+                                        console.log(error)
                                     }
                                     if(results){
                                         connection.query(`USE ${guildNameNoSpace}`, function(error, results){
                                             if(error){
                                                 message.author.send("ERROR ! Veuillez contacter un des créateurs du bot")
+                                                console.log(error)
                                             }
                                             if(results){
                                                 connection.query(`CREATE TABLE mutes (id INT PRIMARY KEY NOT NULL AUTO_INCREMENT, iddiscord BIGINT(200) NOT NULL, pseudo TEXT NOT NULL, raison TEXT NOT NULL, moderateur TEXT NOT NULL, temps TINYINT NOT NULL, valeurtemps VARCHAR(100) NOT NULL, date DATETIME NOT NULL, is_muted TINYINT NOT NULL DEFAULT 1);`, function(error, results){
                                                     if(error){
                                                         message.author.send("ERROR ! Veuillez contacter un des créateurs du bot")
+                                                        console.log(error)
                                                     }
                                                     if(results){
                                                       connection.query(`CREATE TABLE bans ( id INT PRIMARY KEY NOT NULL AUTO_INCREMENT, iddiscord BIGINT(200) NOT NULL, pseudo TEXT NOT NULL, raison TEXT NOT NULL, moderateur TEXT NOT NULL, temps TINYINT NOT NULL, valeurtemps VARCHAR(100) NOT NULL, date DATETIME NOT NULL, is_banned TINYINT NOT NULL DEFAULT 1 );`, function(error, results){
                                                         if(error){
                                                             message.author.send("ERROR ! Veuillez contacter un des créateurs du bot")
+                                                            console.log(error)
                                                         }
                                                         if(results){
                                                           connection.query(`CREATE TABLE kicks ( id INT PRIMARY KEY NOT NULL AUTO_INCREMENT, iddiscord BIGINT(200) NOT NULL, pseudo TEXT NOT NULL, raison TEXT NOT NULL, moderateur TEXT NOT NULL, date DATETIME NOT NULL );`, function(error, results){
                                                             if(error){
                                                                 message.author.send("ERROR ! Veuillez contacter un des créateurs du bot")
+                                                                console.log(error)
                                                             }
                                                             if(results){
                                                               connection.query(`CREATE TABLE warns ( id INT PRIMARY KEY NOT NULL AUTO_INCREMENT, iddiscord BIGINT(200) NOT NULL, pseudo TEXT NOT NULL, raison TEXT NOT NULL, moderateur TEXT NOT NULL, date DATETIME NOT NULL );`, function(error, results){
                                                                 if(error){
                                                                     message.author.send("ERROR ! Veuillez contacter un des créateurs du bot")
+                                                                    console.log(error)
                                                                 }
                                                                 if(results){
-                                                                  connection.query(`CREATE TABLE settings (id INT PRIMARY KEY NOT NULL AUTO_INCREMENT, idchannellogs(200) BIGINT NOT NULL, idcategoryticket BIGINT(200) NOT NULL, idchannelpresentation BIGINT(200) NOT NULL);`, function(error, results){
+                                                                  connection.query(`CREATE TABLE settings (id INT PRIMARY KEY NOT NULL AUTO_INCREMENT, idchannellogs BIGINT(200) NOT NULL, idcategoryticket BIGINT(200) NOT NULL, idchannelpresentation BIGINT(200) NOT NULL);`, function(error, results){
                                                                     if(error){
                                                                         message.author.send("ERROR ! Veuillez contacter un des créateurs du bot")
+                                                                        console.log(error)
                                                                     }
                                                                     if(results){
                                                                         connection.query(`INSERT INTO settings (idchannellogs, idcategoryticket, idchannelpresentation) VALUES ("${idChannelLogs}", "${idCategoryTicket}", "${idChannelPresentation}")`, function(error, results){
                                                                             if(error){
                                                                                 message.author.send("ERROR ! Veuillez contacter un des créateurs du bot")
+                                                                                console.log(error)
                                                                             }
                                                                             if(results){
                                                                                 console.log("BDD + Tables construites avec succés");
-                                                                                message.channel.send("Tables Crées et données enregistrés !")
+                                                                                message.author.send("Tables Crées et données enregistrés !")
                                                                             }
                                                                         })
                                                                     }
@@ -102,7 +110,7 @@ module.exports.run = (client, message) => {
                 })
             })
         }
-    }
+    // }
 
 module.exports.help = {
     name: 'settings'
