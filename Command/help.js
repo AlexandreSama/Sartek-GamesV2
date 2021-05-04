@@ -73,6 +73,16 @@ module.exports.run = (client, message) => {
                         value: "Ex : +setpermission , crée les permissions pour le rôle mute du bot",
                         inline: true
                     },
+                    {
+                        name: "**__setting__:**",
+                        value: "Ex : +setting, lance le module pour set les différents modules.",
+                        inline: true
+                    },
+                    {
+                        name: "**__clear__:**",
+                        value: "Ex : +clear [Nombres de messages], permet de clear une grande quantités de messages.",
+                        inline: true
+                    },
                      
              ]
                 
