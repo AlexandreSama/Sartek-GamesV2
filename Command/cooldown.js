@@ -8,7 +8,7 @@ module.exports.run = (client, message) => {
     const arg = messageArray.slice(1);
     let cooldown = parseInt(arg[0])
 
-    if(message.members.hasPermission("BAN_MEMBERS")){
+    if(message.member.hasPermission("BAN_MEMBERS")){
         message.channel.setRateLimitPerUser(cooldown).then(() => {
             message.channel.send(`Slowmode de ${cooldown} secondes mis en place !`);
         });

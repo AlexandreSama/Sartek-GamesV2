@@ -25,7 +25,7 @@ module.exports.run = (client, message, args) => {
 
     connection.connect();
 
-    if(message.members.hasPermission("BAN_MEMBERS")){
+    if(message.member.hasPermission("BAN_MEMBERS")){
         connection.query(`USE ${guildNameNoSpace}`, function(error, results){
             if(error){
                 console.log(error)

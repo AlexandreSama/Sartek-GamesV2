@@ -7,7 +7,7 @@ module.exports.run = (client, message, args) => {
     let myRole = message.guild.roles.cache.find(role => role.name === "Mute_SartekGames");
     let roleId = myRole.id;
 
-    if(message.members.hasPermission("BAN_MEMBERS")){
+    if(message.member.hasPermission("BAN_MEMBERS")){
         channelAndCategory.forEach(element => {
             let permissionOverwrited = element['permissionOverwrites'];
               if(element['type'] == 'category'){

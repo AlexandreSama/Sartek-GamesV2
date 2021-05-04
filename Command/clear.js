@@ -4,7 +4,7 @@ module.exports.run = (client, message, args) => {
 
     message.delete()
 
-	if (message.members.hasPermission("ADMINISTRATOR")) {
+	if (message.member.hasPermission("ADMINISTRATOR")) {
         let arguments = args.join("")
         message.channel.bulkDelete(arguments).then(messages => message.channel.send(arguments + " messages supprimés"))
     } else {

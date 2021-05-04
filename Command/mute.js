@@ -33,7 +33,7 @@ module.exports.run = (client, message, args) => {
         port: 3306
     });
 
-    if(message.members.hasPermission("MUTE_MEMBERS")){
+    if(message.member.hasPermission("MUTE_MEMBERS")){
         if (reason.length < 1){
             return message.reply('Tu n\'a pas donné de raison !')
         }else{

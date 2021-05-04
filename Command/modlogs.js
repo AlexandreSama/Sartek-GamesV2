@@ -27,7 +27,7 @@ module.exports.run = (client, message, args) => {
         port: 3306
     });
 
-    if(message.members.hasPermission("BAN_MEMBERS")){
+    if(message.member.hasPermission("BAN_MEMBERS")){
         if(dUser == undefined){
             connection.query(`USE ${guildNameNoSpace}`, function(error, results){
                 if(error){

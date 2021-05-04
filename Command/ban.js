@@ -31,7 +31,7 @@ module.exports.run = (client, message, args) => {
 
     connection.connect();
 
-    if(message.members.hasPermissions("BAN_MEMBERS")){
+    if(message.member.hasPermissions("BAN_MEMBERS")){
         if (reason.length < 1){
             return message.reply('Tu n\'a pas donné de raison !')
         }else{
