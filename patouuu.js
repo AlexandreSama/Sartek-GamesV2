@@ -93,19 +93,19 @@ function xp(message) {
 // Contient le Command Handler et la fonction XP
 client.on('message', async (message) => {
 
-  const gestionTicketRole = message.guild.roles.cache.find(r => r.name === "gestionticket");
-  if(!gestionTicketRole) {
-    message.guild.roles.create({
-      data : {
-        name: "gestionticket",
-        color: 'YELLOW',
-        permissions: ['VIEW_CHANNEL', 'READ_MESSAGE_HISTORY'],
-        mentionable : false,
-        position: 16
-      },
-      reason: 'Role spécifique pour la Gestion des Tickets' 
-    })
-  }
+  // const gestionTicketRole = message.guild.roles.cache.find(r => r.name === "gestionticket");
+  // if(!gestionTicketRole) {
+  //   message.guild.roles.create({
+  //     data : {
+  //       name: "gestionticket",
+  //       color: 'YELLOW',
+  //       permissions: ['VIEW_CHANNEL', 'READ_MESSAGE_HISTORY'],
+  //       mentionable : false,
+  //       position: 16
+  //     },
+  //     reason: 'Role spécifique pour la Gestion des Tickets' 
+  //   })
+  // }
   const messageArray = message.content.split(/\s+/g);
   const command = messageArray[0];
   const args = messageArray.slice(1);
@@ -197,28 +197,35 @@ client.on('guildCreate', (guild) => {
           console.log(error);
         }
         if(results){
-          connection.query(`CREATE TABLE mute (id INT PRIMARY KEY NOT NULL AUTO_INCREMENT, iddiscord INT NOT NULL, pseudo TEXT NOT NULL, raison TEXT NOT NULL, moderateur TEXT NOT NULL, temps TINYINT NOT NULL, valeurtemps VARCHAR NOT NULL, date DATETIME NOT NULL, is_muted TINYINT NOT NULL DEFAULT 1);`, function(error, results){
+          connection.query(`CREATE TABLE mutes (id INT PRIMARY KEY NOT NULL AUTO_INCREMENT, iddiscord BIGINT NOT NULL, pseudo TEXT NOT NULL, raison TEXT NOT NULL, moderateur TEXT NOT NULL, temps TINYINT NOT NULL, valeurtemps VARCHAR NOT NULL, date DATETIME NOT NULL, is_muted TINYINT NOT NULL DEFAULT 1);`, function(error, results){
             if(error){
               console.log(error);
             }
             if(results){
-              connection.query(`CREATE TABLE ban ( id INT PRIMARY KEY NOT NULL AUTO_INCREMENT, iddiscord BIGINT NOT NULL, pseudo TEXT NOT NULL, raison TEXT NOT NULL, moderateur TEXT NOT NULL, temps TINYINT NOT NULL, valeurtemps VARCHAR NOT NULL, date DATETIME NOT NULL, is_banned TINYINT NOT NULL DEFAULT 1 );`, function(error, results){
+              connection.query(`CREATE TABLE bans ( id INT PRIMARY KEY NOT NULL AUTO_INCREMENT, iddiscord BIGINT NOT NULL, pseudo TEXT NOT NULL, raison TEXT NOT NULL, moderateur TEXT NOT NULL, temps TINYINT NOT NULL, valeurtemps VARCHAR NOT NULL, date DATETIME NOT NULL, is_banned TINYINT NOT NULL DEFAULT 1 );`, function(error, results){
                 if(error){
                   console.log(error);
                 }
                 if(results){
-                  connection.query(`CREATE TABLE kick ( id INT PRIMARY KEY NOT NULL AUTO_INCREMENT, iddiscord INT NOT NULL, pseudo TEXT NOT NULL, raison TEXT NOT NULL, moderateur TEXT NOT NULL, date DATETIME NOT NULL );`, function(error, results){
+                  connection.query(`CREATE TABLE kicks ( id INT PRIMARY KEY NOT NULL AUTO_INCREMENT, iddiscord BIGINT NOT NULL, pseudo TEXT NOT NULL, raison TEXT NOT NULL, moderateur TEXT NOT NULL, date DATETIME NOT NULL );`, function(error, results){
                     if(error){
                       console.log(error);
                     }
                     if(results){
-                      connection.query(`CREATE TABLE warn ( id INT PRIMARY KEY NOT NULL AUTO_INCREMENT, iddiscord INT NOT NULL, pseudo TEXT NOT NULL, raison TEXT NOT NULL, moderateur TEXT NOT NULL, date DATETIME NOT NULL );`, function(error, results){
+                      connection.query(`CREATE TABLE warns ( id INT PRIMARY KEY NOT NULL AUTO_INCREMENT, iddiscord BIGINT NOT NULL, pseudo TEXT NOT NULL, raison TEXT NOT NULL, moderateur TEXT NOT NULL, date DATETIME NOT NULL );`, function(error, results){
                         if(error){
                           console.log(error);
                         }
                         if(results){
-                          console.log("BDD + Tables construites avec succés");
-                          connection.destroy();
+                          connection.query(`CREATE TABLE settings (id INT PRIMARY KEY NOT NULL AUTO_INCREMENT, idchannellogs BIGINT NOT NULL, idcategoryticket BIGINT NOT NULL, idchannelpresentation BIGINT NOT NULL);`, function(error, results){
+                            if(error){
+                              console.log(error)
+                            }
+                            if(results){
+                              console.log("BDD + Tables construites avec succés");
+                              message.channel.send("Tables Crées")
+                            }
+                          })
                         }
                       })
                     }

@@ -1,12 +1,18 @@
 const Discord = require('discord.js');
-
+const mysql = require('mysql');
 
 module.exports.run = (client, message) => {
 
-    let server = message.guild.name;
-    let servernospace = server.replace(/\s/g, '')
+    message.delete();
+
     let authorid = message.author.id;
     const filter = message => message.author.id == authorid;
+    let guildName = message.guild.name;
+    let guildNameNoEmoji = guildName.replace(/([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g, '')
+    let guildNameNoChar1 = guildNameNoEmoji.replace("'", "");
+    let guildNameNoChar2 = guildNameNoChar1.replace("-", "");
+    let guildNameNoChar3 = guildNameNoChar2.replace(/([-]|[']|[>]|[<]|[/]|[|][!]|[?]|[你好]|[!]|[|])/g, '');
+    let guildNameNoSpace = guildNameNoChar3.replace(/\s/g, '');
 
     message.author.send("Salut ! Tu veut que je fasse une présentation de toi-même ? Alors c'est parti ! Déjà donne moi ton pseudo ?").then(res1 => {
         res1.channel.awaitMessages(filter, {max: 1}).then(collector1 => {
@@ -36,9 +42,32 @@ module.exports.run = (client, message) => {
                                             { name: "Status", value: status.toString()},
                                             { name: "Hobbies", value: hobbies.toString()},
                                         )
-                                        let channel = message.guild.channels.cache.find(channel => channel.name === "presentations");
-                                        channel.send(exampleEmbed)
-                                        message.author.send("Parfait, tu peut trouver ta présentation ici : <#" + channel + ">")
+                                        var connection = mysql.createConnection({
+                                            host     : '185.216.25.216',
+                                            user     : 'bojo',
+                                            password : 'bojo',
+                                            port: 3306
+                                        });
+                                        connection.query(`use ${guildNameNoSpace}`, function(error, results){
+                                            if(error){
+                                                console.log(error)
+                                            }
+                                            if(results){
+                                                connection.query('SELECT idchannelpresentation FROM settings', function(error, results){
+                                                    if(error){
+                                                      console.log(error)
+                                                    }
+                                                    if(results){
+                                                        let channelPresentation = results;
+                                                        let channelPresentationData = JSON.stringify(channelPresentation)
+                                                        let channelPresentationDataFinal = JSON.parse(channelPresentationData);
+                                                        let channel = message.guild.channels.cache.get(channelPresentationDataFinal)
+                                                        channel.send(exampleEmbed)
+                                                        message.author.send("Parfait, tu peut trouver ta présentation ici : <#" + channel + ">")
+                                                    }
+                                                })
+                                            }
+                                        })
                                 })
                             })
                         })
