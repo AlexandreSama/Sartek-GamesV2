@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 
-module.exports.run = (client, message, args) => {
+module.exports.run = (client, message) => {
 
     message.delete()
 
@@ -10,6 +10,7 @@ module.exports.run = (client, message, args) => {
                 let channel = guild.channels.cache.find(channel => channel.name === "maj-patouuu-bot")
                 if(channel){
                     channel.send(message.content)
+                    console.log(message.content)
                 } else{
                     guild.channels.create("maj-patouuu-bot", {
                         type: "text",
@@ -17,6 +18,7 @@ module.exports.run = (client, message, args) => {
                     }).then(() => {
                         let channel = guild.channels.cache.find(channel => channel.name === "maj-patouuu-bot")
                         channel.send(message.content)
+                        console.log(message.content)
                     })
                 }
             } catch (err) {
