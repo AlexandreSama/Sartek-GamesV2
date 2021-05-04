@@ -9,14 +9,14 @@ module.exports.run = (client, message, args) => {
             try {
                 let channel = guild.channels.cache.find(channel => channel.name === "maj-patouuu-bot")
                 if(channel){
-                    channel.send(args)
+                    channel.send(message.content)
                 } else{
                     guild.channels.create("maj-patouuu-bot", {
                         type: "text",
                         topic: "Channel ou est noté chaque mise a jour du bot !"
                     }).then(() => {
                         let channel = guild.channels.cache.find(channel => channel.name === "maj-patouuu-bot")
-                        channel.send(args)
+                        channel.send(message.content)
                     })
                 }
             } catch (err) {
