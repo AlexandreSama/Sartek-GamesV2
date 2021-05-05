@@ -19,6 +19,7 @@
     "r6api.js": "^1.7.0",
     "reaction-role": "^3.2.3",
     "reconlx": "^1.2.41",
+    "request": "^2.88.2",
     "snekfetch": "^4.0.4"
   }
 }
