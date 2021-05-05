@@ -7,13 +7,14 @@ module.exports.run = (client, message, args) => {
     message.delete();
     
     let dUser = message.mentions.users.first();
+    const member = message.guild.members.resolve(dUser);
     let dUserId = dUser.id;
     let dUserPseudo = dUser.username;
 
     var nowDate = new Date();
     let date = moment(nowDate).format("YYYY-MM-DD HH:mm:ss");
 
-    let reason = args[2]
+    let reason = args.join(" ")
 
     let guildName = message.guild.name;
     let guildNameNoSpace = guildName.replace(/\s/g, '')
@@ -42,6 +43,7 @@ module.exports.run = (client, message, args) => {
                         if(error){
                             console.log(error)
                         }if(results){
+                            member.kick(reason)
                             message.channel.send(`${dUser} a été kick pour **${reason}**`);
                             connection.destroy();
                         }

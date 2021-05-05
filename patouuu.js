@@ -79,6 +79,7 @@ client.on('message', async (message) => {
   //     reason: 'Role spécifique pour la Gestion des Tickets' 
   //   })
   // }
+
   const messageArray = message.content.split(/\s+/g);
   const command = messageArray[0];
   const args = messageArray.slice(1);
