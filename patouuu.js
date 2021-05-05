@@ -156,7 +156,7 @@ client.on('guildCreate', (guild) => {
 client.on('guildDelete', (guild) => {
   guild.owner.send("J'espère avoir été utile a vos côtés, bonne continuation et bonne chance a vous !");
 
-  let guildName = message.guild.name;
+  let guildName = guild.name;
   let guildNameNoEmoji = guildName.replace(/([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g, '')
   let guildNameNoChar1 = guildNameNoEmoji.replace("'", "");
   let guildNameNoChar2 = guildNameNoChar1.replace("-", "");
