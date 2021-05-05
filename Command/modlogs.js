@@ -35,22 +35,22 @@ module.exports.run = (client, message, args) => {
                 if(error){
                     console.log(error)
                 }if(results){
-                    connection.query(`SELECT raison, temps, valeurtemps, moderateur FROM mutes WHERE iddiscord = ${arg[0]}`, function(error, results){
+                    connection.query(`SELECT raison, temps, valeurtemps, moderateur, date FROM mutes WHERE iddiscord = ${arg[0]}`, function(error, results){
                         if(error){
                             console.log(error);
                         }if(results){
                             let mute = results;
-                            connection.query(`SELECT raison, moderateur FROM warns WHERE iddiscord = ${arg[0]}`, function(error, results){
+                            connection.query(`SELECT raison, moderateur, date FROM warns WHERE iddiscord = ${arg[0]}`, function(error, results){
                                 if(error){
                                     console.log(error);
                                 }if(results){
                                     let warn = results
-                                    connection.query(`SELECT raison, temps, valeurtemps, moderateur FROM bans WHERE iddiscord = ${arg[0]}`, function(error, results){
+                                    connection.query(`SELECT raison, temps, valeurtemps, moderateur, date FROM bans WHERE iddiscord = ${arg[0]}`, function(error, results){
                                         if(error){
                                             console.log(error);
                                         }if(results){
                                             let ban = results;
-                                            connection.query(`SELECT raison, moderateur FROM kicks WHERE iddiscord = ${arg[0]}`, function(error, results){
+                                            connection.query(`SELECT raison, moderateur, date FROM kicks WHERE iddiscord = ${arg[0]}`, function(error, results){
                                                 if(error){
                                                     console.log(error);
                                                 }if(results){
@@ -76,7 +76,8 @@ module.exports.run = (client, message, args) => {
                                                                 {name: '-------------------------------------', value: '-------------------------------------', inline: false},
                                                                 {name: "KICK", value: "-------", inline: false},
                                                                 {name: "Raison : ", value: `${data.raison}`, inline: false},
-                                                                {name: "Modérateur : ", value: `${data.moderateur}`, inline: false}
+                                                                {name: "Modérateur : ", value: `${data.moderateur}`, inline: false},
+                                                                {name: "Date de sanction : ", value: `${data.date}`, inline: false}
                                                             )
                                                         }
                                                     })
@@ -91,7 +92,8 @@ module.exports.run = (client, message, args) => {
                                                                     {name: "MUTE", value: "-------", inline: false},
                                                                     {name: "Raison : ", value: `${data.raison}`, inline: false},
                                                                     {name: "Modérateur : ", value: `${data.moderateur}`, inline: false},
-                                                                    {name: "Temps : ", value: `${data.temps} minutes`, inline: false}
+                                                                    {name: "Temps : ", value: `${data.temps} minutes`, inline: false},
+                                                                    {name: "Date de sanction : ", value: `${data.date}`, inline: false}
                                                                 )
                                                             }if(data.valeurtemps == 'd'){
                                                             embed.addFields(
@@ -99,7 +101,8 @@ module.exports.run = (client, message, args) => {
                                                                 {name: "MUTE", value: "-------", inline: false},
                                                                 {name: "Raison : ", value: `${data.raison}`, inline: false},
                                                                 {name: "Modérateur : ", value: `${data.moderateur}`, inline: false},
-                                                                {name: "Temps : ", value: `${data.temps} jours`, inline: false}
+                                                                {name: "Temps : ", value: `${data.temps} jours`, inline: false},
+                                                                {name: "Date de sanction : ", value: `${data.date}`, inline: false}
                                                             )}
                                                         }
                                                     })
@@ -114,7 +117,8 @@ module.exports.run = (client, message, args) => {
                                                                     {name: "BAN", value: "-----", inline: false},
                                                                     {name: "Raison : ", value: `${data.raison}`, inline: false},
                                                                     {name: "Modérateur : ", value: `${data.moderateur}`, inline: false},
-                                                                    {name: "Temps : ", value: `${data.temps} minutes`, inline: false}
+                                                                    {name: "Temps : ", value: `${data.temps} minutes`, inline: false},
+                                                                    {name: "Date de sanction : ", value: `${data.date}`, inline: false}
                                                                 )
                                                             }if(data.valeurtemps == 'd'){
                                                                 embed.addFields(
@@ -122,7 +126,8 @@ module.exports.run = (client, message, args) => {
                                                                     {name: "BAN", value: "-----", inline: false},
                                                                     {name: "Raison : ", value: `${data.raison}`, inline: false},
                                                                     {name: "Modérateur : ", value: `${data.moderateur}`, inline: false},
-                                                                    {name: "Temps : ", value: `${data.temps} jours`, inline: false}
+                                                                    {name: "Temps : ", value: `${data.temps} jours`, inline: false},
+                                                                    {name: "Date de sanction : ", value: `${data.date}`, inline: false}
                                                                 )
                                                             }
                                                         }
@@ -137,6 +142,7 @@ module.exports.run = (client, message, args) => {
                                                                 {name: "WARN", value: "-------", inline: false},
                                                                 {name: `Raison : `, value: `${data.raison}`, inline: false},
                                                                 {name: "Modérateur : ", value: `${data.moderateur}`, inline: false},
+                                                                {name: "Date de sanction : ", value: `${data.date}`, inline: false}
                                                             )
                                                         }
                                                     })
@@ -156,22 +162,22 @@ module.exports.run = (client, message, args) => {
                 if(error){
                     console.log(error)
                 }if(results){
-                    connection.query(`SELECT raison, temps, valeurtemps, moderateur FROM mutes WHERE iddiscord = ${dUser.id}`, function(error, results){
+                    connection.query(`SELECT raison, temps, valeurtemps, moderateur, date FROM mutes WHERE iddiscord = ${dUser.id}`, function(error, results){
                         if(error){
                             console.log(error);
                         }if(results){
                             let mute = results;
-                            connection.query(`SELECT raison, moderateur FROM warns WHERE iddiscord = ${dUser.id}`, function(error, results){
+                            connection.query(`SELECT raison, moderateur, date FROM warns WHERE iddiscord = ${dUser.id}`, function(error, results){
                                 if(error){
                                     console.log(error);
                                 }if(results){
                                     let warn = results
-                                    connection.query(`SELECT raison, temps, valeurtemps, moderateur FROM bans WHERE iddiscord = ${dUser.id}`, function(error, results){
+                                    connection.query(`SELECT raison, temps, valeurtemps, moderateur, date FROM bans WHERE iddiscord = ${dUser.id}`, function(error, results){
                                         if(error){
                                             console.log(error);
                                         }if(results){
                                             let ban = results;
-                                            connection.query(`SELECT raison, moderateur FROM kicks WHERE iddiscord = ${dUser.id}`, function(error, results){
+                                            connection.query(`SELECT raison, moderateur, date FROM kicks WHERE iddiscord = ${dUser.id}`, function(error, results){
                                                 if(error){
                                                     console.log(error);
                                                 }if(results){
@@ -197,7 +203,8 @@ module.exports.run = (client, message, args) => {
                                                                 {name: '-------------------------------------', value: '-------------------------------------', inline: false},
                                                                 {name: "KICK", value: "-------", inline: false},
                                                                 {name: "Raison : ", value: `${data.raison}`, inline: false},
-                                                                {name: "Modérateur : ", value: `${data.moderateur}`, inline: false}
+                                                                {name: "Modérateur : ", value: `${data.moderateur}`, inline: false},
+                                                                {name: "Date de sanction : ", value: `${data.date}`, inline: false}
                                                             )
                                                         }
                                                     })
@@ -212,7 +219,8 @@ module.exports.run = (client, message, args) => {
                                                                     {name: "MUTE", value: "-------", inline: false},
                                                                     {name: "Raison : ", value: `${data.raison}`, inline: false},
                                                                     {name: "Modérateur : ", value: `${data.moderateur}`, inline: false},
-                                                                    {name: "Temps : ", value: `${data.temps} minutes`, inline: false}
+                                                                    {name: "Temps : ", value: `${data.temps} minutes`, inline: false},
+                                                                    {name: "Date de sanction : ", value: `${data.date}`, inline: false}
                                                                 )
                                                             }if(data.valeurtemps == 'd'){
                                                             embed.addFields(
@@ -220,7 +228,8 @@ module.exports.run = (client, message, args) => {
                                                                 {name: "MUTE", value: "-------", inline: false},
                                                                 {name: "Raison : ", value: `${data.raison}`, inline: false},
                                                                 {name: "Modérateur : ", value: `${data.moderateur}`, inline: false},
-                                                                {name: "Temps : ", value: `${data.temps} jours`, inline: false}
+                                                                {name: "Temps : ", value: `${data.temps} jours`, inline: false},
+                                                                {name: "Date de sanction : ", value: `${data.date}`, inline: false}
                                                             )}
                                                         }
                                                     })
@@ -235,7 +244,8 @@ module.exports.run = (client, message, args) => {
                                                                     {name: "BAN", value: "-----", inline: false},
                                                                     {name: "Raison : ", value: `${data.raison}`, inline: false},
                                                                     {name: "Modérateur : ", value: `${data.moderateur}`, inline: false},
-                                                                    {name: "Temps : ", value: `${data.temps} minutes`, inline: false}
+                                                                    {name: "Temps : ", value: `${data.temps} minutes`, inline: false},
+                                                                    {name: "Date de sanction : ", value: `${data.date}`, inline: false}
                                                                 )
                                                             }if(data.valeurtemps == 'd'){
                                                                 embed.addFields(
@@ -243,7 +253,8 @@ module.exports.run = (client, message, args) => {
                                                                     {name: "BAN", value: "-----", inline: false},
                                                                     {name: "Raison : ", value: `${data.raison}`, inline: false},
                                                                     {name: "Modérateur : ", value: `${data.moderateur}`, inline: false},
-                                                                    {name: "Temps : ", value: `${data.temps} jours`, inline: false}
+                                                                    {name: "Temps : ", value: `${data.temps} jours`, inline: false},
+                                                                    {name: "Date de sanction : ", value: `${data.date}`, inline: false}
                                                                 )
                                                             }
                                                         }
@@ -258,6 +269,7 @@ module.exports.run = (client, message, args) => {
                                                                 {name: "WARN", value: "-------", inline: false},
                                                                 {name: `Raison : `, value: `${data.raison}`, inline: false},
                                                                 {name: "Modérateur : ", value: `${data.moderateur}`, inline: false},
+                                                                {name: "Date de sanction : ", value: `${data.date}`, inline: false}
                                                             )
                                                         }
                                                     })
