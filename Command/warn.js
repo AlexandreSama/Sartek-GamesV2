@@ -9,7 +9,8 @@ module.exports.run = (client, message, args) => {
     let dUser = message.mentions.users.first();
     let dUserId = dUser.id;
     let dUserPseudo = dUser.username;
-    let date = moment().format("YYYY-MM-DD HH:MM:SS");
+    let date = moment().format("YYYY:MM:DD HH:mm:ss")
+    console.log(date)
     let dMessage = args.join(" ").slice(22);
     if (dMessage.length < 1) return message.reply('Quel est la raison???')
     dUser.send(`${dUser}, Tu a été warn pour ${dMessage} dans le serveur ${message.guild.name}`)
