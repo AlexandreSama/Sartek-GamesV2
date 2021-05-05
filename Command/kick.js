@@ -55,5 +55,5 @@ module.exports.run = (client, message, args) => {
 }
 
 module.exports.help = {
-    name: 'ban'
+    name: 'kick'
 };
