@@ -155,7 +155,7 @@ module.exports.run = (client, message) => {
                     },
                     {
                         name: "**__td2stats__:**",
-                        value: "Ex : +td2stats @user !",
+                        value: "Ex : +td2stats pseudo uplay , Donne les stats de la personne sur td2!",
                         inline: true
                     },
                   
