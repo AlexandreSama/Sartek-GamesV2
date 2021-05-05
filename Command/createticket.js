@@ -3,6 +3,9 @@ const mysql = require('mysql');
 
 module.exports.run = (client, message) => {
 
+    message.delete();
+
+
     let guildName = message.guild.name;
     let guildNameNoEmoji = guildName.replace(/([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g, '')
     let guildNameNoChar1 = guildNameNoEmoji.replace("'", "");
@@ -18,7 +21,9 @@ module.exports.run = (client, message) => {
       host     : '185.216.25.216',
       user     : 'bojo',
       password : 'bojo',
-      port: 3306
+      port: 3306,
+      supportBigNumbers: true,
+      bigNumberStrings: true
     });
     connection.query(`USE ${guildNameNoSpace}`, function(error, results){
       if(error){
@@ -33,18 +38,17 @@ module.exports.run = (client, message) => {
             let category = results;
             let categoryData = JSON.stringify(category)
             let categoryDataFinal = JSON.parse(categoryData);
-            console.log(categoryDataFinal)
-            console.log(categoryData)
             //On cherche s'il existe déjà un ticket pour cet personne
             let channel = message.guild.channels.cache.find(channel => channel.name === channelName)
             let myRole = message.guild.roles.cache.find(r => r.name === "gestionticket")
+            console.log(categoryDataFinal[0]['idcategoryticket'])
 
             //Si il n'y a pas de ticket pour cet utilisateur
             if(channel === undefined){
                 // on crée un channel a son nom
                 message.guild.channels.create(channelName, {
                     type: 'text',
-                    parent: categoryDataFinal,
+                    parent: categoryDataFinal[0]['idcategoryticket'],
                     permissionOverwrites: [
                         {
                           id: message.guild.id, // shortcut for @everyone role ID

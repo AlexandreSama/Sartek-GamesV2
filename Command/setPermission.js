@@ -4,7 +4,7 @@ module.exports.run = (client, message, args) => {
 
     let guild = message.guild;
     let channelAndCategory = guild.channels.cache.array();
-    let myRole = message.guild.roles.cache.find(role => role.name === "Mute_SartekGames");
+    let myRole = message.guild.roles.cache.find(role => role.name === "PatouuuMute");
     let roleId = myRole.id;
 
     if(message.member.hasPermission("BAN_MEMBERS")){

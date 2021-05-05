@@ -61,25 +61,25 @@ module.exports.run = (client, message) => {
                                                         console.log(error)
                                                     }
                                                     if(results){
-                                                        connection.query(`CREATE TABLE mutes (id INT PRIMARY KEY NOT NULL AUTO_INCREMENT, iddiscord BIGINT(200) NOT NULL, pseudo TEXT NOT NULL, raison TEXT NOT NULL, moderateur TEXT NOT NULL, temps TINYINT NOT NULL, valeurtemps VARCHAR(100) NOT NULL, date DATETIME NOT NULL, is_muted TINYINT NOT NULL DEFAULT 1);`, function(error, results){
+                                                        connection.query(`CREATE TABLE mutes (id INT PRIMARY KEY NOT NULL AUTO_INCREMENT, iddiscord BIGINT(200) NOT NULL, pseudo TEXT NOT NULL, raison TEXT NOT NULL, moderateur TEXT NOT NULL, temps TINYINT NOT NULL, valeurtemps VARCHAR(100) NOT NULL, date TEXT NOT NULL, is_muted TINYINT NOT NULL DEFAULT 1);`, function(error, results){
                                                             if(error){
                                                                 message.author.send("ERROR ! Veuillez contacter un des créateurs du bot")
                                                                 console.log(error)
                                                             }
                                                             if(results){
-                                                              connection.query(`CREATE TABLE bans ( id INT PRIMARY KEY NOT NULL AUTO_INCREMENT, iddiscord BIGINT(200) NOT NULL, pseudo TEXT NOT NULL, raison TEXT NOT NULL, moderateur TEXT NOT NULL, temps TINYINT NOT NULL, valeurtemps VARCHAR(100) NOT NULL, date DATETIME NOT NULL, is_banned TINYINT NOT NULL DEFAULT 1 );`, function(error, results){
+                                                              connection.query(`CREATE TABLE bans ( id INT PRIMARY KEY NOT NULL AUTO_INCREMENT, iddiscord BIGINT(200) NOT NULL, pseudo TEXT NOT NULL, raison TEXT NOT NULL, moderateur TEXT NOT NULL, temps TINYINT NOT NULL, valeurtemps VARCHAR(100) NOT NULL, date TEXT NOT NULL, is_banned TINYINT NOT NULL DEFAULT 1 );`, function(error, results){
                                                                 if(error){
                                                                     message.author.send("ERROR ! Veuillez contacter un des créateurs du bot")
                                                                     console.log(error)
                                                                 }
                                                                 if(results){
-                                                                  connection.query(`CREATE TABLE kicks ( id INT PRIMARY KEY NOT NULL AUTO_INCREMENT, iddiscord BIGINT(200) NOT NULL, pseudo TEXT NOT NULL, raison TEXT NOT NULL, moderateur TEXT NOT NULL, date DATETIME NOT NULL );`, function(error, results){
+                                                                  connection.query(`CREATE TABLE kicks ( id INT PRIMARY KEY NOT NULL AUTO_INCREMENT, iddiscord BIGINT(200) NOT NULL, pseudo TEXT NOT NULL, raison TEXT NOT NULL, moderateur TEXT NOT NULL, date TEXT NOT NULL );`, function(error, results){
                                                                     if(error){
                                                                         message.author.send("ERROR ! Veuillez contacter un des créateurs du bot")
                                                                         console.log(error)
                                                                     }
                                                                     if(results){
-                                                                      connection.query(`CREATE TABLE warns ( id INT PRIMARY KEY NOT NULL AUTO_INCREMENT, iddiscord BIGINT(200) NOT NULL, pseudo TEXT NOT NULL, raison TEXT NOT NULL, moderateur TEXT NOT NULL, date DATETIME NOT NULL );`, function(error, results){
+                                                                      connection.query(`CREATE TABLE warns ( id INT PRIMARY KEY NOT NULL AUTO_INCREMENT, iddiscord BIGINT(200) NOT NULL, pseudo TEXT NOT NULL, raison TEXT NOT NULL, moderateur TEXT NOT NULL, date TEXT NOT NULL );`, function(error, results){
                                                                         if(error){
                                                                             message.author.send("ERROR ! Veuillez contacter un des créateurs du bot")
                                                                             console.log(error)
