@@ -7,9 +7,6 @@ module.exports.run = (client, message, args) => {
     message.delete();
     
     let dUser = message.mentions.users.first();
-    let member = message.guild.members.resolve(dUser);
-    let dUserId = dUser.id;
-    let dUserPseudo = dUser.username;
 
     let time = args[1]
     let times = time.slice(0, -1)
@@ -17,7 +14,7 @@ module.exports.run = (client, message, args) => {
     var nowDate = new Date();
     let date = moment(nowDate).format("YYYY-MM-DD HH:mm:ss");
 
-    let reason = args[2]
+    let reason = args.join(" ").slice(22);
 
     let guildName = message.guild.name;
     let guildNameNoSpace = guildName.replace(/\s/g, '')
@@ -42,37 +39,69 @@ module.exports.run = (client, message, args) => {
                     console.log(error)
                 }
                 if(results){
-                    connection.query(`INSERT INTO bans (iddiscord, pseudo, raison, moderateur, temps, valeurtemps, date) VALUES ("${dUserId}", "${dUserPseudo}", "${reason}", "${message.author.username}", "${times}", "${number}", "${date}")`, function(error, results){
-                        if(error){
-                            console.log(error)
-                        }if(results){
-                            if(number === "m"){
-                                connection.query(`CREATE EVENT IF NOT EXISTS ${dUserId}ban ON SCHEDULE AT CURRENT_TIMESTAMP + INTERVAL ${times} MINUTE DO UPDATE ban SET is_banned = '0' WHERE iddiscord = ${dUserId};`, function(error, results){
-                                    if(error){
-                                        console.log(error)
-                                    }if (results) {
-                                        member.ban({
-                                            reason: `${reason}`
-                                        })
-                                        message.channel.send(`${dUser} a été ban pour **${reason}** pendant ${time}`);
-                                        connection.destroy();
-                                    }
-                                })
-                            }else if(number === "d"){
-                                connection.query(`CREATE EVENT IF NOT EXISTS ${dUserId}ban ON SCHEDULE AT CURRENT_TIMESTAMP + INTERVAL ${times} DAY DO UPDATE ban SET is_banned = '0' WHERE iddiscord = ${dUserId};`, function(error, results){
-                                    if(error){
-                                        console.log(error)
-                                    }if (results) {
-                                        member.ban({
-                                            reason: `${reason}`
-                                        })
-                                        message.channel.send(`${dUser} a été ban pour **${reason}** pendant ${time}`);
-                                        connection.destroy();
-                                    }
-                                })
+                    if(!dUser){
+                        connection.query(`INSERT INTO bans (iddiscord, pseudo, raison, moderateur, temps, valeurtemps, date) VALUES ("${args[0]}", "${args[0]}", "${reason}", "${message.author.username}", "${times}", "${number}", "${date}")`, function(error, results){
+                            if(error){
+                                console.log(error)
+                            }if(results){
+                                if(number === "m"){
+                                    connection.query(`CREATE EVENT IF NOT EXISTS ${args[0]}ban ON SCHEDULE AT CURRENT_TIMESTAMP + INTERVAL ${times} MINUTE DO UPDATE ban SET is_banned = '0' WHERE iddiscord = ${args[0]};`, function(error, results){
+                                        if(error){
+                                            console.log(error)
+                                        }if (results) {
+                                            message.guild.members.ban(args[0], {
+                                                reason: `${reason}`
+                                            })
+                                            message.channel.send(`${args[0]} a été ban pour **${reason}** pendant ${time}`);
+                                            connection.destroy();
+                                        }
+                                    })
+                                }else if(number === "d"){
+                                    connection.query(`CREATE EVENT IF NOT EXISTS ${args[0]}ban ON SCHEDULE AT CURRENT_TIMESTAMP + INTERVAL ${times} DAY DO UPDATE ban SET is_banned = '0' WHERE iddiscord = ${args[0]};`, function(error, results){
+                                        if(error){
+                                            console.log(error)
+                                        }if (results) {
+                                            message.guild.members.ban(args[0], {
+                                                reason: `${reason}`
+                                            })
+                                            message.channel.send(`${args[0]} a été ban pour **${reason}** pendant ${time}`);
+                                            connection.destroy();
+                                        }
+                                    })
+                                }
                             }
-                        }
-                    })
+                        })
+                    }else{
+                        let dUserId = dUser.id;
+                        let dUserPseudo = dUser.username;
+                        connection.query(`INSERT INTO bans (iddiscord, pseudo, raison, moderateur, temps, valeurtemps, date) VALUES ("${dUserId}", "${dUserPseudo}", "${reason}", "${message.author.username}", "${times}", "${number}", "${date}")`, function(error, results){
+                            if(error){
+                                console.log(error)
+                            }if(results){
+                                if(number === "m"){
+                                    connection.query(`CREATE EVENT IF NOT EXISTS ${dUserId}ban ON SCHEDULE AT CURRENT_TIMESTAMP + INTERVAL ${times} MINUTE DO UPDATE ban SET is_banned = '0' WHERE iddiscord = ${dUserId};`, function(error, results){
+                                        if(error){
+                                            console.log(error)
+                                        }if (results) {
+                                            
+                                        }
+                                    })
+                                }else if(number === "d"){
+                                    connection.query(`CREATE EVENT IF NOT EXISTS ${dUserId}ban ON SCHEDULE AT CURRENT_TIMESTAMP + INTERVAL ${times} DAY DO UPDATE ban SET is_banned = '0' WHERE iddiscord = ${dUserId};`, function(error, results){
+                                        if(error){
+                                            console.log(error)
+                                        }if (results) {
+                                            member.ban({
+                                                reason: `${reason}`
+                                            })
+                                            message.channel.send(`${dUser} a été ban pour **${reason}** pendant ${time}`);
+                                            connection.destroy();
+                                        }
+                                    })
+                                }
+                            }
+                        })
+                    }                    
                 }
             })
         }
