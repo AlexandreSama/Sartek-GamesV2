@@ -99,7 +99,7 @@ client.on('guildMemberAdd', async (member) => {
 
   let guildName = member.guild.name;
   let guildCount = member.guild.memberCount;
-  let memberAvatar = member.user.displayAvatarURL({dynamic : true});
+  let memberAvatar = member.user.displayAvatarURL({dynamic : true, format: 'jpg'});
 
   let image = await welcomeCanvas
   .setUsername(member.user.username)
