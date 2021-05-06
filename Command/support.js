@@ -86,7 +86,7 @@ module.exports.run = (client, message) => {
                 const fourthImage = new Discord.MessageAttachment("utils/img/copier_lid.png")
                 message.author.send("Allez dans vos paramètres", firstImage)
                 message.author.send("Puis allez dans Avancés", secondImage)
-                message.author.send("Activer le Mode Développeur en appuyant sur le bouton rouge", thirdImage)
+                message.author.send("Activer le Mode Développeur en appuyant sur le bouton gris", thirdImage)
                 message.author.send("Allez sur un de vos serveurs, clic-droit sur un de vos utilisateur (ou maintenez appuyé sur téléphone) et cliquez sur 'Copier L\'Identifiant'", fourthImage)
             }else if (firstResponse == "6") {
                 message.author.send("Très bien ! Je contacte les Créateurs de ce pas ! Merci de votre confiance !")
