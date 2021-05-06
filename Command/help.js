@@ -188,6 +188,11 @@ module.exports.run = (client, message) => {
                         value: "Ex : +botinfos, Donne les stats du bot",
                         inline: true
                     },
+                    {
+                        name: "**__support__:**",
+                        value: "Ex : +support , tout est dit dans le nom.",
+                        inline: true
+                    },
                    
                 ]
             }),
