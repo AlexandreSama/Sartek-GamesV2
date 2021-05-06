@@ -134,7 +134,7 @@ module.exports.run = (client, message) => {
                 })
             })
     }else{
-        message.channel.send("Tu n'est pas le propriétaire de ce serveur, tu ne peut donc exécuter cet commande");
+        message.channel.send("Tu n'est pas propriétaire ou administrateur de ce serveur, tu ne peut donc exécuter cet commande");
     }
 }
 
