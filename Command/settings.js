@@ -20,9 +20,7 @@ module.exports.run = (client, message) => {
 
     message.delete();
 
-    if(message.guild.ownerID !== message.author.id || !message.member.hasPermission("ADMINISTRATOR")){
-        message.channel.send("Tu n'est pas le propriétaire de ce serveur, tu ne peut donc exécuter cet commande")
-    }else{
+    if(message.member.hasPermission("ADMINISTRATOR") || message.guild.ownerID == message.author.id){
 
         message.guild.roles.create({
             data : {
@@ -135,8 +133,10 @@ module.exports.run = (client, message) => {
                     })
                 })
             })
-        }
+    }else{
+        message.channel.send("Tu n'est pas le propriétaire de ce serveur, tu ne peut donc exécuter cet commande");
     }
+}
 
 module.exports.help = {
     name: 'settings'
