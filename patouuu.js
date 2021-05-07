@@ -11,6 +11,35 @@ const mysql = require('mysql');
 const config = require('./config.json');
 // const io = require('@pm2/io')
 
+// Système de give
+
+// Extends the GiveawaysManager class and update the refreshStorage method
+const { GiveawaysManager } = require('discord-giveaways');
+const GiveawayManagerWithShardSupport = class extends GiveawaysManager {
+    // Refresh storage method is called when the database is updated on one of the shards
+    async refreshStorage() {
+        // This should make all shard refreshing their cache with the updated database
+        return client.shard.broadcastEval(() => this.giveawaysManager.getAllGiveaways());
+    }
+};
+
+// Create a new instance of your new class
+const manager = new GiveawayManagerWithShardSupport(client, {
+  storage: './storage.json',
+  updateCountdownEvery: 10000,
+  default: {
+      botsCanWin: false,
+      exemptPermissions: ['MANAGE_MESSAGES', 'ADMINISTRATOR'],
+      embedColor: '#FF0000',
+      embedColorEnd: '#000000',
+      reaction: '🎉'
+  }
+});
+// We now have a giveawaysManager property to access the manager everywhere!
+client.giveawaysManager = manager;
+
+// status du bot
+
 client.on('ready', async message => {
   console.log(`Logged in as ${client.user.tag}!`);
   let nameActivitys = ['https://discord.gg/YmRcRgEMw9', 'Chaine YTB de mon Créateur : PatouTv•', '+help pour mes commandes']
