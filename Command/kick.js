@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 const moment = require('moment');
 const mysql = require('mysql');
+const config = require('./config.json');
 
 module.exports.run = (client, message, args) => {
 
