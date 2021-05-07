@@ -1,3 +1,4 @@
 /node_modules/*
 !/node_modules/discord-minigames
 json.sqlite
+config.json

@@ -18,9 +18,9 @@ module.exports.run = (client, message) => {
     var channelName = `ticket-de-` + user.username.toLowerCase();
     //On indique que le nom de la catégorie pour les tickets est "tickets"
     var connection = mysql.createConnection({
-      host     : '185.216.25.216',
-      user     : 'bojo',
-      password : 'bojo',
+      host     : config.bdhost,
+      user     : config.bdusername,
+      password : config.bdpassword,
       port: 3306,
       supportBigNumbers: true,
       bigNumberStrings: true

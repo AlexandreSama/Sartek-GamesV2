@@ -27,9 +27,9 @@ module.exports.run = (client, message, args) => {
     let guildNameNoSpace = guildName.replace(/\s/g, '')
 
     var connection = mysql.createConnection({
-        host     : '185.216.25.216',
-        user     : 'bojo',
-        password : 'bojo',
+        host     : config.bdhost,
+        user     : config.bdusername,
+        password : config.bdpassword,
         port: 3306
     });
 

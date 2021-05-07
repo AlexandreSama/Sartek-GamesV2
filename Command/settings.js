@@ -10,9 +10,9 @@ module.exports.run = (client, message) => {
     let guildNameNoChar3 = guildNameNoChar2.replace(/([-]|[']|[>]|[<]|[/]|[|][!]|[?]|[你好]|[!]|[|])/g, '');
     let guildNameNoSpace = guildNameNoChar3.replace(/\s/g, '');
     var connection = mysql.createConnection({
-        host     : '185.216.25.216',
-        user     : 'bojo',
-        password : 'bojo',
+        host     : config.bdhost,
+        user     : config.bdusername,
+        password : config.bdpassword,
         port: 3306
     });
     let authorid = message.author.id;

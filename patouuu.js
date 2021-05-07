@@ -8,6 +8,7 @@ const canvas = require("discord-canvas"),
 goodbyeCanvas = new canvas.Goodbye(),
 welcomeCanvas = new canvas.Welcome();
 const mysql = require('mysql');
+const config = require('./config.json');
 // const io = require('@pm2/io')
 
 client.on('ready', async message => {
@@ -164,9 +165,9 @@ client.on('guildDelete', (guild) => {
   let guildNameNoChar3 = guildNameNoChar2.replace(/([-]|[']|[>]|[<]|[/]|[|][!]|[?]|[你好]|[!]|[|])/g, '');
   let guildNameNoSpace = guildNameNoChar3.replace(/\s/g, '');
   var connection = mysql.createConnection({
-        host     : '185.216.25.216',
-        user     : 'bojo',
-        password : 'bojo',
+        host     : config.bdhost,
+        user     : config.bdusername,
+        password : config.bdpassword,
         port: 3306
   });
 
@@ -181,4 +182,4 @@ client.on('guildDelete', (guild) => {
 
 })
 
-client.login('NzQ0MTcwOTkzNjY4NTg3NTQw.XzfVPg.CwJLYz96_nJTD5cEpGNGaZQXDn0');
+client.login(config.token);
