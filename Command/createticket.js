@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 const mysql = require('mysql');
-const config = require('./config.json');
+const config = require('../config.json');
 
 module.exports.run = (client, message) => {
 
