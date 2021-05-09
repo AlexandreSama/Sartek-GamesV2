@@ -139,11 +139,11 @@ module.exports.run = (client, message, args) => {
                                                             console.log("nop")
                                                         }else{
                                                             embed.addFields(
-                                                                {name: '-------------------------------------', value: '-------------------------------------', inline: false},
-                                                                {name: "WARN", value: "-------", inline: false},
+                                                                {name: "Type", value: "Warn", inline: false},
                                                                 {name: `Raison : `, value: `${data.raison}`, inline: false},
-                                                                {name: "Modérateur : ", value: `${data.moderateur}`, inline: false},
-                                                                {name: "Date de sanction : ", value: `${data.date}`, inline: false}
+                                                                {name: "Modérateur : ", value: `${data.moderateur}`, inline: true},
+                                                                {name: "Date de sanction : ", value: `${data.date}`, inline: false},
+                                                                {name: "\u200b", value: "\u200b", inline: false}
                                                             )
                                                         }
                                                     })
