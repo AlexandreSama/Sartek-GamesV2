@@ -158,6 +158,11 @@ module.exports.run = (client, message) => {
                         value: "Ex : +td2stats pseudo uplay , Donne les stats de la personne sur td2!",
                         inline: true
                     },
+                    {
+                        name: "**__giveaway__:**",
+                        value: "Ex : +giveawaystart temps | nombre de participant | cadeau , (giveawaystart 2000 1 GTA) Ps : tout est en ms (millisecondes).",
+                        inline: true
+                    },
                   
                 ]
             }),
