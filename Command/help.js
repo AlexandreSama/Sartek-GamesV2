@@ -203,6 +203,12 @@ module.exports.run = (client, message) => {
                         value: "Ex : +convert , (+convert 2h , mais il prend aussi d,h,y,s,m).",
                         inline: true
                     },
+                    {
+                        name: "**__suggest__:**",
+                        value: "Ex : +suggest {votre message} , (+suggest Ajouter un rôle Papa).",
+                        inline: true
+                    },
+                   
                    
                 ]
             }),
