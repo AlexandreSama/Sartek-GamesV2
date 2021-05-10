@@ -198,6 +198,11 @@ module.exports.run = (client, message) => {
                         value: "Ex : +support , tout est dit dans le nom.",
                         inline: true
                     },
+                    {
+                        name: "**__convert__:**",
+                        value: "Ex : +convert , (+convert 2h , mais il prend aussi d,h,y,s,m).",
+                        inline: true
+                    },
                    
                 ]
             }),
