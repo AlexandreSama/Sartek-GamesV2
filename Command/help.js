@@ -114,7 +114,13 @@ module.exports.run = (client, message) => {
                         value:"+mmorpg @user",
                         inline:true,
                     },
+                    {
+                        name: "**__rps__**" ,
+                        value:"+rps",
+                        inline:true,
+                    },
                 ]
+                
             }),
             reactions: {
                 '⬅️': 'cmdhelp1',
