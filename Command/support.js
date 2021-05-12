@@ -76,7 +76,7 @@ module.exports.run = (client, message) => {
                     })
                 })
             }else if (firstResponse == "3") {
-                message.author.send("Voici le lien du Discord des Créateurs : https://discord.gg/YmRcRgEMw9")
+                message.author.send("Voici le lien du Discord des Créateurs : https://discord.gg/BpPWaQq")
             }else if (firstResponse == "4") {
                 message.author.send("Le site est actuellement en Maintenance !")
             }else if (firstResponse == "5") {
