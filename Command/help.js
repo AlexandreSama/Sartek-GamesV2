@@ -114,7 +114,13 @@ module.exports.run = (client, message) => {
                         value:"+mmorpg @user",
                         inline:true,
                     },
+                    {
+                        name: "**__rps__**" ,
+                        value:"+rps",
+                        inline:true,
+                    },
                 ]
+                
             }),
             reactions: {
                 '⬅️': 'cmdhelp1',
@@ -161,6 +167,21 @@ module.exports.run = (client, message) => {
                     {
                         name: "**__giveaway__:**",
                         value: "Ex : +giveawaystart temps | nombre de participant | cadeau , (giveawaystart 2000 1 GTA) Ps : tout est en ms (millisecondes).",
+                        inline: true
+                    },
+                    {
+                        name: "**__punch__:**",
+                        value: "Ex : +punch @user ",
+                        inline: true
+                    },
+                    {
+                        name: "**__hug__:**",
+                        value: "Ex : +hug @user ",
+                        inline: true
+                    },
+                    {
+                        name: "**__meurtre__:**",
+                        value: "Ex : +meurtre @user ",
                         inline: true
                     },
                   
