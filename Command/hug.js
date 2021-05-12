@@ -1,20 +1,39 @@
-exports.run = (client, message, args) => { //lets started your commands script
-    let user = message.mentions.users.first(); //lets check that which mentions first well not be as smacked
-    let reason = args.slice(0).join(' ');
-    if (reason.length < 1) return message.reply('You cant smack thin air, pick someone fool.'); //lets make a reply if no one mentions
-    if(message.mentions.users.first().id === "SetYourID") return message.reply('you cant hurt them , he well kill you.:facepalm:'); // lets make a some fun reply
-    message.channel.send(`${message.author.username} smacked ${message.mentions.users.first().username}.`) //lets make a some fun reply
-    }
-    
-  exports.conf = {
-    enabled: true,
-    guildOnly: false,
-    aliases: [],
-    permLevel: 0
-  };
+const Discord = require("discord.js");
+
+module.exports.run = async (client, message, args, log) => {
   
-  exports.help = { //lets load your commands
-    name: 'smack', // commands name
-    description: 'Smacks a user.', //commands description
-    usage: 'smack <user>' //how they work
-  };
+  if(message.mentions.members.size == 1) {
+            let member = message.mentions.members.first()
+          const rando_imgs = [
+            
+            'https://media.giphy.com/media/gHKnFHkGPUmG4GTzUt/giphy.gif',
+            'https://media.giphy.com/media/KG5oq4vesf9r8JbBEN/giphy.gif',
+            'https://media.giphy.com/media/llmZp6fCVb4ju/giphy.gif',
+            'https://media.giphy.com/media/EvYHHSntaIl5m/giphy.gif',
+            'https://media.giphy.com/media/VduFvPwm3gfGO8duNN/giphy.gif',
+            'https://media.giphy.com/media/4No2q4ROPXO7T6NWhS/giphy.gif',
+            'https://media.giphy.com/media/fyx8vjZc2ZvoY/giphy.gif',
+            'https://media.giphy.com/media/W4NKtcOqK2kYo/giphy.gif',
+            'https://media.giphy.com/media/7eQ8Ky3dAsRYA/giphy.gif',
+            'https://media.giphy.com/media/VGACXbkf0AeGs/giphy.gif',
+            'https://media.giphy.com/media/3orif2vpZbXi8P0fPW/giphy.gif',
+            
+        ]
+
+        let gif = rando_imgs[Math.floor(Math.random() * rando_imgs.length)]
+        let lien =  new Discord.MessageEmbed()
+        .setColor('#6100FF')
+        .setTitle(message.author.username + "   fait un câlin à   " + member.user.username)
+        .setAuthor(message.author.username, message.author.displayAvatarURL({dynamic : true}))
+        .setImage(gif)
+        .setTimestamp() 
+        .setFooter(`Commande by Phénix Team's`)
+        
+        message.channel.send(lien)
+        
+        }
+
+}
+module.exports.help = {
+  name:"hug"
+}

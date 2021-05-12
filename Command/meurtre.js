@@ -6,16 +6,17 @@ module.exports.run = async (client, message, args, log) => {
             let member = message.mentions.members.first()
           const rando_imgs = [
             
-            'https://tenor.com/view/axe-axe-murderer-murder-gif-10632977',
-            'https://tenor.com/view/yeen-crime-scene-pig-gif-17777958',
-            'https://tenor.com/view/murder-andy-samberg-happy-dance-will-forte-gif-4728975',
+            'https://media.giphy.com/media/xjDXLf8Ad1ZUvmTyqW/giphy.gif',
+            'https://media.giphy.com/media/p3ZQAjCrSHIdT12UJ7/giphy.gif',
+            'https://media.giphy.com/media/pZc5LYqRzQ8yQ/giphy.gif',
+            'https://media.giphy.com/media/1qXKyR92gHKZ0G1WdQ/giphy.gif',
             
         ]
 
         let gif = rando_imgs[Math.floor(Math.random() * rando_imgs.length)]
         let lien =  new Discord.MessageEmbed()
         .setColor('#6100FF')
-        .setTitle(message.author.username + "a tuer" + member.user.username)
+        .setTitle(message.author.username + "   a tuer   " + member.user.username)
         .setAuthor(message.author.username, message.author.displayAvatarURL({dynamic : true}))
         .setImage(gif)
         .setTimestamp() 

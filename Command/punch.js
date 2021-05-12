@@ -1,24 +1,38 @@
-exports.run = (client, message) => { //lets started your commands script
-    var owner = "YourID" //set your id here to never get punched
-    let user = message.mentions.users.first();
-    if (message.mentions.users.size < 1) return message.reply('wait bro , You must mention someone to punch them.') // if no one is mentioned , lets reply as
-          if(user.id === owner){
-            return message.reply("You can't hurt him you pleblord."); //if they mentioned you and you owner , lets reply as
-    }else{
-            message.reply('You have punched <@' + user.id + '>') // if you mentioned , lets reply as
-    }
-  };
+const Discord = require("discord.js");
+
+module.exports.run = async (client, message, args, log) => {
   
-  exports.conf = {
-    enabled: true,
-    guildOnly: false,
-    aliases: [],
-    permLevel: 0
-  };
-  
-  exports.help = { //lets load your commands 
-    name: 'punch', //commands name
-    description: 'Punches a user.', //commands description
-    usage: 'punch <user>', //how they work
-    example: 'punch <@Otaku#---->' //lets show a some example about how they work
-  };
+  if(message.mentions.members.size == 1) {
+            let member = message.mentions.members.first()
+          const rando_imgs = [
+            
+            'https://media.giphy.com/media/l1J3G5lf06vi58EIE/giphy.gif',
+            'https://media.giphy.com/media/xT0BKiwgIPGShJNi0g/giphy.gif',
+            'https://media.giphy.com/media/3o6Zt2wf1yKWucbkqY/giphy.gif',
+            'https://media.giphy.com/media/rcRwO8GMSfNV6/giphy.gif',
+            'https://media.giphy.com/media/eiw5mph3qBvdiiHxMa/giphy.gif',
+            'https://media.giphy.com/media/Z5zuypybI5dYc/giphy.gif',
+            'https://media.giphy.com/media/GV53c1VNt0x4k/giphy.gif',
+            'https://media.giphy.com/media/VM5TVKbYSExcQ/giphy.gif',
+            'https://media.giphy.com/media/3M5J7yedLPCSs/giphy.gif',
+            'https://media.giphy.com/media/xTiTnwsEIzfAUoD5FS/giphy.gif',
+           
+        ]
+
+        let gif = rando_imgs[Math.floor(Math.random() * rando_imgs.length)]
+        let lien =  new Discord.MessageEmbed()
+        .setColor('#6100FF')
+        .setTitle(message.author.username + "   frappe   " + member.user.username)
+        .setAuthor(message.author.username, message.author.displayAvatarURL({dynamic : true}))
+        .setImage(gif)
+        .setTimestamp() 
+        .setFooter(`Commande by Phénix Team's`)
+        
+        message.channel.send(lien)
+        
+        }
+
+}
+module.exports.help = {
+  name:"punch"
+}
