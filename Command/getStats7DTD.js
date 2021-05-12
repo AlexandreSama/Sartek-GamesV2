@@ -6,13 +6,13 @@ module.exports.run = (client, message, args) => {
     message.delete()
 
 	const sdtdServer = {
-        ip: "192.168.1.100",
+        ip: "193.168.146.71",
         port: "8082",
-        adminUser: "admin",
-        adminToken: "secret"
+        adminUser: "alexandre",
+        adminToken: "alexandre123Sa"
     }
 
-    let stats = SdtdApi.getStats(sdtdServer);
+    let stats = SdtdApi.getLog(sdtdServer);
     console.log(stats)
 } 
 
