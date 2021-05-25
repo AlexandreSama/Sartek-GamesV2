@@ -166,7 +166,7 @@ module.exports.run = (client, message) => {
                     },
                     {
                         name: "**__giveaway__:**",
-                        value: "Ex : +giveawaystart temps | nombre de participant | cadeau , (giveawaystart 2000 1 GTA) Ps : tout est en ms (millisecondes).",
+                        value: "Ex : +startgiveaway temps | nombre de participant | cadeau , (startgiveaway 2000 1 GTA) Ps : tout est en ms (millisecondes).",
                         inline: true
                     },
                     {
