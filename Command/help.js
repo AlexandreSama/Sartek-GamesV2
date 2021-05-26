@@ -184,6 +184,11 @@ module.exports.run = (client, message) => {
                         value: "Ex : +meurtre @user ",
                         inline: true
                     },
+                    {
+                        name: "**__manga__:**",
+                        value: "Ex : +manga naruto (remplacer naruto par le nom que vous souhaitez)",
+                        inline: true
+                    },
                   
                 ]
             }),
