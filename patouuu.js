@@ -12,6 +12,15 @@ const config = require('./config.json');
 
 // Système de give
 
+var connection = mysql.createConnection({
+        host     : config.bdhost,
+        user     : config.bdusername,
+        password : config.bdpassword,
+        port: 3306,
+        supportBigNumbers: true,
+        bigNumberStrings: true
+});
+
 // Extends the GiveawaysManager class and update the refreshStorage method
 const { GiveawaysManager } = require('discord-giveaways');
 const GiveawayManagerWithShardSupport = class extends GiveawaysManager {
@@ -98,6 +107,8 @@ client.on('message', async (message) => {
   const messageArray = message.content.split(/\s+/g);
   const command = messageArray[0];
   const args = messageArray.slice(1);
+  let guildName = message.guild.name;
+  let guildNameNoSpace = guildName.replace(/\s/g, '')
 
   if (!command.startsWith(prefix)) return;
 
@@ -161,13 +172,13 @@ client.on('guildMemberRemove', async member => {
 
   let attachment = new Discord.MessageAttachment(image.toBuffer(), "goodbye-image.png");
   member.guild.systemChannel.send(attachment);
-})
+});
 
 client.on('guildCreate', (guild) => {
 
   guild.owner.send("Bonjour, merci de m'avoir ajouté sur votre serveur ! Avant de pouvoir pleinement m'utiliser, voici quelques étapes : \n - Veuillez crée une catégorie 'tickets' afin que vos utilisateurs puissent créer des tickets  \n - Veuillez crée un channel pour les logs du bot \n -Veuillez crée un channel pour les présentations \n -Pour finir, veuillez faire la commande : +settings afin de me paramètrer \n -Pour tout support merci de rejoindre ce discord : https://discord.com/invite/YmRcRgEMw9")
 
-})
+});
 
 client.on('guildDelete', (guild) => {
   guild.owner.send("J'espère avoir été utile a vos côtés, bonne continuation et bonne chance a vous !");
@@ -194,6 +205,108 @@ client.on('guildDelete', (guild) => {
     }
   })
 
-})
+});
+
+client.on('messageDelete', async message => {
+
+  let guildName = message.guild.name;
+  let guildNameNoSpace = guildName.replace(/\s/g, '')
+
+  const fetchedLogs = await message.guild.fetchAuditLogs({
+    limit: 1,
+    type: "MESSAGE_DELETE"
+  })
+
+  const deletionLog = fetchedLogs.entries.first()
+
+  if(!deletionLog) return console.log(`Un message de ${message.author.username} a été supprimé mais aucun log n'a été trouvé `)
+
+  const { executor, target } = deletionLog;
+
+  if(target.id === message.author.id){
+
+    connection.query(`USE ${guildNameNoSpace}`, function(error, results){
+      if(error){
+        console.log(error)
+      }else{
+        connection.query(`SELECT idchannellogs FROM settings`, function(error, results){
+          if(error){
+            console.log(error)
+          }else{
+            var kickData = JSON.stringify(results)
+            var kickFinalData = JSON.parse(kickData)
+            let channel = message.guild.channels.cache.get(kickFinalData[0]['idchannellogs'])
+            channel.send(`Un message de <@${message.author.id}> a été supprimé par ${executor.username} ! Voici ce qu'il contenait : **` + message.content + "**")
+          }
+        })
+      }
+    })
+
+  }else{
+
+    connection.query(`USE ${guildNameNoSpace}`, function(error, results){
+      if(error){
+        console.log(error)
+      }else{
+        connection.query(`SELECT idchannellogs FROM settings`, function(error, results){
+          if(error){
+            console.log(error)
+          }else{
+            var kickData = JSON.stringify(results)
+            var kickFinalData = JSON.parse(kickData)
+            let channel = message.guild.channels.cache.get(kickFinalData[0]['idchannellogs'])
+            channel.send(`Un message de <@${message.author.id}> a été supprimé mais on ne sait pas par qui ! Voici ce qu'il contenait : **` + message.content + "**")
+          }
+        })
+      }
+    })
+
+  }
+});
+
+client.on('messageUpdate', (oldMessage, newMessage) =>{
+  let guildName = oldMessage.guild.name;
+  let guildNameNoSpace = guildName.replace(/\s/g, '')
+
+  connection.query(`USE ${guildNameNoSpace}`, function(error, results){
+    if(error){
+      console.log(error)
+    }else{
+      connection.query(`SELECT idchannellogs FROM settings`, function(error, results){
+        if(error){
+          console.log(error)
+        }else{
+          var kickData = JSON.stringify(results)
+          var kickFinalData = JSON.parse(kickData)
+          let channel = oldMessage.guild.channels.cache.get(kickFinalData[0]['idchannellogs'])
+          channel.send(`Un message de <@${oldMessage.author.id}> a été modifié ! Voici ce qu'il contenait : **` + oldMessage.content + "**" + " Et ce qu'il contient désormais : **" + newMessage.content + "**")
+        }
+      })
+    }
+  })
+});
+
+client.on('voiceStateUpdate', (oldState, newState) => {
+  let guildName = oldState.guild.name;
+  let guildNameNoSpace = guildName.replace(/\s/g, '')
+  
+  connection.query(`USE ${guildNameNoSpace}`, function(error, results){
+    if(error){
+      console.log(error)
+    }else{
+      connection.query(`SELECT idchannellogs FROM settings`, function(error, results){
+        if(error){
+          console.log(error)
+        }else{
+          console.log(newState)
+          var kickData = JSON.stringify(results)
+          var kickFinalData = JSON.parse(kickData)
+          let channel = oldMessage.guild.channels.cache.get(kickFinalData[0]['idchannellogs'])
+          // channel.send(`Un message de <@${oldMessage.author.id}> a été modifié ! Voici ce qu'il contenait : **` + oldMessage.content + "**" + " Et ce qu'il contient désormais : **" + newMessage.content + "**")
+        }
+      })
+    }
+  })
+});
 
 client.login(config.token);
