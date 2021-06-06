@@ -236,7 +236,7 @@ client.on('messageDelete', async message => {
             var kickData = JSON.stringify(results)
             var kickFinalData = JSON.parse(kickData)
             let channel = message.guild.channels.cache.get(kickFinalData[0]['idchannellogs'])
-            channel.send(`Un message de <@${message.author.id}> a été supprimé par ${executor.username} ! Voici ce qu'il contenait : **` + message.content + "**")
+            channel.send(`Un message de <@${message.author.username}> a été supprimé par ${executor.username} dans <#${message.channel.id}> ! Voici ce qu'il contenait : **` + message.content + "**")
           }
         })
       }
