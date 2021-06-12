@@ -50,7 +50,7 @@ client.giveawaysManager = manager;
 
 client.on('ready', async message => {
   console.log(`Logged in as ${client.user.tag}!`);
-  let nameActivitys = ['https://discord.gg/YmRcRgEMw9', 'Chaine YTB de mon Créateur : PatouTv•', '+help pour mes commandes']
+  let nameActivitys = ['discord.gg/phenixmg', 'Chaine YTB de mon Créateur : PatouTv•', '+help pour mes commandes']
   let random = nameActivitys[Math.floor((Math.random()*nameActivitys.length))]
   client.user.setActivity({name: random, type: "PLAYING"})
 
@@ -236,7 +236,14 @@ client.on('messageDelete', async message => {
             var kickData = JSON.stringify(results)
             var kickFinalData = JSON.parse(kickData)
             let channel = message.guild.channels.cache.get(kickFinalData[0]['idchannellogs'])
-            channel.send(`Un message de <@${message.author.username}> a été supprimé par ${executor.username} dans <#${message.channel.id}> ! Voici ce qu'il contenait : **` + message.content + "**")
+            let deleted =  new Discord.MessageEmbed()
+            .setColor('#6100FF')
+            .setTitle(`Le message a été envoyer par <@${message.author.username}> , et supprimer par ${executor.username} dans <#${message.channel.id}>   `)
+            .setAuthor(message.author.username, message.author.displayAvatarURL({dynamic : true}))
+            .setDescription(message.content)
+            .setTimestamp() 
+            .setFooter(`Commande by Phénix Team's`)
+            channel.send(deleted)
           }
         })
       }
@@ -255,7 +262,15 @@ client.on('messageDelete', async message => {
             var kickData = JSON.stringify(results)
             var kickFinalData = JSON.parse(kickData)
             let channel = message.guild.channels.cache.get(kickFinalData[0]['idchannellogs'])
-            channel.send(`Un message de <@${message.author.id}> a été supprimé mais on ne sait pas par qui ! Voici ce qu'il contenait : **` + message.content + "**")
+            let deleted =  new Discord.MessageEmbed()
+            .setColor('#6100FF')
+            .setTitle(`Le message a été envoyer par <@${message.author.username}> , et supprimer dans le channel <#${message.channel.id}>`)
+            .setAuthor(message.author.username, message.author.displayAvatarURL({dynamic : true}))
+            .addField('message supprimées', message.content)
+            
+            .setTimestamp() 
+            .setFooter(`Commande by Phénix Team's`)
+            channel.send(deleted)
           }
         })
       }
