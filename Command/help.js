@@ -234,6 +234,11 @@ module.exports.run = (client, message) => {
                         value: "Ex : +suggest {votre message} , (+suggest Ajouter un rôle Papa).",
                         inline: true
                     },
+                    {
+                        name: "**__discord__:**",
+                        value: "Ex : +discord , donne un lien d'invitation pour le discord officiel",
+                        inline: true
+                    },
                    
                    
                 ]
