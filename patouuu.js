@@ -176,7 +176,7 @@ client.on('guildMemberRemove', async member => {
 
 client.on('guildCreate', (guild) => {
 
-  guild.owner.send("Bonjour, merci de m'avoir ajouté sur votre serveur ! Avant de pouvoir pleinement m'utiliser, voici quelques étapes : \n - Veuillez crée une catégorie 'tickets' afin que vos utilisateurs puissent créer des tickets  \n - Veuillez crée un channel pour les logs du bot \n -Veuillez crée un channel pour les présentations \n -Pour finir, veuillez faire la commande : +settings afin de me paramètrer \n -Pour tout support merci de rejoindre ce discord : https://discord.com/invite/YmRcRgEMw9")
+  guild.owner.send("Bonjour, merci de m'avoir ajouté sur votre serveur ! Avant de pouvoir pleinement m'utiliser, voici quelques étapes : \n - Veuillez crée une catégorie 'tickets' afin que vos utilisateurs puissent créer des tickets  \n - Veuillez crée un channel pour les logs du bot \n -Veuillez crée un channel pour les présentations \n -Pour finir, veuillez faire la commande : +settings afin de me paramètrer \n -Pour tout support merci de rejoindre ce discord : discord.gg/phenixmg")
 
 });
 
