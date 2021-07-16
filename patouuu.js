@@ -286,27 +286,27 @@ client.on('messageUpdate', (oldMessage, newMessage) =>{
   })
 });
 
-client.on('voiceStateUpdate', (oldState, newState) => {
-  let guildName = oldState.guild.name;
-  let guildNameNoSpace = guildName.replace(/\s/g, '')
+// client.on('voiceStateUpdate', (oldState, newState) => {
+//   let guildName = oldState.guild.name;
+//   let guildNameNoSpace = guildName.replace(/\s/g, '')
   
-  connection.query(`USE ${guildNameNoSpace}`, function(error, results){
-    if(error){
-      console.log(error)
-    }else{
-      connection.query(`SELECT idchannellogs FROM settings`, function(error, results){
-        if(error){
-          console.log(error)
-        }else{
-          console.log(newState)
-          var kickData = JSON.stringify(results)
-          var kickFinalData = JSON.parse(kickData)
-          let channel = oldMessage.guild.channels.cache.get(kickFinalData[0]['idchannellogs'])
-          // channel.send(`Un message de <@${oldMessage.author.id}> a été modifié ! Voici ce qu'il contenait : **` + oldMessage.content + "**" + " Et ce qu'il contient désormais : **" + newMessage.content + "**")
-        }
-      })
-    }
-  })
-});
+//   connection.query(`USE ${guildNameNoSpace}`, function(error, results){
+//     if(error){
+//       console.log(error)
+//     }else{
+//       connection.query(`SELECT idchannellogs FROM settings`, function(error, results){
+//         if(error){
+//           console.log(error)
+//         }else{
+//           console.log(newState)
+//           var kickData = JSON.stringify(results)
+//           var kickFinalData = JSON.parse(kickData)
+//           let channel = oldMessage.guild.channels.cache.get(kickFinalData[0]['idchannellogs'])
+//           // channel.send(`Un message de <@${oldMessage.author.id}> a été modifié ! Voici ce qu'il contenait : **` + oldMessage.content + "**" + " Et ce qu'il contient désormais : **" + newMessage.content + "**")
+//         }
+//       })
+//     }
+//   })
+// });
 
 client.login(config.token);

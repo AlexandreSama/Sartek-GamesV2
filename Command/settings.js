@@ -32,6 +32,15 @@ module.exports.run = (client, message) => {
             },
             reason: 'Role spécifique pour le mute' 
         })
+        message.guild.roles.create({
+            data : {
+              name: "gestionticket",
+              color: 'PINK',
+              permissions: ['VIEW_CHANNEL', 'READ_MESSAGE_HISTORY', 'SEND_MESSAGES'],
+              mentionable : false,
+            },
+            reason: 'Role spécifique pour la gestion des tickets' 
+        })
 
         //Première question
         message.author.send("Veuillez me donner l'ID du channel ou vous souhaiter set les logs").then(res1 => {
