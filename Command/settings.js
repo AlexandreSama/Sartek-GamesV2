@@ -14,7 +14,8 @@ module.exports.run = (client, message) => {
         host     : config.bdhost,
         user     : config.bdusername,
         password : config.bdpassword,
-        port: 3306
+        port: 3306,
+        charset: "utf8mb4"
     });
     let authorid = message.author.id;
     const filter = message => message.author.id == authorid;
@@ -62,7 +63,7 @@ module.exports.run = (client, message) => {
         
                                         connection.query(`USE ${guildNameNoSpace}`, function(error, results) {
                                             if(error){
-                                                connection.query(`CREATE DATABASE ${guildNameNoSpace}`, function(error, results){
+                                                connection.query(`CREATE DATABASE ${guildNameNoSpace} CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci`, function(error, results){
                                                     if(error){
                                                         message.author.send("ERROR ! Veuillez contacter un des créateurs du bot")
                                                         console.log(error)
