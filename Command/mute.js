@@ -24,7 +24,11 @@ module.exports.run = (client, message, args) => {
     let reason = args[2];
 
     let guildName = message.guild.name;
-    let guildNameNoSpace = guildName.replace(/\s/g, '')
+    let guildNameNoEmoji = guildName.replace(/([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g, '')
+    let guildNameNoChar1 = guildNameNoEmoji.replace("'", "");
+    let guildNameNoChar2 = guildNameNoChar1.replace("-", "");
+    let guildNameNoChar3 = guildNameNoChar2.replace(/([-]|[']|[>]|[<]|[/]|[|][!]|[?]|[你好]|[!]|[|])/g, '');
+    let guildNameNoSpace = guildNameNoChar3.replace(/\s/g, '');
 
     var connection = mysql.createConnection({
         host     : config.bdhost,
