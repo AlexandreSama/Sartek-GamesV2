@@ -330,10 +330,12 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
           //   console.log('a user has not moved!')
           // }
           if(oldMember.channelID != null && newMember.channelID != null && newMember.channelID != oldMember.channelID) {
-            let channelVoice = oldMember.guild.channels.cache.get(newMember.channel.id)
+            console.log(oldMember.channelID + newMember.channelID)
+            let oldChannelVoice = oldMember.guild.channels.cache.get(oldMember.channel.id)
+            let newChannelVoice = oldMember.guild.channels.cache.get(newMember.channel.id)
             console.log("switch")
             deleted.setColor("#00FFF0")
-              .setTitle(`**___${oldMember.member.user.username}___**  a switch pour aller dans le channel **___${channelVoice.name}___**`)
+              .setTitle(`**___${oldMember.member.user.username}___**  s'est déplacé du channel  **___${oldChannelVoice.name}___**  pour aller dans le channel  **___${newChannelVoice.name}___**`)
               .setAuthor(oldMember.member.user.username, oldMember.member.user.displayAvatarURL({dynamic : true}))
               .setTimestamp() 
               .setFooter(`Commande by Phénix Team's`)
