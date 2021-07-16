@@ -239,6 +239,11 @@ module.exports.run = (client, message) => {
                         value: "Ex : +discord , donne un lien d'invitation pour le discord officiel",
                         inline: true
                     },
+                    {
+                        name: "**__userinfo__:**",
+                        value: "Ex : +userinfo , donne des informations sur la personne",
+                        inline: true
+                    },
                    
                    
                 ]
