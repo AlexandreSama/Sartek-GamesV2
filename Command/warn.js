@@ -11,18 +11,22 @@ module.exports.run = (client, message, args) => {
     let dUserId = dUser.id;
     let dUserPseudo = dUser.username;
     let date = moment().format("YYYY:MM:DD HH:mm:ss")
-    console.log(date)
     let dMessage = args.join(" ").slice(22);
     if (dMessage.length < 1) return message.reply('Quel est la raison???')
     dUser.send(`${dUser}, Tu a été warn pour ${dMessage} dans le serveur ${message.guild.name}`)
     let guildName = message.guild.name;
-    let guildNameNoSpace = guildName.replace(/\s/g, '')
+    let guildNameNoEmoji = guildName.replace(/([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g, '')
+    let guildNameNoChar1 = guildNameNoEmoji.replace("'", "");
+    let guildNameNoChar2 = guildNameNoChar1.replace("-", "");
+    let guildNameNoChar3 = guildNameNoChar2.replace(/([-]|[']|[>]|[<]|[/]|[|][!]|[?]|[你好]|[!]|[|])/g, '');
+    let guildNameNoSpace = guildNameNoChar3.replace(/\s/g, '');
 
     var connection = mysql.createConnection({
         host     : config.bdhost,
         user     : config.bdusername,
         password : config.bdpassword,
-        port: 3306
+        port: 3306,
+        charset: "utf8mb4_unicode_ci"
     });
 
     connection.connect();
