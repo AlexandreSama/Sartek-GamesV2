@@ -57,7 +57,7 @@ module.exports.run = (client, message) => {
                             res3.channel.awaitMessages(filter, {max: 1}).then(collector3 => {
                                 let idChannelPresentation = collector3.first().content;
 
-                                message.author.send("Veuillez me donner l'ID du channel ou vous souhaiter set les présentations").then(res3 => {
+                                message.author.send("Veuillez me donner l'ID du rôle de base du serveur (celui give quand une personne rejoint le serveur)").then(res3 => {
                                     res3.channel.awaitMessages(filter, {max: 1}).then(collector3 => {
                                         let idRoleStart = collector3.first().content;
         
