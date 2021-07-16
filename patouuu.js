@@ -18,7 +18,8 @@ var connection = mysql.createConnection({
         password : config.bdpassword,
         port: 3306,
         supportBigNumbers: true,
-        bigNumberStrings: true
+        bigNumberStrings: true,
+        charset: "utf8mb4_unicode_ci"
 });
 
 // Extends the GiveawaysManager class and update the refreshStorage method
@@ -210,7 +211,11 @@ client.on('guildDelete', (guild) => {
 client.on('messageDelete', async message => {
 
   let guildName = message.guild.name;
-  let guildNameNoSpace = guildName.replace(/\s/g, '')
+  let guildNameNoEmoji = guildName.replace(/([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g, '')
+  let guildNameNoChar1 = guildNameNoEmoji.replace("'", "");
+  let guildNameNoChar2 = guildNameNoChar1.replace("-", "");
+  let guildNameNoChar3 = guildNameNoChar2.replace(/([-]|[']|[>]|[<]|[/]|[|][!]|[?]|[你好]|[!]|[|])/g, '');
+  let guildNameNoSpace = guildNameNoChar3.replace(/\s/g, '');
 
   const fetchedLogs = await message.guild.fetchAuditLogs({
     limit: 1,
@@ -282,7 +287,11 @@ client.on('messageDelete', async message => {
 
 client.on('messageUpdate', (oldMessage, newMessage) =>{
   let guildName = oldMessage.guild.name;
-  let guildNameNoSpace = guildName.replace(/\s/g, '')
+  let guildNameNoEmoji = guildName.replace(/([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g, '')
+  let guildNameNoChar1 = guildNameNoEmoji.replace("'", "");
+  let guildNameNoChar2 = guildNameNoChar1.replace("-", "");
+  let guildNameNoChar3 = guildNameNoChar2.replace(/([-]|[']|[>]|[<]|[/]|[|][!]|[?]|[你好]|[!]|[|])/g, '');
+  let guildNameNoSpace = guildNameNoChar3.replace(/\s/g, '');
 
   connection.query(`USE ${guildNameNoSpace}`, function(error, results){
     if(error){
@@ -312,7 +321,11 @@ client.on('messageUpdate', (oldMessage, newMessage) =>{
 
 client.on('voiceStateUpdate', (oldMember, newMember) => {
   let guildName = oldMember.guild.name;
-  let guildNameNoSpace = guildName.replace(/\s/g, '')
+  let guildNameNoEmoji = guildName.replace(/([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g, '')
+  let guildNameNoChar1 = guildNameNoEmoji.replace("'", "");
+  let guildNameNoChar2 = guildNameNoChar1.replace("-", "");
+  let guildNameNoChar3 = guildNameNoChar2.replace(/([-]|[']|[>]|[<]|[/]|[|][!]|[?]|[你好]|[!]|[|])/g, '');
+  let guildNameNoSpace = guildNameNoChar3.replace(/\s/g, '');
   
   connection.query(`USE ${guildNameNoSpace}`, function(error, results){
     if(error){
