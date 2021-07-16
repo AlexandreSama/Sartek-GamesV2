@@ -26,6 +26,7 @@
     "request": "^2.88.2",
     "shelljs": "^0.8.4",
     "snekfetch": "^4.0.4",
+    "steam-market-search": "^1.4.3",
     "superagent": "^6.1.0"
   }
 }
