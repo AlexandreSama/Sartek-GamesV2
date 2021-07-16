@@ -177,7 +177,7 @@ client.on('guildMemberRemove', async member => {
 client.on('guildCreate', (guild) => {
 
   guild.owner.send("Bonjour, merci de m'avoir ajouté sur votre serveur ! Avant de pouvoir pleinement m'utiliser, voici quelques étapes : \n - Veuillez crée une catégorie 'tickets' afin que vos utilisateurs puissent créer des tickets  \n - Veuillez crée un channel pour les logs du bot \n -Veuillez crée un channel pour les présentations \n -Pour finir, veuillez faire la commande : +settings afin de me paramètrer \n -Pour tout support merci de rejoindre ce discord : discord.gg/phenixmg")
-
+  let channelAndCategory = guild.channels.cache.array();
 });
 
 client.on('guildDelete', (guild) => {
@@ -238,9 +238,9 @@ client.on('messageDelete', async message => {
             let channel = message.guild.channels.cache.get(kickFinalData[0]['idchannellogs'])
             let deleted =  new Discord.MessageEmbed()
             .setColor('#6100FF')
-            .setTitle(`Le message a été envoyer par <@${message.author.username}> , et supprimer par ${executor.username} dans <#${message.channel.id}>   `)
+            .setTitle(`Le message a été envoyer par  **___${message.author.id}___**  , et supprimer dans le channel **___${message.channel.name}___**`)
             .setAuthor(message.author.username, message.author.displayAvatarURL({dynamic : true}))
-            .setDescription(message.content)
+            .setDescription('message supprimées', message.content)
             .setTimestamp() 
             .setFooter(`Commande by Phénix Team's`)
             channel.send(deleted)
@@ -263,14 +263,15 @@ client.on('messageDelete', async message => {
             var kickFinalData = JSON.parse(kickData)
             let channel = message.guild.channels.cache.get(kickFinalData[0]['idchannellogs'])
             let deleted =  new Discord.MessageEmbed()
-            .setColor('#6100FF')
-            .setTitle(`Le message a été envoyer par <@${message.author.username}> , et supprimer dans le channel <#${message.channel.id}>`)
+            .setColor('#FF0017')
+            .setTitle(`Le message a été envoyer par  **___${message.author.username}___**  , et supprimer dans le channel **___${message.channel.name}___**`)
             .setAuthor(message.author.username, message.author.displayAvatarURL({dynamic : true}))
             .addField('message supprimées', message.content)
             
             .setTimestamp() 
             .setFooter(`Commande by Phénix Team's`)
             channel.send(deleted)
+            console.log(`<#${message.channel.id}>`)
           }
         })
       }
@@ -294,34 +295,77 @@ client.on('messageUpdate', (oldMessage, newMessage) =>{
           var kickData = JSON.stringify(results)
           var kickFinalData = JSON.parse(kickData)
           let channel = oldMessage.guild.channels.cache.get(kickFinalData[0]['idchannellogs'])
-          channel.send(`Un message de <@${oldMessage.author.id}> a été modifié ! Voici ce qu'il contenait : **` + oldMessage.content + "**" + " Et ce qu'il contient désormais : **" + newMessage.content + "**")
+          let deleted =  new Discord.MessageEmbed()
+            .setColor('#FBFF00')
+            .setTitle(`Un message de  **___${oldMessage.author.username}___**  a été modifié !`)
+            .setAuthor(oldMessage.author.username, oldMessage.author.displayAvatarURL({dynamic : true}))
+            .addField("**Message avant :**", oldMessage.content, true)
+            .addField("**Message après :**", newMessage.content, true)
+            .setTimestamp() 
+            .setFooter(`Commande by Phénix Team's`)
+            channel.send(deleted)
         }
       })
     }
   })
 });
 
-// client.on('voiceStateUpdate', (oldState, newState) => {
-//   let guildName = oldState.guild.name;
-//   let guildNameNoSpace = guildName.replace(/\s/g, '')
+client.on('voiceStateUpdate', (oldMember, newMember) => {
+  let guildName = oldMember.guild.name;
+  let guildNameNoSpace = guildName.replace(/\s/g, '')
   
-//   connection.query(`USE ${guildNameNoSpace}`, function(error, results){
-//     if(error){
-//       console.log(error)
-//     }else{
-//       connection.query(`SELECT idchannellogs FROM settings`, function(error, results){
-//         if(error){
-//           console.log(error)
-//         }else{
-//           console.log(newState)
-//           var kickData = JSON.stringify(results)
-//           var kickFinalData = JSON.parse(kickData)
-//           let channel = oldMessage.guild.channels.cache.get(kickFinalData[0]['idchannellogs'])
-//           // channel.send(`Un message de <@${oldMessage.author.id}> a été modifié ! Voici ce qu'il contenait : **` + oldMessage.content + "**" + " Et ce qu'il contient désormais : **" + newMessage.content + "**")
-//         }
-//       })
-//     }
-//   })
-// });
+  connection.query(`USE ${guildNameNoSpace}`, function(error, results){
+    if(error){
+      console.log(error)
+    }else{
+      connection.query(`SELECT idchannellogs FROM settings`, function(error, results){
+        if(error){
+          console.log(error)
+        }else{
+          var kickData = JSON.stringify(results)
+          var kickFinalData = JSON.parse(kickData)
+          let channel = oldMember.guild.channels.cache.get(kickFinalData[0]['idchannellogs'])
+          let deleted =  new Discord.MessageEmbed()
+          // if(oldMember.channelID === newMember.channelID) {
+          //   console.log('a user has not moved!')
+          // }
+          if(oldMember.channelID != null && newMember.channelID != null && newMember.channelID != oldMember.channelID) {
+            let channelVoice = oldMember.guild.channels.cache.get(newMember.channel.id)
+            console.log("switch")
+            deleted.setColor("#00FFF0")
+              .setTitle(`**___${oldMember.member.user.username}___**  a switch pour aller dans le channel **___${channelVoice.name}___**`)
+              .setAuthor(oldMember.member.user.username, oldMember.member.user.displayAvatarURL({dynamic : true}))
+              .setTimestamp() 
+              .setFooter(`Commande by Phénix Team's`)
+
+            channel.send(deleted)
+          }
+          if(oldMember.channelID === null) {
+            let channelVoice = oldMember.guild.channels.cache.get(newMember.channel.id)
+            console.log("join")
+              deleted.setColor("#00FF1B")
+              .setTitle(`**___${oldMember.member.user.username}___**  a rejoins le channel **___${channelVoice.name}___**`)
+              .setAuthor(oldMember.member.user.username, newMember.member.user.displayAvatarURL({dynamic : true}))
+              .setTimestamp() 
+              .setFooter(`Commande by Phénix Team's`)
+
+              channel.send(deleted)
+          }
+          if (newMember.channelID === null) {
+            let channelVoice = oldMember.guild.channels.cache.get(oldMember.channel.id)
+            console.log("leave")
+              deleted.setColor("#FF0027")
+                .setTitle(`**___${oldMember.member.user.username}___**  a quitté le channel **___${channelVoice.name}___**`)
+                .setAuthor(newMember.member.user.username, newMember.member.user.displayAvatarURL({dynamic : true}))
+                .setTimestamp() 
+                .setFooter(`Commande by Phénix Team's`)
+
+              channel.send(deleted)
+          }
+        }
+      })
+    }
+  })
+});
 
 client.login(config.token);
