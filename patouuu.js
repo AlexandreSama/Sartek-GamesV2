@@ -123,6 +123,7 @@ client.on('message', async (message) => {
 client.on('guildMemberAdd', async (member) => {
 
   let guildName = member.guild.name;
+  console.log(guildName)
   let guildCount = member.guild.memberCount;
   let memberAvatar = member.user.displayAvatarURL({dynamic : true, format: 'jpg'});
 
@@ -185,8 +186,10 @@ client.on('guildDelete', (guild) => {
   let guildNameNoEmoji = guildName.replace(/([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g, '')
   let guildNameNoChar1 = guildNameNoEmoji.replace("'", "");
   let guildNameNoChar2 = guildNameNoChar1.replace("-", "");
-  let guildNameNoChar3 = guildNameNoChar2.replace(/([-]|[']|[>]|[<]|[/]|[|][!]|[?]|[你好]|[!]|[|])/g, '');
+  let guildNameNoChar4 = guildNameNoChar2.replace("~", "");
+  let guildNameNoChar3 = guildNameNoChar4.replace(/([-]|[']|[>]|[<]|[/]|[|][!]|[?]|[你好]|[!]|[|])/g, '');
   let guildNameNoSpace = guildNameNoChar3.replace(/\s/g, '');
+  
   var connection = mysql.createConnection({
         host     : config.bdhost,
         user     : config.bdusername,
@@ -207,52 +210,22 @@ client.on('guildDelete', (guild) => {
 
 client.on('messageDelete', async message => {
 
+  console.log("messageDeleted")
+
   let guildName = message.guild.name;
   let guildNameNoEmoji = guildName.replace(/([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g, '')
   let guildNameNoChar1 = guildNameNoEmoji.replace("'", "");
   let guildNameNoChar2 = guildNameNoChar1.replace("-", "");
-  let guildNameNoChar3 = guildNameNoChar2.replace(/([-]|[']|[>]|[<]|[/]|[|][!]|[?]|[你好]|[!]|[|])/g, '');
+  let guildNameNoChar4 = guildNameNoChar2.replace("~", "");
+  let guildNameNoChar3 = guildNameNoChar4.replace(/([-]|[']|[>]|[<]|[/]|[|][!]|[?]|[你好]|[!]|[|])/g, '');
   let guildNameNoSpace = guildNameNoChar3.replace(/\s/g, '');
 
-  const fetchedLogs = await message.guild.fetchAuditLogs({
-    limit: 1,
-    type: "MESSAGE_DELETE"
-  })
+  const deletedMessage = message.content
+  let ArrayMessage = deletedMessage.split(' ');
 
-  const deletionLog = fetchedLogs.entries.first()
-
-  if(!deletionLog) return console.log(`Un message de ${message.author.username} a été supprimé mais aucun log n'a été trouvé `)
-
-  const { executor, target } = deletionLog;
-
-  if(target.id === message.author.id){
-
-    connection.query(`USE ${guildNameNoSpace}`, function(error, results){
-      if(error){
-        console.log(error)
-      }else{
-        connection.query(`SELECT idchannellogs FROM settings`, function(error, results){
-          if(error){
-            console.log(error)
-          }else{
-            var kickData = JSON.stringify(results)
-            var kickFinalData = JSON.parse(kickData)
-            let channel = message.guild.channels.cache.get(kickFinalData[0]['idchannellogs'])
-            let deleted =  new Discord.MessageEmbed()
-            .setColor('#6100FF')
-            .setTitle(`Le message a été envoyer par  **___${message.author.id}___**  , et supprimer dans le channel **___${message.channel.name}___**`)
-            .setAuthor(message.author.username, message.author.displayAvatarURL({dynamic : true}))
-            .setDescription('message supprimées', message.content)
-            .setTimestamp() 
-            .setFooter(`Commande by Phénix Team's`)
-            channel.send(deleted)
-          }
-        })
-      }
-    })
-
+  if(ArrayMessage.includes("GIVEAWAY") == true){
+    return null
   }else{
-
     connection.query(`USE ${guildNameNoSpace}`, function(error, results){
       if(error){
         console.log(error)
@@ -265,31 +238,35 @@ client.on('messageDelete', async message => {
             var kickFinalData = JSON.parse(kickData)
             let channel = message.guild.channels.cache.get(kickFinalData[0]['idchannellogs'])
             let deleted =  new Discord.MessageEmbed()
-            .setColor('#FF0017')
-            .setTitle(`Le message a été envoyer par  **___${message.author.username}___**  , et supprimer dans le channel **___${message.channel.name}___**`)
+            .setColor('#FF0027')
+            .setTitle(`Le message a été envoyer par  **___${message.author}___**  , et supprimer dans le channel **___${message.channel.name}___**`)
             .setAuthor(message.author.username, message.author.displayAvatarURL({dynamic : true}))
-            .addField('message supprimées', message.content)
-            
+            .addField('message supprimées', deletedMessage)
             .setTimestamp() 
             .setFooter(`Commande by Phénix Team's`)
             channel.send(deleted)
-            console.log(`<#${message.channel.id}>`)
           }
         })
       }
     })
-
   }
 });
 
 client.on('messageUpdate', (oldMessage, newMessage) =>{
+
+  console.log("messageUpdate")
+
   let guildName = oldMessage.guild.name;
   let guildNameNoEmoji = guildName.replace(/([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g, '')
   let guildNameNoChar1 = guildNameNoEmoji.replace("'", "");
   let guildNameNoChar2 = guildNameNoChar1.replace("-", "");
-  let guildNameNoChar3 = guildNameNoChar2.replace(/([-]|[']|[>]|[<]|[/]|[|][!]|[?]|[你好]|[!]|[|])/g, '');
+  let guildNameNoChar4 = guildNameNoChar2.replace("~", "");
+  let guildNameNoChar3 = guildNameNoChar4.replace(/([-]|[']|[>]|[<]|[/]|[|][!]|[?]|[你好]|[!]|[|])/g, '');
   let guildNameNoSpace = guildNameNoChar3.replace(/\s/g, '');
 
+  if(oldMessage.content.split(' ').includes("GIVEAWAY") == true || newMessage.content.split(' ').includes("GIVEAWAY") == true){
+    return null
+  }else{
   connection.query(`USE ${guildNameNoSpace}`, function(error, results){
     if(error){
       console.log(error)
@@ -314,15 +291,17 @@ client.on('messageUpdate', (oldMessage, newMessage) =>{
       })
     }
   })
+}
 });
 
 client.on('voiceStateUpdate', (oldMember, newMember) => {
-  let guildName = oldMember.guild.name;
-  let guildNameNoEmoji = guildName.replace(/([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g, '')
+
+  console.log("voiceStateUpdate")
+
+  let guildName = newMember.guild.name;
+  let guildNameNoEmoji = guildName.replace(/([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF]|[-]|[']|[>]|[<]|[/]|[|][!]|[?]|[你好]|[!]|[|]|\s)/g, '')
   let guildNameNoChar1 = guildNameNoEmoji.replace("'", "");
-  let guildNameNoChar2 = guildNameNoChar1.replace("-", "");
-  let guildNameNoChar3 = guildNameNoChar2.replace(/([-]|[']|[>]|[<]|[/]|[|][!]|[?]|[你好]|[!]|[|])/g, '');
-  let guildNameNoSpace = guildNameNoChar3.replace(/\s/g, '');
+  let guildNameNoSpace = guildNameNoChar1.replace("-", "");
   
   connection.query(`USE ${guildNameNoSpace}`, function(error, results){
     if(error){
@@ -334,11 +313,14 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
         }else{
           var kickData = JSON.stringify(results)
           var kickFinalData = JSON.parse(kickData)
-          let channel = oldMember.guild.channels.cache.get(kickFinalData[0]['idchannellogs'])
+          console.log(guildNameNoSpace)
+          console.log(kickFinalData[0]['idchannellogs'])
+          let channel = newMember.guild.channels.cache.get(kickFinalData[0]['idchannellogs'])
           let deleted =  new Discord.MessageEmbed()
           // if(oldMember.channelID === newMember.channelID) {
           //   console.log('a user has not moved!')
           // }
+
           if(oldMember.channelID != null && newMember.channelID != null && newMember.channelID != oldMember.channelID) {
             console.log(oldMember.channelID + newMember.channelID)
             let oldChannelVoice = oldMember.guild.channels.cache.get(oldMember.channel.id)
@@ -350,29 +332,44 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
               .setTimestamp() 
               .setFooter(`Commande by Phénix Team's`)
 
-            channel.send(deleted)
+            if(!channel){
+              console.log("Pas de channel")
+            }else{
+              channel.send(deleted)
+            }
           }
+
           if(oldMember.channelID === null) {
             let channelVoice = oldMember.guild.channels.cache.get(newMember.channel.id)
             console.log("join")
-              deleted.setColor("#00FF1B")
+            deleted.setColor("#00FF1B")
               .setTitle(`**___${oldMember.member.user.username}___**  a rejoins le channel **___${channelVoice.name}___**`)
               .setAuthor(oldMember.member.user.username, newMember.member.user.displayAvatarURL({dynamic : true}))
               .setTimestamp() 
               .setFooter(`Commande by Phénix Team's`)
 
+            if(!channel){
+              console.log("Pas de channel")
+            }else{
               channel.send(deleted)
+            }
           }
+
           if (newMember.channelID === null) {
             let channelVoice = oldMember.guild.channels.cache.get(oldMember.channel.id)
             console.log("leave")
-              deleted.setColor("#FF0027")
+            deleted.setColor("#FF0027")
                 .setTitle(`**___${oldMember.member.user.username}___**  a quitté le channel **___${channelVoice.name}___**`)
                 .setAuthor(newMember.member.user.username, newMember.member.user.displayAvatarURL({dynamic : true}))
                 .setTimestamp() 
                 .setFooter(`Commande by Phénix Team's`)
 
+            if(!channel){
+              console.log("Pas de channel")
+            }else{
               channel.send(deleted)
+            }
+
           }
         }
       })
