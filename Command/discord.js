@@ -7,7 +7,7 @@ module.exports.run = (client, message) => {
         .setColor('#FFFF00')
         .setTitle(`Lien d'invitation du discord officiel`)
         .setAuthor(message.author.username, message.author.displayAvatarURL({dynamic : true}))
-        .setDescription('Tu souhaite rejoindre le serveur discord officiel du bot ? Clique [ici](https://discord.gg/phenixmg).')
+        .setDescription('Tu souhaite rejoindre le serveur discord officiel du bot ? Clique [ici](https://discord.gg/BpPWaQq).')
         .setTimestamp() 
         .setFooter(`Commande by Phénix Team's`)
         
