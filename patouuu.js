@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
+// const message = new Discord.Message()
 const prefix = "+";
 const fs = require('fs');
 const db = require('quick.db');
