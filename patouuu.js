@@ -244,8 +244,12 @@ client.on('messageDelete', async message => {
             .setColor('#FF0027')
             .setTitle(`Le message a été envoyer par  **___${message.author}___**  , et supprimer dans le channel **___${message.channel.name}___**`)
             .setAuthor(message.author.username, message.author.displayAvatarURL({dynamic : true}))
-            .addField('message supprimées', deletedMessage)
-            .setTimestamp() 
+            if(deletedMessage.length == 0){
+              deleted.addField('Aucun message a affiché', "désolé !")
+            }else{
+              deleted.addField('message supprimées', deletedMessage)
+            }
+            deleted.setTimestamp() 
             .setFooter(`Commande by Phénix Team's`)
             channel.send(deleted)
           }
@@ -278,6 +282,7 @@ client.on('messageUpdate', (oldMessage, newMessage) =>{
         if(error){
           oldMessage.guild.owner.send("Pensez a faire la commande +settings afin de me paramètrer !")
         }else{
+          console.log(oldMessage.content.length + newMessage.content.length)
           var kickData = JSON.stringify(results)
           var kickFinalData = JSON.parse(kickData)
           let channel = oldMessage.guild.channels.cache.get(kickFinalData[0]['idchannellogs'])
@@ -285,19 +290,14 @@ client.on('messageUpdate', (oldMessage, newMessage) =>{
             .setColor('#FBFF00')
             .setTitle(`Un message de  **___${oldMessage.author.username}___**  a été modifié !`)
             .setAuthor(oldMessage.author.username, oldMessage.author.displayAvatarURL({dynamic : true}))
-            .addField("**Message avant :**", oldMessage.content, true)
-            .addField("**Message après :**", newMessage.content, true)
             .setTimestamp() 
             .setFooter(`Commande by Phénix Team's`)
-            if(!oldMessage.content){
+            if(oldMessage.content.length > 0){
               deleted.addField("**Message après :**", newMessage.content, true)
-            }else if(!newMessage.content){
+            }else if(newMessage.content.length > 0){
               deleted.addField("**Message avant :**", oldMessage.content, true)
-            }else if(!newMessage.content & !oldMessage.content){
+            }else if(newMessage.content.length == 0 & oldMessage.content.length == 0){
               deleted.addField("Aucun message a afficher !")
-            }else{
-            deleted.addField("**Message avant :**", oldMessage.content, true)
-            deleted.addField("**Message après :**", newMessage.content, true)
             }
             channel.send(deleted)
         }
