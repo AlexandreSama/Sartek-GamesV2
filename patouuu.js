@@ -226,11 +226,11 @@ client.on('messageDelete', async message => {
   }else{
     connection.query(`USE ${guildNameNoSpace}`, function(error, results){
       if(error){
-        oldMessage.guild.owner.send("Pensez a faire la commande +settings afin de me paramètrer !")
+        message.guild.owner.send("Pensez a faire la commande +settings afin de me paramètrer !")
       }else{
         connection.query(`SELECT idchannellogs FROM settings`, function(error, results){
           if(error){
-            oldMessage.guild.owner.send("Pensez a faire la commande +settings afin de me paramètrer !")
+            message.guild.owner.send("Pensez a faire la commande +settings afin de me paramètrer !")
           }else{
             var kickData = JSON.stringify(results)
             var kickFinalData = JSON.parse(kickData)
