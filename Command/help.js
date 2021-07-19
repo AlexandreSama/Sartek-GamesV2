@@ -269,6 +269,12 @@ module.exports.run = (client, message) => {
                         value:"+broadcast , Me permet de vous envoyer les maj du bot et les notpatchs.",
                         inline:true,
                     },
+                    {
+                        name: "**__admintalk__**" ,
+                        value:"+admintalk, Me permet de parler avec vous depuis mon discord pour toute demande.",
+                        inline:true,
+                    },
+                    
                     
                 ]
             }),
