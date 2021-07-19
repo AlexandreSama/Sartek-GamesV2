@@ -11,8 +11,6 @@ welcomeCanvas = new canvas.Welcome();
 const mysql = require('mysql');
 const config = require('./config.json');
 
-
-
 // Système de give
 
 var connection = mysql.createConnection({
@@ -126,7 +124,6 @@ client.on('message', async (message) => {
 client.on('guildMemberAdd', async (member) => {
 
   let guildName = member.guild.name;
-  console.log(guildName)
   let guildCount = member.guild.memberCount;
   let memberAvatar = member.user.displayAvatarURL({dynamic : true, format: 'jpg'});
 
@@ -205,15 +202,13 @@ client.on('guildDelete', (guild) => {
       console.log(error)
     }
     if(results){
-      console.log("Base de donnée du serveur " + guildNameNoSpace + " supprimée avec succés")
+      guild.owner.send("Base de donnée du serveur supprimée avec succés")
     }
   })
 
 });
 
 client.on('messageDelete', async message => {
-
-  console.log("messageDeleted")
 
   let guildName = message.guild.name;
   let guildNameNoEmoji = guildName.replace(/([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g, '')
@@ -231,7 +226,7 @@ client.on('messageDelete', async message => {
   }else{
     connection.query(`USE ${guildNameNoSpace}`, function(error, results){
       if(error){
-        console.log(error)
+        oldMessage.guild.owner.send("Pensez a faire la commande +settings afin de me paramètrer !")
       }else{
         connection.query(`SELECT idchannellogs FROM settings`, function(error, results){
           if(error){
@@ -261,8 +256,6 @@ client.on('messageDelete', async message => {
 
 client.on('messageUpdate', (oldMessage, newMessage) =>{
 
-  console.log("messageUpdate")
-
   let guildName = oldMessage.guild.name;
   let guildNameNoEmoji = guildName.replace(/([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g, '')
   let guildNameNoChar1 = guildNameNoEmoji.replace("'", "");
@@ -276,7 +269,7 @@ client.on('messageUpdate', (oldMessage, newMessage) =>{
   }else{
   connection.query(`USE ${guildNameNoSpace}`, function(error, results){
     if(error){
-      console.log(error)
+      oldMessage.guild.owner.send("Pensez a faire la commande +settings afin de me paramètrer !")
     }else{
       connection.query(`SELECT idchannellogs FROM settings`, function(error, results){
         if(error){
@@ -309,8 +302,6 @@ client.on('messageUpdate', (oldMessage, newMessage) =>{
 
 client.on('voiceStateUpdate', (oldMember, newMember) => {
 
-  console.log("voiceStateUpdate")
-
   let guildName = newMember.guild.name;
   let guildNameNoEmoji = guildName.replace(/([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF]|[-]|[']|[>]|[<]|[/]|[|][!]|[?]|[你好]|[!]|[|]|\s)/g, '')
   let guildNameNoChar1 = guildNameNoEmoji.replace("'", "");
@@ -318,16 +309,14 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
   
   connection.query(`USE ${guildNameNoSpace}`, function(error, results){
     if(error){
-      console.log(error)
+      oldMember.guild.owner.send("Pensez a faire la commande +settings afin de me paramètrer !")
     }else{
       connection.query(`SELECT idchannellogs FROM settings`, function(error, results){
         if(error){
-          oldMessage.guild.owner.send("Pensez a faire la commande +settings afin de me paramètrer !")
+          oldMember.guild.owner.send("Pensez a faire la commande +settings afin de me paramètrer !")
         }else{
           var kickData = JSON.stringify(results)
           var kickFinalData = JSON.parse(kickData)
-          console.log(guildNameNoSpace)
-          console.log(kickFinalData[0]['idchannellogs'])
           let channel = newMember.guild.channels.cache.get(kickFinalData[0]['idchannellogs'])
           let deleted =  new Discord.MessageEmbed()
           // if(oldMember.channelID === newMember.channelID) {
@@ -338,7 +327,6 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
             console.log(oldMember.channelID + newMember.channelID)
             let oldChannelVoice = oldMember.guild.channels.cache.get(oldMember.channel.id)
             let newChannelVoice = oldMember.guild.channels.cache.get(newMember.channel.id)
-            console.log("switch")
             deleted.setColor("#00FFF0")
               .setTitle(`**___${oldMember.member.user.username}___**  s'est déplacé du channel  **___${oldChannelVoice.name}___**  pour aller dans le channel  **___${newChannelVoice.name}___**`)
               .setAuthor(oldMember.member.user.username, oldMember.member.user.displayAvatarURL({dynamic : true}))
@@ -354,7 +342,6 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
 
           if(oldMember.channelID === null) {
             let channelVoice = oldMember.guild.channels.cache.get(newMember.channel.id)
-            console.log("join")
             deleted.setColor("#00FF1B")
               .setTitle(`**___${oldMember.member.user.username}___**  a rejoins le channel **___${channelVoice.name}___**`)
               .setAuthor(oldMember.member.user.username, newMember.member.user.displayAvatarURL({dynamic : true}))
@@ -370,7 +357,6 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
 
           if (newMember.channelID === null) {
             let channelVoice = oldMember.guild.channels.cache.get(oldMember.channel.id)
-            console.log("leave")
             deleted.setColor("#FF0027")
                 .setTitle(`**___${oldMember.member.user.username}___**  a quitté le channel **___${channelVoice.name}___**`)
                 .setAuthor(newMember.member.user.username, newMember.member.user.displayAvatarURL({dynamic : true}))
