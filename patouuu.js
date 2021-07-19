@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
-// const message = new Discord.Message()
+//const message = new Discord.Message()
 const prefix = "+";
 const fs = require('fs');
 const db = require('quick.db');
@@ -10,6 +10,8 @@ goodbyeCanvas = new canvas.Goodbye(),
 welcomeCanvas = new canvas.Welcome();
 const mysql = require('mysql');
 const config = require('./config.json');
+
+
 
 // Système de give
 
@@ -233,7 +235,7 @@ client.on('messageDelete', async message => {
       }else{
         connection.query(`SELECT idchannellogs FROM settings`, function(error, results){
           if(error){
-            console.log(error)
+            oldMessage.guild.owner.send("Pensez a faire la commande +settings afin de me paramètrer !")
           }else{
             var kickData = JSON.stringify(results)
             var kickFinalData = JSON.parse(kickData)
@@ -274,7 +276,7 @@ client.on('messageUpdate', (oldMessage, newMessage) =>{
     }else{
       connection.query(`SELECT idchannellogs FROM settings`, function(error, results){
         if(error){
-          console.log(error)
+          oldMessage.guild.owner.send("Pensez a faire la commande +settings afin de me paramètrer !")
         }else{
           var kickData = JSON.stringify(results)
           var kickFinalData = JSON.parse(kickData)
@@ -287,6 +289,16 @@ client.on('messageUpdate', (oldMessage, newMessage) =>{
             .addField("**Message après :**", newMessage.content, true)
             .setTimestamp() 
             .setFooter(`Commande by Phénix Team's`)
+            if(!oldMessage.content){
+              deleted.addField("**Message après :**", newMessage.content, true)
+            }else if(!newMessage.content){
+              deleted.addField("**Message avant :**", oldMessage.content, true)
+            }else if(!newMessage.content & !oldMessage.content){
+              deleted.addField("Aucun message a afficher !")
+            }else{
+            deleted.addField("**Message avant :**", oldMessage.content, true)
+            deleted.addField("**Message après :**", newMessage.content, true)
+            }
             channel.send(deleted)
         }
       })
@@ -310,7 +322,7 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
     }else{
       connection.query(`SELECT idchannellogs FROM settings`, function(error, results){
         if(error){
-          console.log(error)
+          oldMessage.guild.owner.send("Pensez a faire la commande +settings afin de me paramètrer !")
         }else{
           var kickData = JSON.stringify(results)
           var kickFinalData = JSON.parse(kickData)
