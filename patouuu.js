@@ -283,27 +283,35 @@ client.on('messageUpdate', (oldMessage, newMessage) =>{
         if(error){
           oldMessage.guild.owner.send("Pensez a faire la commande +settings afin de me paramètrer !")
         }else{
-          console.log(oldMessage.content.length + newMessage.content.length)
+          
           var kickData = JSON.stringify(results)
           var kickFinalData = JSON.parse(kickData)
           let channel = oldMessage.guild.channels.cache.get(kickFinalData[0]['idchannellogs'])
+
           let deleted =  new Discord.MessageEmbed()
             .setColor('#FBFF00')
             .setTitle(`Un message de  **___${oldMessage.author.username}___**  a été modifié !`)
             .setAuthor(oldMessage.author.username, oldMessage.author.displayAvatarURL({dynamic : true}))
             .setTimestamp() 
             .setFooter(`Commande by Phénix Team's`)
+
             if(oldMessage.content.length > 0 & newMessage.content.length > 0) {
               deleted.addField("**Message Après :**", newMessage.content, true)
               deleted.addField("**Message Avant :**", oldMessage.content, true)
             }else if(newMessage.content.length < 1 & oldMessage.content.length < 1){
               deleted.addField("Aucun message a afficher !")
+            }else if(oldMessage.content.length > 0){
+              deleted.addField("**Message Avant :**", oldMessage.content, true)
+            }else if(newMessage.content.length > 0){
+              deleted.addField("**Message Après :**", newMessage.content, true)
             }
+
             if(!channel){
               oldMessage.guild.owner.send("Pensez a faire la commande +settings afin de me paramètrer !")
             }else{
               channel.send(deleted)
             }
+
         }
       })
     }
