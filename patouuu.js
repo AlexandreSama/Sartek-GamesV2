@@ -145,7 +145,11 @@ client.on('guildMemberAdd', async (member) => {
   .toAttachment();
 
   let attachment = new Discord.MessageAttachment(image.toBuffer(), "welcome-image.png");
-  member.guild.systemChannel.send(attachment);
+  if(member.guild.systemChannel == null){
+    member.guild.owner.send("Pensez a faire la commande +settings afin de me paramètrer !")
+  }else{
+    member.guild.systemChannel.send(attachment);
+  }
 
 });
 
@@ -171,7 +175,11 @@ client.on('guildMemberRemove', async member => {
   .toAttachment();
 
   let attachment = new Discord.MessageAttachment(image.toBuffer(), "goodbye-image.png");
-  member.guild.systemChannel.send(attachment);
+  if(member.guild.systemChannel == null){
+    member.guild.owner.send("Pensez a faire la commande +settings afin de me paramètrer !")
+  }else{
+    member.guild.systemChannel.send(attachment);
+  }
 });
 
 client.on('guildCreate', (guild) => {
@@ -285,14 +293,17 @@ client.on('messageUpdate', (oldMessage, newMessage) =>{
             .setAuthor(oldMessage.author.username, oldMessage.author.displayAvatarURL({dynamic : true}))
             .setTimestamp() 
             .setFooter(`Commande by Phénix Team's`)
-            if(oldMessage.content.length > 0){
-              deleted.addField("**Message après :**", newMessage.content, true)
-            }else if(newMessage.content.length > 0){
-              deleted.addField("**Message avant :**", oldMessage.content, true)
-            }else if(newMessage.content.length == 0 & oldMessage.content.length == 0){
+            if(oldMessage.content.length > 0 & newMessage.content.length > 0) {
+              deleted.addField("**Message Après :**", newMessage.content, true)
+              deleted.addField("**Message Avant :**", oldMessage.content, true)
+            }else if(newMessage.content.length < 1 & oldMessage.content.length < 1){
               deleted.addField("Aucun message a afficher !")
             }
-            channel.send(deleted)
+            if(!channel){
+              oldMessage.guild.owner.send("Pensez a faire la commande +settings afin de me paramètrer !")
+            }else{
+              channel.send(deleted)
+            }
         }
       })
     }
@@ -364,7 +375,7 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
                 .setFooter(`Commande by Phénix Team's`)
 
             if(!channel){
-              console.log("Pas de channel")
+              oldMember.guild.owner.send("Pensez a faire la commande +settings afin de me paramètrer !")
             }else{
               channel.send(deleted)
             }
