@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
-//const message = new Discord.Message()
+const message = new Discord.Message()
 const prefix = "+";
 const fs = require('fs');
 const db = require('quick.db');
@@ -10,6 +10,33 @@ goodbyeCanvas = new canvas.Goodbye(),
 welcomeCanvas = new canvas.Welcome();
 const mysql = require('mysql');
 const config = require('./config.json');
+
+// let channelFromOtherGuild = guild.channels.cache.find(channel => channel.name === "intra-link")
+// let channelFromGuild = message.guild.channels.cache.find(channel => channel.name === "intra-link-" + guild.id)
+
+// function getMessagesAndSendItToOtherGuild(res4, channelFromGuild, channelFromOtherGuild, res3) {
+//   let lastMessage = res3.channel.lastMessage; // Récupère le dernier message de PhénixMG
+//   if(lastMessage.content === "fin de transmission"){
+//     channelFromOtherGuild.send("Mon créateur a coupé la conversation ! Bonne journée/soirée a vous :D").then(res5 => {
+//       channelFromOtherGuild.delete();
+//       channelFromGuild.send("Fin de la transmission ! Bonne journée/soirée a vous !");
+//       channelFromGuild.delete();
+//       clearInterval(0)
+//     })
+//   }else if(lastMessage.content === res4.channel.lastMessage.content || lastMessage.author.id === message.author.id){ // Vérifie si le message récupèré est le même que le dernier message contenu dans l'autre serveur
+//     console.log("test de la première fonction")
+//   }else{
+//     channelFromOtherGuild.send("Message de : **" + lastMessage.author.username + "** , voici le message : " + lastMessage.content)
+//   }
+// }
+
+// channelFromGuild.send("<@" + message.author.id + ">, Début de connexion... Connexion terminé ! Vous pouvez discuter tranquillement :D").then(res3 => {
+//   message.channel.send("<@" + guild.owner.id + ">, Début de connexion... Connexion terminé ! Vous pouvez discuter tranquillement :D").then(res4 => {
+//       setInterval(() => getMessagesAndSendItGuild(res4, channelFromGuild, channelFromOtherGuild, res3), 5000);
+//       setInterval(() => getMessagesAndSendItToOtherGuild(res3, channelFromOtherGuild, channelFromGuild, res4), 5000)
+//       res4.channel.lastMessage.author.id
+//   })
+// })
 
 // Système de give
 
@@ -146,7 +173,7 @@ client.on('guildMemberAdd', async (member) => {
 
   let attachment = new Discord.MessageAttachment(image.toBuffer(), "welcome-image.png");
   if(member.guild.systemChannel == null){
-    member.guild.owner.send("Pensez a faire la commande +settings afin de me paramètrer !")
+    console.log("pas de channels systeme " + guildName)
   }else{
     member.guild.systemChannel.send(attachment);
   }
@@ -176,7 +203,7 @@ client.on('guildMemberRemove', async member => {
 
   let attachment = new Discord.MessageAttachment(image.toBuffer(), "goodbye-image.png");
   if(member.guild.systemChannel == null){
-    member.guild.owner.send("Pensez a faire la commande +settings afin de me paramètrer !")
+    console.log("pas de channels systeme " + guildName)
   }else{
     member.guild.systemChannel.send(attachment);
   }
@@ -234,11 +261,11 @@ client.on('messageDelete', async message => {
   }else{
     connection.query(`USE ${guildNameNoSpace}`, function(error, results){
       if(error){
-        message.guild.owner.send("Pensez a faire la commande +settings afin de me paramètrer !")
+        console.log(error + message.guild.name)
       }else{
         connection.query(`SELECT idchannellogs FROM settings`, function(error, results){
           if(error){
-            message.guild.owner.send("Pensez a faire la commande +settings afin de me paramètrer !")
+            console.log(error + message.guild.name)
           }else{
             var kickData = JSON.stringify(results)
             var kickFinalData = JSON.parse(kickData)
@@ -277,11 +304,11 @@ client.on('messageUpdate', (oldMessage, newMessage) =>{
   }else{
   connection.query(`USE ${guildNameNoSpace}`, function(error, results){
     if(error){
-      oldMessage.guild.owner.send("Pensez a faire la commande +settings afin de me paramètrer !")
+      console.log(error + " " + message.guild.name)
     }else{
       connection.query(`SELECT idchannellogs FROM settings`, function(error, results){
         if(error){
-          oldMessage.guild.owner.send("Pensez a faire la commande +settings afin de me paramètrer !")
+          console.log(error + " " + message.guild.name)
         }else{
           
           var kickData = JSON.stringify(results)
@@ -307,7 +334,7 @@ client.on('messageUpdate', (oldMessage, newMessage) =>{
             }
 
             if(!channel){
-              oldMessage.guild.owner.send("Pensez a faire la commande +settings afin de me paramètrer !")
+              console.log("pas de channel " + message.guild.name)
             }else{
               channel.send(deleted)
             }
@@ -328,11 +355,11 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
   
   connection.query(`USE ${guildNameNoSpace}`, function(error, results){
     if(error){
-      oldMember.guild.owner.send("Pensez a faire la commande +settings afin de me paramètrer !")
+      console.log(error + " " + oldMember.guild.name)
     }else{
       connection.query(`SELECT idchannellogs FROM settings`, function(error, results){
         if(error){
-          oldMember.guild.owner.send("Pensez a faire la commande +settings afin de me paramètrer !")
+          console.log(error + " " + oldMember.guild.name)
         }else{
           var kickData = JSON.stringify(results)
           var kickFinalData = JSON.parse(kickData)
@@ -353,7 +380,7 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
               .setFooter(`Commande by Phénix Team's`)
 
             if(!channel){
-              console.log("Pas de channel")
+              console.log("pas de channels " + oldMember.guild.name)
             }else{
               channel.send(deleted)
             }
@@ -370,7 +397,7 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
             if(!channel){
               console.log("Pas de channel")
             }else{
-              channel.send(deleted)
+              console.log("pas de channels " + oldMember.guild.name)
             }
           }
 
@@ -383,7 +410,7 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
                 .setFooter(`Commande by Phénix Team's`)
 
             if(!channel){
-              oldMember.guild.owner.send("Pensez a faire la commande +settings afin de me paramètrer !")
+              console.log("pas de channels " + oldMember.guild.name)
             }else{
               channel.send(deleted)
             }
