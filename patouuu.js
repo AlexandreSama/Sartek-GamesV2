@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
-const message = new Discord.Message()
+//const message = new Discord.Message()
 const prefix = "+";
 const fs = require('fs');
 const db = require('quick.db');
@@ -10,33 +10,8 @@ goodbyeCanvas = new canvas.Goodbye(),
 welcomeCanvas = new canvas.Welcome();
 const mysql = require('mysql');
 const config = require('./config.json');
-
-// let channelFromOtherGuild = guild.channels.cache.find(channel => channel.name === "intra-link")
-// let channelFromGuild = message.guild.channels.cache.find(channel => channel.name === "intra-link-" + guild.id)
-
-// function getMessagesAndSendItToOtherGuild(res4, channelFromGuild, channelFromOtherGuild, res3) {
-//   let lastMessage = res3.channel.lastMessage; // Récupère le dernier message de PhénixMG
-//   if(lastMessage.content === "fin de transmission"){
-//     channelFromOtherGuild.send("Mon créateur a coupé la conversation ! Bonne journée/soirée a vous :D").then(res5 => {
-//       channelFromOtherGuild.delete();
-//       channelFromGuild.send("Fin de la transmission ! Bonne journée/soirée a vous !");
-//       channelFromGuild.delete();
-//       clearInterval(0)
-//     })
-//   }else if(lastMessage.content === res4.channel.lastMessage.content || lastMessage.author.id === message.author.id){ // Vérifie si le message récupèré est le même que le dernier message contenu dans l'autre serveur
-//     console.log("test de la première fonction")
-//   }else{
-//     channelFromOtherGuild.send("Message de : **" + lastMessage.author.username + "** , voici le message : " + lastMessage.content)
-//   }
-// }
-
-// channelFromGuild.send("<@" + message.author.id + ">, Début de connexion... Connexion terminé ! Vous pouvez discuter tranquillement :D").then(res3 => {
-//   message.channel.send("<@" + guild.owner.id + ">, Début de connexion... Connexion terminé ! Vous pouvez discuter tranquillement :D").then(res4 => {
-//       setInterval(() => getMessagesAndSendItGuild(res4, channelFromGuild, channelFromOtherGuild, res3), 5000);
-//       setInterval(() => getMessagesAndSendItToOtherGuild(res3, channelFromOtherGuild, channelFromGuild, res4), 5000)
-//       res4.channel.lastMessage.author.id
-//   })
-// })
+const Gamedig = require('gamedig');
+const { ToadScheduler, SimpleIntervalJob, Task } = require('toad-scheduler')
 
 // Système de give
 
@@ -75,9 +50,94 @@ const manager = new GiveawayManagerWithShardSupport(client, {
 // We now have a giveawaysManager property to access the manager everywhere!
 client.giveawaysManager = manager;
 
+// function gmodServerUpdater() {
+
+//   let guild = client.guilds.cache.get("744159443046105138");
+//   let channel = guild.channels.cache.get('870356020906577970');
+//   channel.messages.fetch({around: "870356081476534313", limit: 1}).then(messages => {
+//     Gamedig.query({
+//       type: 'garrysmod',
+//       host: '149.91.89.181'
+//     }).then((state) => {
+//       console.log(state['ping']);
+//       const exampleEmbed = new Discord.MessageEmbed()
+//       .setAuthor("PhénixRP")
+//       .setDescription("Status du serveur GMOD")
+//       .addFields({
+//         name: 'Activité du serveur',
+//         value: 'Allumé !'
+//       },
+//       {
+//         name: 'Nom du serveur',
+//         value: state['name']
+//       },
+//       {
+//         name: 'Nombre de joueurs',
+//         value: state['players'].length() - 1
+//       },
+//       {
+//         name: 'Ping du serveur',
+//         value: state['ping']
+//       })
+
+//       messages.edit(exampleEmbed)
+//     }).catch((error) => {
+//       console.log("Server is offline");
+//     });
+//   })
+
+// }
+
+// setInterval(gmodServerUpdater(), 10000)
+
+const scheduler = new ToadScheduler()
+
+const task = new Task('gmodstatus', () => { 
+  let test = client.channels.cache.get("870356020906577970");
+  Gamedig.query({
+    type: 'garrysmod',
+    host: '149.91.89.181',
+    requestRules: true
+  }).then((state) => {
+    console.log(state);
+    const exampleEmbed = new Discord.MessageEmbed()
+    .setAuthor("PhénixRP")
+    .setDescription("Status du serveur GMOD")
+    .addFields({
+        name: 'Activité du serveur',
+        value: 'Allumé !'
+    },
+    {
+        name: 'Nom du serveur',
+        value: state['name']
+    },
+    {
+        name: 'Nombre de joueurs',
+        value: state['players'].length
+    },
+    {
+        name: 'Ping du serveur',
+        value: state['ping']
+    })
+    test.fetch().then(messages => {
+      console.log(messages)
+      if(messages["lastMessage"] == null){
+        messages.send(exampleEmbed)
+      }else{
+        let messageV2 = messages['lastMessage']
+        messageV2.edit(exampleEmbed)
+      }
+    })
+  })
+})
+
+const job = new SimpleIntervalJob({ seconds: 5, }, task)
+
+scheduler.addSimpleIntervalJob(job)
+
 // status du bot
 
-client.on('ready', async message => {
+client.on('ready', async (message, guild) => {
   console.log(`Logged in as ${client.user.tag}!`);
   let nameActivitys = ['discord.gg/phenixmg', 'Chaine YTB de mon Créateur : PatouTv•', '+help pour mes commandes']
   let random = nameActivitys[Math.floor((Math.random()*nameActivitys.length))]
@@ -131,7 +191,7 @@ function xp(message) {
 }
 
 // Contient le Command Handler et la fonction XP
-client.on('message', async (message) => {
+client.on('message', async (message, guild) => {
 
   const messageArray = message.content.split(/\s+/g);
   const command = messageArray[0];
@@ -145,6 +205,7 @@ client.on('message', async (message) => {
     return;
   }
   xp(message);
+  message.channel.lastMessage.edit()
 });
 
 // Envoi un message de bienvenu dans un channel spécifique 
@@ -423,3 +484,7 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
 });
 
 client.login(config.token);
+
+client.on('disconnect', () => {
+  scheduler.stop()
+})
