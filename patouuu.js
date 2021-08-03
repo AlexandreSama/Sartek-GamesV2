@@ -50,90 +50,51 @@ const manager = new GiveawayManagerWithShardSupport(client, {
 // We now have a giveawaysManager property to access the manager everywhere!
 client.giveawaysManager = manager;
 
-// function gmodServerUpdater() {
 
-//   let guild = client.guilds.cache.get("744159443046105138");
-//   let channel = guild.channels.cache.get('870356020906577970');
-//   channel.messages.fetch({around: "870356081476534313", limit: 1}).then(messages => {
-//     Gamedig.query({
-//       type: 'garrysmod',
-//       host: '149.91.89.181'
-//     }).then((state) => {
-//       console.log(state['ping']);
-//       const exampleEmbed = new Discord.MessageEmbed()
-//       .setAuthor("PhénixRP")
-//       .setDescription("Status du serveur GMOD")
-//       .addFields({
+// const scheduler = new ToadScheduler()
+
+// const task = new Task('gmodstatus', () => { 
+//   let test = client.channels.cache.get("870356020906577970");
+//   Gamedig.query({
+//     type: 'garrysmod',
+//     host: '149.91.89.181',
+//     requestRules: true
+//   }).then((state) => {
+//     console.log(state);
+//     const exampleEmbed = new Discord.MessageEmbed()
+//     .setAuthor("PhénixRP")
+//     .setDescription("Status du serveur GMOD")
+//     .addFields({
 //         name: 'Activité du serveur',
 //         value: 'Allumé !'
-//       },
-//       {
+//     },
+//     {
 //         name: 'Nom du serveur',
 //         value: state['name']
-//       },
-//       {
+//     },
+//     {
 //         name: 'Nombre de joueurs',
-//         value: state['players'].length() - 1
-//       },
-//       {
+//         value: state['players'].length
+//     },
+//     {
 //         name: 'Ping du serveur',
 //         value: state['ping']
-//       })
-
-//       messages.edit(exampleEmbed)
-//     }).catch((error) => {
-//       console.log("Server is offline");
-//     });
+//     })
+//     test.fetch().then(messages => {
+//       console.log(messages)
+//       if(messages["lastMessage"] == null){
+//         messages.send(exampleEmbed)
+//       }else{
+//         let messageV2 = messages['lastMessage']
+//         messageV2.edit(exampleEmbed)
+//       }
+//     })
 //   })
+// })
 
-// }
+// const job = new SimpleIntervalJob({ seconds: 5, }, task)
 
-// setInterval(gmodServerUpdater(), 10000)
-
-const scheduler = new ToadScheduler()
-
-const task = new Task('gmodstatus', () => { 
-  let test = client.channels.cache.get("870356020906577970");
-  Gamedig.query({
-    type: 'garrysmod',
-    host: '149.91.89.181',
-    requestRules: true
-  }).then((state) => {
-    console.log(state);
-    const exampleEmbed = new Discord.MessageEmbed()
-    .setAuthor("PhénixRP")
-    .setDescription("Status du serveur GMOD")
-    .addFields({
-        name: 'Activité du serveur',
-        value: 'Allumé !'
-    },
-    {
-        name: 'Nom du serveur',
-        value: state['name']
-    },
-    {
-        name: 'Nombre de joueurs',
-        value: state['players'].length
-    },
-    {
-        name: 'Ping du serveur',
-        value: state['ping']
-    })
-    test.fetch().then(messages => {
-      console.log(messages)
-      if(messages["lastMessage"] == null){
-        messages.send(exampleEmbed)
-      }else{
-        let messageV2 = messages['lastMessage']
-        messageV2.edit(exampleEmbed)
-      }
-    })
-  })
-})
-
-const job = new SimpleIntervalJob({ seconds: 5, }, task)
-
-scheduler.addSimpleIntervalJob(job)
+// scheduler.addSimpleIntervalJob(job)
 
 // status du bot
 
@@ -212,6 +173,14 @@ client.on('message', async (message, guild) => {
 client.on('guildMemberAdd', async (member) => {
 
   let guildName = member.guild.name;
+
+  let guildNameNoEmoji = guildName.replace(/([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g, '')
+  let guildNameNoChar1 = guildNameNoEmoji.replace("'", "");
+  let guildNameNoChar2 = guildNameNoChar1.replace("-", "");
+  let guildNameNoChar4 = guildNameNoChar2.replace("~", "");
+  let guildNameNoChar3 = guildNameNoChar4.replace(/([-]|[']|[>]|[<]|[/]|[|][!]|[?]|[你好]|[!]|[|])/g, '');
+  let guildNameNoSpace = guildNameNoChar3.replace(/\s/g, '');
+
   let guildCount = member.guild.memberCount;
   let memberAvatar = member.user.displayAvatarURL({dynamic : true, format: 'jpg'});
 
@@ -238,7 +207,31 @@ client.on('guildMemberAdd', async (member) => {
   }else{
     member.guild.systemChannel.send(attachment);
   }
+  var connection = mysql.createConnection({
+    host     : config.bdhost,
+    user     : config.bdusername,
+    password : config.bdpassword,
+    port: 3306,
+    supportBigNumbers: true
+  });
 
+  connection.query(`USE ${guildNameNoSpace}`, function(error, result) {
+    if(error){
+      console.log(error)
+    }
+    if(result){
+      connection.query(`SELECT idRoleStart FROM settings`, function(error, result){
+        if(error){
+          console.log(error)
+        }if(result){
+          var kickData = JSON.stringify(result)
+          var kickFinalData = JSON.parse(kickData)
+          let myRole = member.guild.roles.cache.get(kickFinalData[0]['idRoleStart'])
+          member.roles.add(myRole)
+        }
+      })
+    }
+  })
 });
 
 // Envoi un message d'adieu dans un channel spécifique 
